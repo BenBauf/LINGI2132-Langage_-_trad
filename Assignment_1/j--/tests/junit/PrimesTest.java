@@ -1,7 +1,7 @@
 package junit;
 
 import junit.framework.TestCase;
-import pass.Primes;
+import pass.*;
 
 public class PrimesTest extends TestCase{
     private Primes prime;
@@ -16,10 +16,9 @@ public class PrimesTest extends TestCase{
     }
     
     public void testPrimes(){
-    	prime.primes(3);
-    	this.assertEquals(true,true);
-        //this.assertEquals(modulo.modulo(42,16),10);
-        //this.assertEquals(modulo.modulo(4,2),0);
-        //this.assertEquals(modulo.modulo(127,3),1);
+    	int[] calcul=prime.primes(3);
+    	int[] result={2,3};
+    	for(int i=0;i<calcul.length;i++)
+    		this.assertEquals(calcul[i],result[i]);
     }
 }
