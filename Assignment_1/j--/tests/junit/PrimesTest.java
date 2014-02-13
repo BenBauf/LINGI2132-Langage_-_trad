@@ -8,7 +8,7 @@ public class PrimesTest extends TestCase{
     
     protected void setUp() throws Exception {
         super.setUp();
-        //prime = new Primes();
+        prime = new Primes();
     }
     
     protected void tearDown() throws Exception {
@@ -16,7 +16,7 @@ public class PrimesTest extends TestCase{
     }
     
     public void testPrimes(){
-    	new Primes().primes(3);
+    	prime.primes(3);
     	this.assertEquals(true,true);
         //this.assertEquals(modulo.modulo(42,16),10);
         //this.assertEquals(modulo.modulo(4,2),0);
