@@ -1,6 +1,8 @@
 *.class
 
 # Package Files #
+j--.jar
+spim.jar
 *.war
 *.ear
 
