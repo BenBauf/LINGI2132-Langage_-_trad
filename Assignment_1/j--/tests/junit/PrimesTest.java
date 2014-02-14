@@ -16,9 +16,16 @@ public class PrimesTest extends TestCase {
     }
     
     public void testPrimes() {
-        final int[] calcul = this.prime.primes(3);
+        int[] calcul = this.prime.primes(3);
         final int[] result = {2, 3};
-        for (int i = 0; i < calcul.length; ++i)
+        for (int i = 0; i < result.length; ++i)
             this.assertEquals(calcul[i], result[i]);
+        
+        calcul = this.prime.primes(6);
+        final int[] result2 = {2, 3, 5};
+        for (int i = 0; i < result2.length; ++i)
+            this.assertEquals(calcul[i], result2[i]);
+        
+        this.assertEquals(this.prime.primes(1).length, 0);
     }
 }
