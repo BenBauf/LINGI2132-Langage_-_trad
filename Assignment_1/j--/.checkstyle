@@ -6,6 +6,11 @@
     <file-match-pattern match-pattern=".rime." include-pattern="true"/>
     <file-match-pattern match-pattern=".odulo." include-pattern="true"/>
     <file-match-pattern match-pattern=".Div." include-pattern="true"/>
+    <file-match-pattern match-pattern=".JMinusMinusTestRunne." include-pattern="true"/>
+    <file-match-pattern match-pattern=".ramma." include-pattern="true"/>
+    <file-match-pattern match-pattern="TokenInfo.java$" include-pattern="true"/>
+    <file-match-pattern match-pattern="JBinaryExpression.java$" include-pattern="true"/>
+    <file-match-pattern match-pattern="$Parser.java$" include-pattern="true"/>
   </fileset>
   <filter name="NonSrcDirs" enabled="false"/>
 </fileset-config>
