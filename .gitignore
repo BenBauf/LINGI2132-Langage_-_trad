@@ -6,6 +6,8 @@ spim.jar
 *.war
 *.ear
 
+# Report #
+.fuse*
 
 #eclipse
 */.metadata/*
