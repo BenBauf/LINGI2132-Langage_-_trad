@@ -6,15 +6,20 @@
 \pagenumbering{arabic} % on triche avec la numéroation des pages :)
 \section{Introduction}
 With this assignment, we discovered j-- implementation and had some functionalities. First, we read the first chapter of the book and some documentation about j--, then we took a look at other classes to know how to had required operators. 
+
 \section{Operators}
-First, we had the division operator. Since it was fully explained in the book, we used this implementation to complete this first goal. Then, we had modulo and unary plus operators using the same schema.
+First, we implemented the division operator. Since it was fully explained in the book, we used this implementation to complete this first goal. Then, we had modulo and unary plus operators using the same schema writing tests first and then complete the implementation in the core. For the unary plus operator, we took a look at the implementation of the unary negation to know what we had to do.
+
 \section{Primes}
+Since we had to return an array containing all prime numbers and we don't know its size, we created a larger array and we copied its content in a smaller array at the end of the computation.
 
 \section{Tests and code verification}
+For the division operator, we used the same tests as in the book. For the other operators, we wrote tests which are testing common results for modulo and unary plus operations.  For the primes function, we performed three tests. The first one has a prime number as parameter. The result should be all prime numbers below it and itself. The second one has a non-prime number as parameter. Finally, the third one has $1$ as parameter, so the result must be an empty array. \\
+
+We define a checkstyle containing what was mentioned in the assignment document. We removed default constructor and final declaration verifications because we found that it was useless with this implementation. 
 
 \section{Conclusion}
-
-
+This first contact with the implementation of a java compiler was very interesting. We executed the test script and all operations succeeded. 
 
 
 \end{document}

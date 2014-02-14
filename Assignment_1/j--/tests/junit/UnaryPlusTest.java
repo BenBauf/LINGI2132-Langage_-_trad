@@ -18,7 +18,7 @@ public class UnaryPlusTest extends TestCase {
     
     public void testUnaryPlus() {
         this.assertEquals(this.uplus.uplus(42), 42);
-        this.assertEquals(this.uplus.uplus(-42), -42);
+        this.assertEquals(-(this.uplus.uplus(42)), -42);
         this.assertEquals(this.uplus.uplus(0), 0);
     }
 }
