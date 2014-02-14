@@ -3,7 +3,8 @@
 ##check the input
 case $1 in 
     (j--_gr_*.zip)
-    	group_number=(`echo $1 | tr '.zip' ' ' | tr 'j--_gr_' ' '`)
+    	#group_number=(`echo $1 | tr '.zip' ' ' | tr 'j--_gr_' ' '`)
+	group_number=(`echo $1 | tr '.zip' ' ' | tr 'j\-\-_gr_' ' '`)
        echo correct file name
        echo group number is : $group_number
     ;;
