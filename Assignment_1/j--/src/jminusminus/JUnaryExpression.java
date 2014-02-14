@@ -348,7 +348,7 @@ class JPreIncrementOp extends JUnaryExpression {
     class JPlusOp extends JUnaryExpression {
 
         public JPlusOp(int line, JExpression arg) {
-            super(line,"+", arg);
+            super(line, "+", arg);
         }
 
         public JExpression analyze(Context context) {

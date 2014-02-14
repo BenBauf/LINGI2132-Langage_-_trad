@@ -24,7 +24,7 @@ public class JMinusMinusTestRunner {
         suite.addTestSuite(DivisionTest.class);
         suite.addTestSuite(ModuloTest.class);
         suite.addTestSuite(PrimesTest.class);
-        suite.addTestSuite(UnaryPlus.class);
+        suite.addTestSuite(UnaryPlusTest.class);
         return suite;
     }
 
