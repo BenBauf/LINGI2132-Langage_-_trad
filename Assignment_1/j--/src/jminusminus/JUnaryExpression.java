@@ -340,5 +340,31 @@ class JPreIncrementOp extends JUnaryExpression {
             ((JLhs) arg).codegenStore(output);
         }
     }
+    
+    /**
+     * The AST node for a unary plus (+) expression.
+     */
+
+    class JPlusOp extends JUnaryExpression {
+
+        public JPlusOp(int line, JExpression arg) {
+            super(line,"+", arg);
+        }
+
+        public JExpression analyze(Context context) {
+            arg = arg.analyze(context);
+            arg.type().mustMatchExpected(line(), Type.INT);
+            type = Type.INT;
+            return this;
+        }
+        
+        public void codegen(CLEmitter output) {
+            arg.codegen(output);
+            output.addNoArgInstruction(IRETURN);
+        }
+
+    }
+
+    
 
 }
