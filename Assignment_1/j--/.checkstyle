@@ -11,6 +11,7 @@
     <file-match-pattern match-pattern="TokenInfo.java$" include-pattern="true"/>
     <file-match-pattern match-pattern="JBinaryExpression.java$" include-pattern="true"/>
     <file-match-pattern match-pattern="$Parser.java$" include-pattern="true"/>
+    <file-match-pattern match-pattern=".Unary." include-pattern="true"/>
   </fileset>
   <filter name="NonSrcDirs" enabled="false"/>
 </fileset-config>
