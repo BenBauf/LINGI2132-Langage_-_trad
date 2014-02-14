@@ -1161,7 +1161,10 @@ public class Parser {
             return new JPreIncrementOp(line, unaryExpression());
         } else if (have(MINUS)) {
             return new JNegateOp(line, unaryExpression());
-        } else {
+        } else if(have(PLUS)){
+        	return new JUnaryPlusOp(line,unaryExpression());
+        }
+        else {
             return simpleUnaryExpression();
         }
     }

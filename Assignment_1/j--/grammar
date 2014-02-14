@@ -89,9 +89,8 @@ multiplicativeExpression ::= unaryExpression       // level 2
                                {(STAR | DIV | MODULO) unaryExpression}
 
 unaryExpression ::= INC unaryExpression  // level 1
-                  | MINUS unaryExpression
+                  | (PLUS | MINUS) unaryExpression
                   | simpleUnaryExpression
-                  | PLUS unaryExpression
 
 simpleUnaryExpression ::= LNOT unaryExpression
                         | LPAREN basicType RPAREN unaryExpression //casted
