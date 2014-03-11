@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<fileset-config file-format-version="1.2.0" simple-config="false" sync-formatter="false">
+  <fileset name="assi1" enabled="true" check-config-name="assi1" local="false">
+    <file-match-pattern match-pattern=".java$" include-pattern="false"/>
+    <file-match-pattern match-pattern=".rime." include-pattern="true"/>
+    <file-match-pattern match-pattern=".odulo." include-pattern="true"/>
+    <file-match-pattern match-pattern=".Div." include-pattern="true"/>
+    <file-match-pattern match-pattern=".JMinusMinusTestRunne." include-pattern="true"/>
+    <file-match-pattern match-pattern=".ramma." include-pattern="true"/>
+    <file-match-pattern match-pattern="TokenInfo.java$" include-pattern="true"/>
+    <file-match-pattern match-pattern="JBinaryExpression.java$" include-pattern="true"/>
+    <file-match-pattern match-pattern="$Parser.java$" include-pattern="true"/>
+    <file-match-pattern match-pattern=".Unary." include-pattern="true"/>
+  </fileset>
+  <filter name="NonSrcDirs" enabled="false"/>
+</fileset-config>
