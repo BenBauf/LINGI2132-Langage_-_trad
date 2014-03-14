@@ -50,15 +50,17 @@ public interface JavaCCParserConstants {
   int SEMI = 49;
   int COMMA = 50;
   int DOT = 51;
-  int IDENTIFIER = 52;
-  int LETTER = 53;
-  int DIGIT = 54;
-  int NON_ZERO_DIGIT = 55;
-  int INT_LITERAL = 56;
-  int CHAR_LITERAL = 57;
-  int STRING_LITERAL = 58;
-  int ESC = 59;
-  int ERROR = 60;
+  int QUESTION_MARK = 52;
+  int COLON = 53;
+  int IDENTIFIER = 54;
+  int LETTER = 55;
+  int DIGIT = 56;
+  int NON_ZERO_DIGIT = 57;
+  int INT_LITERAL = 58;
+  int CHAR_LITERAL = 59;
+  int STRING_LITERAL = 60;
+  int ESC = 61;
+  int ERROR = 62;
 
   int DEFAULT = 0;
 
@@ -115,6 +117,8 @@ public interface JavaCCParserConstants {
     "\";\"",
     "\",\"",
     "\".\"",
+    "\"?\"",
+    "\":\"",
     "<IDENTIFIER>",
     "<LETTER>",
     "<DIGIT>",

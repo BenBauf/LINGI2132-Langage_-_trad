@@ -200,6 +200,8 @@ TOKEN:
 | < SEMI: ";" >
 | < COMMA: "," >
 | < DOT: "." >
+| < QUESTION_MARK : "?" >
+| < COLON : ":" >
 }
 
 // Identifiers
@@ -1144,7 +1146,7 @@ private JExpression assignmentExpression(): {
 }
 {
     try {
-        lhs = conditionalAndExpression() { line = lhs.line(); }
+        lhs = conditionalExpression() { line = lhs.line(); }
         [       
             <ASSIGN> 
             rhs = assignmentExpression()
@@ -1188,6 +1190,37 @@ private JExpression conditionalAndExpression(): {
         recoverFromError( new int[] { SEMI, EOF }, e ); 
     }
     { return lhs; }
+}
+
+/**
+	 * Parse a conditional-expression.
+	 * 
+	 * <pre>
+	 *   conditionalExpression ::= conditionalAndExpression // level 12
+	 *                            	[? assignmentExpression : conditionalExpression]
+	 * </pre>
+	 * 
+	 * @return an AST for a conditionalExpression.
+	 */
+private JExpression conditionalExpression(): {
+    int line = 0;
+    JExpression testE = null, thenE = null, elseE = null;
+}
+{
+    try {
+        testE = conditionalAndExpression() { line = testE.line(); }
+        [
+            <QUESTION_MARK>
+            thenE = assignmentExpression()
+            <COLON>
+            elseE = conditionalExpression()
+            { testE = new JConditionalExpression( line, testE, thenE, elseE ); }
+        ]
+    }
+    catch ( ParseException e ) {
+        recoverFromError( new int[] { SEMI, EOF }, e);
+    }
+    { return testE; }
 }
 
 /**

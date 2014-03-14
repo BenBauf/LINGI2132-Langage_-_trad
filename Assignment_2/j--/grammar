@@ -75,6 +75,8 @@ assignmentExpression ::= conditionalAndExpression  // must be a valid lhs
 conditionalAndExpression ::= equalityExpression // level 10
                                {LAND equalityExpression}
 
+conditionalExpression ::= conditionalAndExpression [? assignmentExpression : conditionalExpression]
+
 equalityExpression ::= relationalExpression  // level 6
                          {EQUAL relationalExpression}
 
