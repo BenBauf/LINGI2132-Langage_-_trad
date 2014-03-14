@@ -77,4 +77,28 @@ public class JConditionalExpression extends JExpression {
         elseExpression.codegen(output);
         output.addLabel(endLabel);
 	}
+
+	
+	public void writeToStdOut(PrettyPrinter p) {
+		p.printf("<JConditionalExpression line=\"%d\">\n", line());
+		p.indentRight();
+		p.printf("<TestExpression>\n");
+		p.indentRight();
+		testExpression.writeToStdOut(p);
+		p.indentLeft();
+		p.printf("</TestExpression>\n");
+		p.printf("<ThenExpression>\n");
+		p.indentRight();
+		thenExpression.writeToStdOut(p);
+		p.indentLeft();
+		p.printf("</ThenExpression>\n");
+		p.printf("<ElseExpression>\n");
+		p.indentRight();
+		elseExpression.writeToStdOut(p);
+		p.indentLeft();
+		p.printf("</ElseExpression>\n");
+		p.indentLeft();
+		p.printf("</JConditionalExpression>\n");
+	}
+
 }
