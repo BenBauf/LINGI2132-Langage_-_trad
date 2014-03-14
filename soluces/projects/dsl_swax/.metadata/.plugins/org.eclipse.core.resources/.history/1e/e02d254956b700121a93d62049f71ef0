@@ -1,0 +1,12 @@
+package simulation.dsl
+
+object SimulationDslTest extends App {
+	
+  val socialNetSimulator = social_network { simulation =>
+    simulation population_size is 10000
+    simulation duration is 100.years
+  }
+  
+  
+  
+}

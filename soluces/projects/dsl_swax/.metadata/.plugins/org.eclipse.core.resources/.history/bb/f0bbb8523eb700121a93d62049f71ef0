@@ -1,0 +1,19 @@
+package simulation.api
+
+import simulation.Duration._
+import scala.util.Random
+
+object SimulationApiTest extends App {
+  val dayDuration = 10 years
+  val population = Population(100, dayDuration)
+  population.simulate
+  println("born = " + counter.born)
+  println("job = " + counter.job)
+  println("scandalous = " + counter.scandalous)
+  println("nicegirl = " + counter.nicegirl)
+  println("crazy = " + counter.crazy)
+  println("born = " + counter.becrazy)
+  println("change = " + counter.change)
+  println("power = " + counter.power)
+  println("die = " + counter.die)
+}

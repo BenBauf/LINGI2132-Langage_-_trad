@@ -1,0 +1,39 @@
+package simulation.gui
+
+import javax.swing.JFrame
+import org.jfree.data.xy.XYSeriesCollection
+import javax.swing.JPanel
+import org.jfree.data.xy.XYSeries
+import org.jfree.chart.ChartFactory
+import org.jfree.chart.ChartPanel
+import org.jfree.chart.plot.PlotOrientation
+import org.jfree.data.general.SeriesChangeListener
+import org.jfree.data.general.SeriesChangeEvent
+import org.jfree.chart.event.ChartChangeListener
+import org.jfree.chart.event.ChartChangeEvent
+
+class Test extends App {
+  val frame: JFrame = new JFrame()
+  val subscribedPanel: JPanel = new JPanel()
+  val xySeries = new XYSeries("kikoooo")
+  val xySerieCollection = new XYSeriesCollection(xySeries)
+  val chart = ChartFactory.createXYLineChart("title",
+    "xAxisLabel", "yAxisLabel", xySerieCollection, PlotOrientation.VERTICAL, false, false, false)
+  val chartPanel = new ChartPanel(chart);
+  subscribedPanel.add(chartPanel).setVisible(true)
+  frame.add(subscribedPanel)
+  frame.setVisible(true)
+  frame.pack()
+  frame.setLocationRelativeTo(null)
+  frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+  chart.addChangeListener(new ChartChangeListener() {
+    def seriesChanged(event: ChartChangeEvent) {
+      println("kikoooooo")
+    }
+  })
+  
+  for(i <- 1 to 1000) {
+    xySeries.add(i,i)
+  }
+}

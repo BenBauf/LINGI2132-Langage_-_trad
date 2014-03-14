@@ -1,0 +1,146 @@
+package simulation.api
+import simulation.constants._
+import simulation.Duration._
+import simulation.Person
+import simulation.SimModel
+import simulation.random
+
+object Population {
+  def apply(maxPop: Int) = new Population(maxPop)
+}
+
+class Population(MaximumSize:Int = 5000) {
+  
+  val model = new SimModel()
+
+  val population = new Array[Person](MaximumSize) //all the population
+  val alive = collection.mutable.Buffer[Int]()
+  val subscribed = collection.mutable.Buffer[Int]()
+  val friendship = collection.mutable.Map[Int, collection.mutable.Buffer[Int]]() //friendlists
+
+  var subscribeInit = 0.2
+  var employedInit = 0.8
+  var crazyInit = 0.01
+  var highRankInit = 0.05
+  var lowRankInit = 0.25
+  var simDuration = 100 years
+  
+  def displayRank(){}
+  def displayAlive(){}
+  def displayEmployed(){}
+  def displayCrazy(){}
+  def displayMFN(){}
+  def displaySubscribe(){}
+
+  def init() {
+
+    for (i <- 0 to MaximumSize - 1) {
+      val birthDate = random.between(-100 years, simDuration)
+      val lifeTime = random.between(1 years, 100 years)
+      population(i) = Person(birthDate, lifeTime)
+      if (birthDate <= 0) {
+        born(i)
+        if (random.happens(subscribeInit)) {
+          subscribe(i)
+        }
+      }
+      if (birthDate <= -18 && random.happens(employedInit)) {
+    	  population(i).haveJob = true
+      }
+      if (random.happens(crazyInit)) {
+        population(i).isCrazy = true
+      }
+      population(i).socialRank = random.which(lowRankInit,1-lowRankInit-highRankInit ,highRankInit)
+      new PersonSimulator(Population.this, i)
+    }
+
+    for (i <- subscribed) yield {
+      addRandomFriends(i, random.between(0, 100))
+    }
+
+  }
+
+  def simulate() {
+    model.simulate(simDuration)
+  }
+
+  def apply(index: Int): Person = {
+    return population(index)
+  }
+
+  def born(index: Int) {
+    alive += index
+    population(index).alive = true
+  }
+
+  def kill(index: Int) {
+    alive -= index
+    population(index).alive = false
+  }
+
+  def subscribe(index: Int) {
+    if (!population(index).subscribed) {
+      subscribed += index
+      population(index).subscribed = true
+      friendship += (index -> collection.mutable.Buffer[Int]())
+    }
+  }
+
+  def unsubscribe(index: Int) {
+    if (population(index).subscribed) {
+      subscribed -= index
+      population(index).subscribed = false
+      friendship -= index
+    }
+  }
+
+  def addFriend(id1: Int, id2: Int) {
+    if (population(id1).subscribed && population(id2).subscribed) {
+      friendship(id1) += id2
+      friendship(id2) += id1
+    }
+  }
+
+  def removeFriend(id1: Int, id2: Int) {
+    if (population(id1).subscribed && population(id2).subscribed) {
+      friendship(id1) -= id2
+      friendship(id2) -= id1
+    }
+  }
+
+  def removeRandomFriend(id: Int) {
+    if (population(id).subscribed) {
+      val friendlist = friendship(id)
+      if (friendlist.size != 0) {
+        removeFriend(id, friendlist(random.between(0, friendlist.size)))
+      }
+    }
+  }
+
+  def addRandomFriendsAndSubscribers(id: Int, max1: Int) {
+    var max = max1
+    if (population(id).subscribed) {
+      var notFriends = alive -- friendship(id)
+      while (notFriends.size > 0 && max > 0) {
+        val id2 = notFriends(random.between(0, notFriends.size))
+        subscribe(id2)
+        addFriend(id, id2)
+        notFriends -= id2
+        max -= 1
+      }
+    }
+  }
+
+  def addRandomFriends(id: Int, max1: Int) {
+    var max = max1
+    if (population(id).subscribed) {
+      var notFriends = subscribed -- friendship(id)
+      while (notFriends.size > 0 && max > 0) {
+        val id2 = notFriends(random.between(0, notFriends.size))
+        addFriend(id, id2)
+        notFriends -= id2
+        max -= 1
+      }
+    }
+  }
+}

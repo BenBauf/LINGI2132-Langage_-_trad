@@ -1,0 +1,19 @@
+package simulation.dsl
+
+import simulation.api.Population
+
+object social_network {
+	def apply(block:SimulationBuilder => Unit) {
+	  
+	}
+}
+
+class Simulator(pop: Population) {
+  
+}
+
+class SimulationBuilder() {
+  var size
+  var duration
+  def population_size
+}

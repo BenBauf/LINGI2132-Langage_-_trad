@@ -1,0 +1,15 @@
+package simulation
+
+object probabilities {
+  var newJob = 15
+  var subscribeAfterJob = 0.20
+  var brainDefective = 500
+  var friendLeavingIfCrazy = 2
+  var socialRankChange = 100
+  var rankUp = 0.01
+  var goOutP = 7 //day
+  var meetANiceGirl = 1
+  var behaveScandalously = 2
+  var peopleTaggingYou = 2
+  
+}

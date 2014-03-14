@@ -1,0 +1,164 @@
+
+package simulation
+
+import scala.collection.mutable.PriorityQueue
+import simulation.api.Stats
+import simulation.api.Population
+import org.jfree.data.general.DefaultPieDataset
+import org.jfree.chart.ChartFactory
+import org.jfree.data.xy.XYDataset
+import org.jfree.data.xy.XYSeries
+import scala.collection.mutable.Queue
+import org.jfree.data.xy.XYSeriesCollection
+import org.jfree.chart.plot.PlotOrientation
+import org.jfree.chart.ChartPanel
+import simulation.api.Population
+import javax.swing.JFrame
+import javax.swing.JPanel
+import simulation.constants._
+import javax.swing.SwingUtilities
+import java.awt.GridLayout
+
+class Point(val value: Int, val time: Double) {}
+
+object Point {
+  def apply(value: Int, time: Double) = new Point(value, time)
+}
+
+class SimModel() {
+
+  var showAlive = false
+  var showCrazy = false
+  var showEmployment = false
+  var showRank = false
+  var showSubscribed = false
+  var showMFN = false
+
+  private val eventQueue = new PriorityQueue[SimEvent]()
+  private var currentTime = 0.0
+
+  def clock = currentTime
+
+  val aliveRecord = new XYSeries(0)
+  val crazyRecord = new XYSeries(0)
+  val empRecord = new XYSeries(0)
+  val lowRecord = new XYSeries(0)
+  val lowPlusMedRecord = new XYSeries(0)
+  val subRecord = new XYSeries(0)
+  val MFNRecord = new XYSeries(0)
+
+  def recordStats(stats: Stats, time: Double) {
+    if (showAlive) {
+      aliveRecord.add(time, stats.alive)
+    }
+    if (showCrazy) {
+      crazyRecord.add(time, stats.crazy)
+    }
+    if (showEmployment) {
+      empRecord.add(time, stats.employed)
+    }
+    if (showRank) {
+      lowRecord.add(time, stats.lowSocialRank)
+      lowPlusMedRecord.add(time, stats.medSocialRank + stats.lowSocialRank)
+    }
+    if (showSubscribed) {
+      subRecord.add(time, stats.subscribed)
+    }
+    if (showMFN) {
+      MFNRecord.add(time, stats.meanFriendNumber)
+    }
+  }
+
+  def simulate(horizon: Int, population: Population) {
+
+    SwingUtilities.invokeLater(new Runnable() {
+      def run() {
+        var nStats = 0
+        if (showAlive) {
+          nStats += 1
+        }
+        if (showCrazy) {
+          nStats += 1
+        }
+        if (showEmployment) {
+          nStats += 1
+        }
+        if (showRank) {
+          nStats += 1
+        }
+        if (showSubscribed) {
+          nStats += 1
+        }
+        if (showMFN) {
+          nStats += 1
+        }
+        if (nStats != 0) {
+          val frame: JFrame = new JFrame()
+          var col, row = 0
+          if (nStats == 1 || nStats == 2) row = 1 else row = 2
+          if (nStats == 1) col = 1 else if (nStats >= 2 && nStats <= 4) col = 2 else col = 3
+          val gridPanel = new JPanel(new GridLayout(row, col))
+          if (showAlive) {
+            gridPanel.add(new ChartPanel(ChartFactory.createXYLineChart("Size of population", "Time", "Persons", new XYSeriesCollection(aliveRecord), PlotOrientation.VERTICAL, false, false, false)))
+          }
+          if (showCrazy) {
+            gridPanel.add(new ChartPanel(ChartFactory.createXYLineChart("Number of crazy persons", "Time", "Persons", new XYSeriesCollection(crazyRecord), PlotOrientation.VERTICAL, false, false, false)))
+          }
+          if (showEmployment) {
+            gridPanel.add(new ChartPanel(ChartFactory.createXYLineChart("Employment", "Time", "Employed persons", new XYSeriesCollection(empRecord), PlotOrientation.VERTICAL, false, false, false)))
+          }
+          if (showRank) {
+            val coll = new XYSeriesCollection()
+            coll.addSeries(lowRecord)
+            coll.addSeries(lowPlusMedRecord)
+            val panel = new ChartPanel(ChartFactory.createXYLineChart("Rank", "Time", "Persons", coll, PlotOrientation.VERTICAL, false, false, false))
+            panel.setMinimumDrawHeight(population.population.size)
+            gridPanel.add(panel)
+          }
+          if (showSubscribed) {
+            gridPanel.add(new ChartPanel(ChartFactory.createXYLineChart("Employment", "Time", "Subscribed persons", new XYSeriesCollection(subRecord), PlotOrientation.VERTICAL, false, false, false)))
+          }
+          if (showMFN) {
+            gridPanel.add(new ChartPanel(ChartFactory.createXYLineChart("Mean friend number", "Time", "Mean friend number", new XYSeriesCollection(MFNRecord), PlotOrientation.VERTICAL, false, false, false)))
+
+          }
+
+          val xySerieCollection = new XYSeriesCollection()
+          val chart = ChartFactory.createXYLineChart("title",
+            "xAxisLabel", "yAxisLabel", xySerieCollection, PlotOrientation.VERTICAL, false, false, false)
+          val chartPanel = new ChartPanel(chart);
+          subscribedPanel.add(chartPanel).setVisible(true)
+          frame.add(subscribedPanel)
+          frame.setVisible(true)
+          frame.pack()
+          frame.setLocationRelativeTo(null)
+          frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)
+        }
+      }
+    })
+
+    var statsInterval = horizon / 1000
+    var intervalCounter = 0
+
+    recordStats(population.getStats, 0)
+
+    while (eventQueue.nonEmpty) {
+      val e = eventQueue.dequeue()
+      currentTime = e.time
+      if (currentTime <= horizon) {
+        //if(currentTime>statsInterval*intervalCounter){
+        recordStats(population.getStats, currentTime)
+        //}
+        e.process()
+      } else {
+        currentTime = horizon
+        //displayStats()
+        return
+      }
+    }
+  }
+
+  def wait(duration: Int)(block: => Unit) {
+    eventQueue += new SimEvent(clock + duration, block)
+  }
+}

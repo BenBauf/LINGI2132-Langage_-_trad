@@ -1,0 +1,78 @@
+package simulation.dsl
+
+import simulation.api.Population
+
+object Percentage {
+  val evolution = new SimBuilder()
+  val stats = new StatsBuilder()
+  def apply(p: Int) = new Percentage(p)
+  implicit def int2Percentage(i: Int): Percentage = Percentage(i)
+}
+
+class Percentage(val p:Int) {
+  
+  def percent_of(pop: Population) : Percentage = {
+    pop.subscribedRate = p / 100.0
+    return this
+  }
+  
+  def is_subscribed_to_network {
+  }
+  
+}
+
+class SimBuilder() {
+  var pop: Population
+  def of(p: Population) : SimBuilder = {
+    pop = p
+    return this
+  }
+  
+def during(d: Int) : Simulator = {
+    pop.simDuration = d
+    return new Simulator(pop)
+  }
+  
+}
+
+class Simulator(val pop:Population) {
+}
+
+object StatsBuilder {
+  var sb: StatsBuilder = new StatsBuilder()
+  def rank() {
+    sb.sim.pop.displayRank()
+  }
+
+  def alive() {
+    sb.sim.pop.displayAlive()
+  }
+
+  def employed() {
+    sb.sim.pop.displayEmployed()
+  }
+
+  def crazy() {
+    sb.sim.pop.displayCrazy()
+  }
+
+  def subscribed() {
+    sb.sim.pop.displaySubscribe()
+  }
+
+  def mean_friend_number() {
+    sb.sim.pop.displayMFN()
+  }
+}
+
+class StatsBuilder() {
+  var sim: Simulator
+  def of(s: Simulator): StatsBuilder = {
+    sim = s
+    StatsBuilder.sb = this
+    return this
+  }
+  def to_be_displayed(block: => Unit) {
+    
+  }
+}

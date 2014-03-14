@@ -1,0 +1,74 @@
+import scala.collection.mutable.LinkedList
+
+class Person(
+  val model: SimModel,
+  var subscribed: Boolean,
+  val sex: Char,
+  var single: Boolean,
+  val socialRank: String,
+  var haveJob: Boolean,
+  val isCrazy: Boolean,
+  val lifeTime: Integer,
+  val birthDate: Integer,
+  val population: Population,
+  val index: Integer) {
+
+  val rand = new GetRandom()
+
+  //Have a new job= P=X / year 
+  var newJobP = 0.2
+  var joinAfterJob = 0.5
+
+  var year: Double = 365
+  var month: Double = 30
+
+  var alive = false
+
+  birth()
+
+  def birth() {
+    model.wait(birthDate.toDouble) {
+      population.addToPop(index, this)
+      alive = true
+      getAJob()
+      die()
+    }
+  }
+
+  def die() {
+    model.wait(lifeTime * year) {
+      alive = false
+      population.removeFromPop(index)
+    }
+  }
+
+  def getAJob() {
+    model.wait(year) {
+      if (alive && rand.happens(newJobP)) {
+
+        haveJob = true
+        if (!subscribed && rand.happens(joinAfterJob)) {
+          subscribed = true
+          population.addRandomFriends(index, rand.between(1, 15))
+        }
+
+      }
+      getAJob()
+    }
+  }
+
+  def print() = {
+    val sb = new StringBuilder()
+    sb.append("[Index " + index + ",")
+    sb.append("Index " + index + ",")
+    sb.append("Subscribed " + subscribed + ",")
+    sb.append("Sex " + sex + ",")
+    sb.append("Single " + single + ",")
+    sb.append("SocialRank " + socialRank + ",")
+    sb.append("HaveJob " + haveJob + ",")
+    sb.append("IsCrazy " + isCrazy + ",")
+    sb.append("LifeTime " + lifeTime + ",")
+    sb.append("BirthDate " + birthDate + "]")
+    sb.toString
+  }
+}

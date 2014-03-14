@@ -1,0 +1,33 @@
+
+package simulation
+
+import scala.collection.mutable.PriorityQueue
+import simulation.api.Population
+import simulation.SimEvent
+
+class SimModel() {
+	private val eventQueue = new PriorityQueue[SimEvent]()
+	private var currentTime = 0.0
+
+	def clock = currentTime
+	
+	def simulate(horizon: Int, population:Population) {
+		var c = 0
+		while (eventQueue.nonEmpty) {
+			val e = eventQueue.dequeue()
+			currentTime = e.time
+			if(currentTime <= horizon){
+				e.process()
+			}
+			else{
+				print(population.getStats)
+				currentTime = horizon
+				return
+			}
+		}
+	}
+
+	def wait(duration : Double)(block : => Unit) {
+		eventQueue += new SimEvent(clock + duration, block)
+	}
+}

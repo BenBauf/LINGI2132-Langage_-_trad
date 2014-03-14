@@ -1,0 +1,24 @@
+package simulation
+
+object constants {
+  val newJob = 15
+  val subscribeAfterJob = 0.20
+  val brainDefective = 500
+  val friendLeavingIfCrazy = 2
+  val socialRankChange = 100
+  val rankUp = 0.01
+  val goOutP = 7 //day
+  val meetANiceGirl = 1
+  val behaveScandalously = 2
+  val peopleTaggingYou = 2
+  val lowAtBirth = 0.25
+  val medAtBirth = 0.7
+  val highAtBirth = 0.05
+  val isCrazyAtBirth = 0.01
+  val haveJobAtBirth = 0.8
+  val maxShamed = 100
+  val subscribeInit = 0.2
+  val maxGirls = 20
+  val maxFriendsLeavingIfCrazy = 500
+  val leavingIfBehaveScandalously = 20
+}

@@ -1,0 +1,181 @@
+import scala.collection.mutable.LinkedList
+
+class Person(
+  val model: SimModel,
+  var subscribed: Boolean,
+  val sex: Char,
+  var single: Boolean,
+  var socialRank: String,
+  var haveJob: Boolean,
+  var isCrazy: Boolean,
+  val lifeTime: Integer,
+  val birthDate: Integer,
+  val population: Population,
+  val index: Integer) {
+
+  val rand = new GetRandom()
+<<<<<<< HEAD
+
+  //Have a new job= P=X / year 
+  var newJobP = 0.2
+  var joinAfterJob = 0.5
+  var brainDefective = 0.01
+  var friendLeavingIfCrazy = 0.001
+  var socialRankChange = 0.1
+  var rankUp = 0.25
+
+  val year: Double = 365
+  val month: Double = 30
+  val day: Double = 1
+=======
+  
+  //Probabilities
+  var newJobP = 0.2 //year 
+  var addAfterJob = 0.5
+  var goOut = 0.05 //day
+  var meetANiceGirl = 0.2
+  var subscribeAfterMeetingANiceGirl = 0.8
+  
+  var year: Double = 365
+  var month: Double = 30
+>>>>>>> 896309393da153ad5a210d10d47b496f7e54bb7b
+
+  var alive = false
+
+  birth()
+
+  def birth() {
+    model.wait(birthDate.toDouble) {
+      population.addToPop(index, this)
+      alive = true
+      getAJob()
+      if(isCrazy) {
+        beCrazy()
+      } else {
+        becomeCrazy()
+      }
+      if(socialRank == "high") {
+        beSomebodyWithLotsOfMoneyOrPower()
+      }
+      changeSocialRank()
+      die()
+    }
+  }
+
+  def die() {
+    model.wait(lifeTime * year) {
+      alive = false
+      population.removeFromPop(index)
+    }
+  }
+
+  def getAJob() {
+    model.wait(year) {
+      if (alive && rand.happens(newJobP)) {
+        haveJob = true
+        if (rand.happens(addAfterJob)) {
+          if(!subscribed){
+            population.subscribe(index)
+          }
+          population.addRandomFriends(index, rand.between(1, 100))
+        }
+      }
+      getAJob()
+    }
+  }
+    
+  def goOut(){
+    model.wait(day){
+      if(alive && rand.happens(goOut) && rand.happens(meetANiceGirl)
+          && rand.happens(subscribeAfterMeetingANiceGirl)){ 
+         pop.subscribe(index)
+    	 population.addRandomFriends(index, 1)
+      }
+      if(alive){
+        goOut()
+      }    
+    }
+  }
+
+  def becomeCrazy() {
+    model.wait(year) {
+      if (alive) {
+        if (!isCrazy && rand.happens(brainDefective)) {
+          isCrazy = true
+          beCrazy()
+        } else {
+          becomeCrazy()
+        }
+      }
+    }
+  }
+
+  def beCrazy() {
+    model.wait(day) {
+      if (alive && isCrazy) {
+        if (subscribed) {
+          val friendship = population.friendship.get(index).get
+          for (friend <- friendship) {
+            if (rand.happens(friendLeavingIfCrazy)) {
+              population.removeFriend(index, friend)
+            }
+          }
+          if (friendship.size == 0) {
+            population.unsubscribe(index)
+          }
+        }
+        beCrazy()
+      }
+    }
+  }
+
+  def changeSocialRank() {
+    model.wait(year) {
+      if (alive) {
+        if (rand.happens(socialRankChange)) {
+          if (rand.happens(rankUp)) {
+            if (socialRank == "low") {
+              socialRank = "mid"
+            } else if (socialRank == "mid") {
+              socialRank = "high"
+              beSomebodyWithLotsOfMoneyOrPower()
+            }
+          } else {
+            if (socialRank == "high") {
+              socialRank = "mid"
+            } else if (socialRank == "mid") {
+              socialRank = "low"
+            }
+          }
+        }
+        changeSocialRank()
+      }
+    }
+  }
+  
+  def beSomebodyWithLotsOfMoneyOrPower() {
+    model.wait(month) {
+      if(alive && socialRank == "high") {
+        if(subscribed) {
+          population.addRandomFriendsAndSubscribers(index, rand.between(0, 50))
+        }
+        beSomebodyWithLotsOfMoneyOrPower()
+      }
+    }
+  }
+
+  def print() = {
+    val sb = new StringBuilder()
+    sb.append("[Index " + index + ",")
+    sb.append("Index " + index + ",")
+    sb.append("Subscribed " + subscribed + ",")
+    sb.append("Sex " + sex + ",")
+    sb.append("Single " + single + ",")
+    sb.append("SocialRank " + socialRank + ",")
+    sb.append("HaveJob " + haveJob + ",")
+    sb.append("IsCrazy " + isCrazy + ",")
+    sb.append("LifeTime " + lifeTime + ",")
+    sb.append("BirthDate " + birthDate + "]")
+    sb.toString
+  }
+}

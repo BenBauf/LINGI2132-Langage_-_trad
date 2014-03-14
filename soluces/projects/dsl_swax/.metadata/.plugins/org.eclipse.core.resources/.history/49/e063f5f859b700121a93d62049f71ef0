@@ -1,0 +1,7 @@
+package simulation.dsl
+
+object SimulationDslTest extends App {
+
+	val population = new Population(MaximumSize = 5000)
+  
+}

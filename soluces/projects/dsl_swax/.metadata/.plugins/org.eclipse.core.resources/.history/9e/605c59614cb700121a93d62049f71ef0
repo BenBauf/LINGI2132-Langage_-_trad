@@ -1,0 +1,9 @@
+package simulation.dsl
+
+object SimulationDslTest extends App {
+	
+  val socialNetSimulator = simulation {
+    
+  }
+  
+}

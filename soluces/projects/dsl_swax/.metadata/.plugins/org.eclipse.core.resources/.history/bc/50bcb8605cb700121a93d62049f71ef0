@@ -1,0 +1,21 @@
+package simulation.dsl
+
+import simulation.api.Population
+
+object Percentage {
+  def apply(p: Int) = new Percentage(p)
+}
+
+class Percentage(val p:Int) {
+  implicit def int2Percentage(i: Int): Percentage = Percentage(i)
+  def percent_of(p: Population) : Percentage = {
+    p.subscribedRate = p / 100.0
+    return this
+  }
+  def is_subscribed(to: to): Percentage = {
+    return this
+  }
+  
+}
+
+class to {}

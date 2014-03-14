@@ -1,0 +1,17 @@
+package simulation
+
+import simulation.api.Population
+import simulation.constants._
+
+object Person{
+  def apply(birthDate: Int, lifeTime: Int) = new Person(birthDate, lifeTime)
+}
+
+class Person(val birthDate: Int,
+			 val lifeTime: Int) {
+  
+  var socialRank = random.which(lowAtBirth, medAtBirth, highAtBirth): Int
+  var haveJob = random.happens(haveJobAtBirth): Boolean
+  var isCrazy = random.happens(isCrazyAtBirth): Boolean
+
+}

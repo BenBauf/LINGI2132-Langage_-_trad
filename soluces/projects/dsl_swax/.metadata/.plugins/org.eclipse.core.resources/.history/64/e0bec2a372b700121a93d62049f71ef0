@@ -1,0 +1,101 @@
+
+package simulation
+
+import scala.collection.mutable.PriorityQueue
+import simulation.api.Stats
+import simulation.api.PopulationSimulator
+import org.jfree.data.general.DefaultPieDataset
+import org.jfree.chart.ChartFactory
+import org.jfree.data.xy.XYDataset
+import org.jfree.data.xy.XYSeries
+import scala.collection.immutable.Queue
+import org.jfree.data.xy.XYSeriesCollection
+import org.jfree.chart.plot.PlotOrientation
+import org.jfree.chart.ChartPanel
+import java.awt.Paint
+import java.awt.Panel
+
+class Point(val value:Int, val time:Double){}
+
+object Point{
+  def apply(value:Int, time:Double) = new Point(value, time)
+}
+
+class SimModel() {
+  private val eventQueue = new PriorityQueue[SimEvent]()
+  private var currentTime = 0.0
+
+  def clock = currentTime
+
+  
+  /*
+  def displayStats(stats: Stats, wannaDisplay: Set[String]) {
+	
+    val xyDataSet = new XYSeries("First")
+    
+    xyDataSet.add(x, y)
+    val chart = ChartFactory.createXYLineChart("title", "x", "y", dataset, orientation, legend, tooltips, urls)
+    
+    val result = new DefaultPieDataset()
+    result.setValue("Linux", 29);
+    result.setValue("Mac", 20);
+    result.setValue("Windows", 51);
+ }*/
+  
+  val statsRecord = collection.mutable.Map[String, Queue[Point]]()
+  
+  def recordStats(stats:Stats, time:Double){
+    for((name, value) <- stats.stats){
+      statsRecord += ((name, (statsRecord(name):+Point(value,time))))
+    }  
+  }
+  
+  def displayStats(){
+    var queue:Queue[Point] = statsRecord(simulation.constants.subscribedNbrS)
+    val xySerie = new XYSeries(simulation.constants.subscribedNbrS)
+    
+    
+    for(point <-queue){
+      xySerie.add(point.value, point.time)
+    }   
+    
+    val  xySerieCollection = new XYSeriesCollection(xySerie)
+    
+    val chart = ChartFactory.createXYLineChart("title",
+        "xAxisLabel", "yAxisLabel", xySerieCollection, PlotOrientation.HORIZONTAL,false,false,false)
+    val chartPanel = new ChartPanel(chart);
+
+    val panel = new Panel()
+    panel.add(chartPanel)
+    //createXYChart(
+      // simulation.constants.subscribedNbrS, "X", "Y", xyDataSet, true)
+
+  }
+      
+  def simulate(horizon: Int, population:PopulationSimulator) {
+    
+    var statsInterval = horizon/1000
+    var intervalCounter = 0
+    
+    while (eventQueue.nonEmpty) {
+      val e = eventQueue.dequeue()
+      currentTime = e.time
+      if (currentTime <= horizon) {
+        if(currentTime>statsInterval*intervalCounter){
+          recordStats(population.getStats, currentTime)
+        }
+        e.process()
+      }
+      
+      else {
+        currentTime = horizon
+        displayStats()
+        return
+      }
+    }
+  }
+
+  def wait(duration: Int)(block: => Unit) {
+    eventQueue += new SimEvent(clock + duration, block)
+  }
+}

@@ -1,0 +1,9 @@
+object App {
+	def main(args: Array[String]): Unit = {
+			val dayDuration = 365*5
+			val model = new SimModel()
+			val population = new Population(model, dayDuration)
+			population.init(100000)
+			model.simulate(dayDuration, population)
+	}
+}

@@ -1,0 +1,33 @@
+package simulation.dsl
+import simulation.api.Population
+import simulation.Duration._
+import simulation.dsl.Percentage._
+import simulation.dsl.StatsBuilder._
+import java.util.ArrayList
+
+object SimulationDslTest extends App {
+
+    val list = new ArrayList[Int]()
+    list.add(2)
+  
+	val population = new Population(
+	    MaximumSize = 5000,
+	    EmploymentRate = 0.8,
+	    CrazynessRate = 0.01,
+	    HighRankRate = 0.05,
+	    MediumRankRate = 0.75,
+	    LowRankRate = 0.25)
+	
+	25 percent_of population is_subscribed_to_network
+	
+	val simulator = evolution of population during 5.years
+	
+	stats of simulator to_be_displayed {
+	  alive
+	  crazy
+	  rank
+	  subscribed
+	  mean_friend_number
+	}
+  
+}

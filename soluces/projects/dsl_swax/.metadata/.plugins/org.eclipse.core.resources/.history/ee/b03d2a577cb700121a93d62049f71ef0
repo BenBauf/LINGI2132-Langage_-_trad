@@ -1,0 +1,19 @@
+package simulation.gui
+
+import scala.collection.mutable.PriorityQueue
+import simulation.api.Stats
+import simulation.api.Population
+import org.jfree.data.general.DefaultPieDataset
+import org.jfree.chart.ChartFactory
+import org.jfree.data.xy.XYDataset
+import org.jfree.data.xy.XYSeries
+import scala.collection.mutable.Queue
+import org.jfree.data.xy.XYSeriesCollection
+import org.jfree.chart.plot.PlotOrientation
+import org.jfree.chart.ChartPanel
+import simulation.api.Population
+import javax.swing.JFrame
+import javax.swing.JPanel
+import simulation.SimModel
+import org.jfree.data.general.SeriesChangeListener
+import org.jfree.data.general.SeriesChangeEvent

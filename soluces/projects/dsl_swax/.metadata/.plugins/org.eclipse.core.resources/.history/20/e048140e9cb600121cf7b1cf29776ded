@@ -1,0 +1,177 @@
+import scala.collection.mutable.LinkedList
+
+class Person(
+  val model: SimModel,
+  var subscribed: Boolean,
+  val sex: Char,
+  var single: Boolean,
+  var socialRank: String,
+  var haveJob: Boolean,
+  var isCrazy: Boolean,
+  val lifeTime: Integer,
+  val birthDate: Integer,
+  val population: Population,
+  val index: Integer) {
+
+  val rand = new GetRandom()
+
+  //Have a new job= P=X / year 
+  var newJob = 20
+  var addAfterJob = 0.5
+  var brainDefective = 100
+  var friendLeavingIfCrazy = 2
+  var socialRankChange = 100
+  var rankUp = 0.01
+  var goOutP = 30 //day
+  var meetANiceGirl = 5
+  
+  val year: Double = 365
+  val month: Double = 30
+  val day: Double = 1
+
+  var alive = false
+
+  birth()
+
+  def birth() {
+    model.wait(birthDate.toDouble) {
+      population.addToPop(index, this)
+      alive = true
+      getAJob()
+      if(isCrazy) {
+        beCrazy()
+      } else {
+        becomeCrazy()
+      }
+      if(socialRank == "high") {
+        beSomebodyWithLotsOfMoneyOrPower()
+      }
+      changeSocialRank()
+      die()
+    }
+  }
+
+  def die() {
+    model.wait(lifeTime * year) {
+      alive = false
+      population.removeFromPop(index)
+    }
+  }
+
+  def getAJob() {
+    model.wait(year*rand.between(1, newJob)) {
+      if (alive) {
+        haveJob = true
+        if (rand.happens(addAfterJob)) {
+          if(!subscribed){
+            population.subscribe(index)
+          }
+          population.addRandomFriends(index, rand.between(1, 100))
+        }
+        getAJob()
+      }
+    }
+  }
+    
+  def goOut(){
+    model.wait(day*rand.between(1, goOutP*meetANiceGirl)){
+      if(alive) {
+         population.subscribe(index)
+    	 population.addRandomFriends(index, 1)
+    	 goOut()
+      }   
+    }
+  }
+
+  def becomeCrazy() {
+    model.wait(year * rand.between(1, brainDefective)) {
+      if (alive && !isCrazy) {
+        isCrazy = true
+        beCrazy()
+      }
+    }
+  }
+
+  def getInSet[B](set:Set[B], index:Int) : B = {
+    var count = 0
+    for(b <- set.iterator) {
+      if(count == index){
+        return b
+      }
+      count +=1
+    }
+    throw new IndexOutOfBoundsException()
+  }
+  
+  def beCrazy() {
+    model.wait(day * rand.between(1, friendLeavingIfCrazy)) {
+      if (alive && isCrazy) {
+        if (subscribed) {
+          val friendlist = population.friendship(index)
+          if (friendlist.size != 0) {
+            val idx = rand.between(0, friendlist.size)
+            //println(idx)
+            //val friend = friendlist.iterator.drop(idx).next
+            //println(friend)
+            val friend:Int = getInSet(friendlist, idx)
+            
+            
+            population.removeFriend(index, friend)
+            if (friendlist.size == 0) {
+              population.unsubscribe(index)
+            }
+          }
+        }
+        beCrazy()
+      }
+    }
+  }
+
+  def changeSocialRank() {
+    model.wait(year * rand.between(1, socialRankChange)) {
+      if (alive) {
+        if (rand.happens(rankUp)) {
+          if (socialRank == "low") {
+            socialRank = "mid"
+          } else if (socialRank == "mid") {
+            socialRank = "high"
+            beSomebodyWithLotsOfMoneyOrPower()
+          }
+        } else {
+          if (socialRank == "high") {
+            socialRank = "mid"
+          } else if (socialRank == "mid") {
+            socialRank = "low"
+          }
+        }
+        changeSocialRank()
+      }
+    }
+  }
+  
+  def beSomebodyWithLotsOfMoneyOrPower() {
+    model.wait(year) {
+      if(alive && socialRank == "high") {
+        if(subscribed) {
+          population.addRandomFriendsAndSubscribers(index, rand.between(0, 100))
+        }
+        beSomebodyWithLotsOfMoneyOrPower()
+      }
+    }
+  }
+
+  def print() = {
+    val sb = new StringBuilder()
+    sb.append("[Index " + index + ",")
+    sb.append("Index " + index + ",")
+    sb.append("Subscribed " + subscribed + ",")
+    sb.append("Sex " + sex + ",")
+    sb.append("Single " + single + ",")
+    sb.append("SocialRank " + socialRank + ",")
+    sb.append("HaveJob " + haveJob + ",")
+    sb.append("IsCrazy " + isCrazy + ",")
+    sb.append("LifeTime " + lifeTime + ",")
+    sb.append("BirthDate " + birthDate + "]")
+    sb.toString
+  }
+}

@@ -1,0 +1,19 @@
+package simulation
+import simulation.constants._
+
+object Person{
+  def apply(birthDimport simulation.random
+ate: Int, lifeTime: Int) = new Person(birthDate, lifeTime)
+}
+
+class Person(val birthDate: Int,
+			 val lifeTime: Int) {
+  
+  var alive = (birthDate <= 0) && (birthDate + lifeTime > 0)
+  var subscribed = false
+  
+  var socialRank = random.which(lowAtBirth, medAtBirth, highAtBirth): Int
+  var haveJob = false: Boolean
+  var isCrazy = random.happens(isCrazyAtBirth): Boolean
+
+}

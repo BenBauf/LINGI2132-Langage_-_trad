@@ -1,0 +1,20 @@
+package simulation.api
+
+import simulation.Duration._
+import simulation.api.couimport simulation.api.Population
+nter
+
+object SimulationApiTest extends App {
+  val dayDuration = 100 years
+  val population = Population(10000, dayDuration)
+  population.simulate
+  println("born = " + counter.born)
+  println("job = " + counter.job)
+  println("scandalous = " + counter.scandalous)
+  println("nicegirl = " + counter.nicegirl)
+  println("crazy = " + counter.crazy)
+  println("becrazy = " + counter.becrazy)
+  println("change = " + counter.change)
+  println("power = " + counter.power)
+  println("die = " + counter.die)
+}

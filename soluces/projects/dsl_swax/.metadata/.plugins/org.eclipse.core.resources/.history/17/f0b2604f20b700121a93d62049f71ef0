@@ -1,0 +1,16 @@
+package simulation.api
+
+import simulation.SimModel
+import simulation.Person
+
+object Population {
+  def apply(maxPop:Int, simDuration: Int) = new Population(maxPop, simDuration)
+}
+
+class Population(val maxPop:Int, val simDuration: Int) {
+	val model = new SimModel()
+	
+	var population = Array[Person]()
+	population(3) = new Person(model, true, 'm', true, "high", true, true, 2, 3, this, 4)
+	
+}

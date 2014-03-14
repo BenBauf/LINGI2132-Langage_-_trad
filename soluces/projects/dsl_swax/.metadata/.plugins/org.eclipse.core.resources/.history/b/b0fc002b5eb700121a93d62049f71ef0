@@ -1,0 +1,38 @@
+package simulation.dsl
+
+import simulation.api.Population
+
+object Percentage {
+  val evolution = new SimBuilder()
+  def apply(p: Int) = new Percentage(p)
+  implicit def int2Percentage(i: Int): Percentage = Percentage(i)
+}
+
+class Percentage(val p:Int) {
+  def percent_of(p: Population) : Percentage = {
+    p.subscribedRate = p / 100.0
+    return this
+  }
+  def is_subscribed_to_network {
+  }
+  
+}
+
+class SimBuilder() {
+  var pop: Population
+  def of(p: Population) : SimBuilder = {
+    pop = p
+    return this
+  }
+  
+  def during(d: Int) : Simulator {
+    pop.simDuration = d
+    return new Simulator(pop)
+  }
+  
+}
+
+class Simulator(val pop:Population) {
+}
+
+class to {}

@@ -1,0 +1,64 @@
+
+package simulation
+
+import scala.collection.mutable.PriorityQueue
+import simulation.api.Stats
+import simulation.api.Population
+import org.jfree.data.general.DefaultPieDataset
+import org.jfree.chart.ChartFactory
+import org.jfree.data.xy.XYDataset
+import org.jfree.data.xy.XYSeries
+import scala.collection.mutable.Queue
+import org.jfree.data.xy.XYSeriesCollection
+import org.jfree.chart.plot.PlotOrientation
+import org.jfree.chart.ChartPanel
+import simulation.api.Population
+import javax.swing.JFrame
+import javax.swing.JPanel
+import simulation.constants._
+
+class Point(val value: Int, val time: Double) {}
+
+object Point {
+  def apply(value: Int, time: Double) = new Point(value, time)
+}
+
+class SimModel() {
+  private val eventQueue = new PriorityQueue[SimEvent]()
+  private var currentTime = 0.0
+
+  def clock = currentTime
+
+  val statsRecord = new XYSeries(subscribedNbrS)
+  
+  def recordStats(stats: Stats, time: Double) {
+    statsRecord.add(time, stats.subscribedNbr)
+  }
+
+  def simulate(horizon: Int, population: Population) {
+
+    var statsInterval = horizon / 1000
+    var intervalCounter = 0
+
+    recordStats(population.getStats, 0)
+
+    while (eventQueue.nonEmpty) {
+      val e = eventQueue.dequeue()
+      currentTime = e.time
+      if (currentTime <= horizon) {
+        //if(currentTime>statsInterval*intervalCounter){
+        recordStats(population.getStats, currentTime)
+        //}
+        e.process()
+      } else {
+        currentTime = horizon
+        displayStats()
+        return
+      }
+    }
+  }
+
+  def wait(duration: Int)(block: => Unit) {
+    eventQueue += new SimEvent(clock + duration, block)
+  }
+}

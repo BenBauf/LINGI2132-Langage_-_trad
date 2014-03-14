@@ -1,0 +1,7 @@
+package simulation.api
+
+import simulation.Duration._
+
+object SimulationApiTest extends App {
+  println(200 years)
+}

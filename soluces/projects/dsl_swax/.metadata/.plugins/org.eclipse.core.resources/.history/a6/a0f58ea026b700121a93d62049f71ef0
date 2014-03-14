@@ -1,0 +1,100 @@
+package simulation.api
+
+import simulation.SimModel
+import simulation.Person
+import simulation.random
+
+object Population {
+  def apply(maxPop:Int, simDuration: Int) = new Population(maxPop, simDuration)
+}
+
+class Population(val maxPop:Int, val simDuration: Int) {
+	val model = new SimModel()
+	
+	val population = new Array[Person](maxPop) //all the population
+	val alive = collection.mutable.Set[Int]() //alive population
+	val subscribed = collection.mutable.Set[Int]() //subscribed population
+	val friendship = collection.mutable.Map[Int, collection.mutable.Set[Int]]() //friendlists
+	
+	for(i <- 0 to maxPop) {
+	  population(1) = Person()
+	}
+	
+	def born(index: Int) {
+	  alive += index
+	  population(index) born
+	}
+	
+	def kill(index: Int) {
+	  alive -= index
+	  population(index) die
+	}
+	
+	def subscribe(index: Int) {
+	  val wasUnsubscribed = subscribed add index
+	  if(wasUnsubscribed) {
+	    friendship += (index -> collection.mutable.Set[Int]())
+	  }
+	}
+	
+	def unsubscribe(index: Int) {
+	  val wasSubscribed = subscribed remove index
+	  if(wasSubscribed) {
+	    friendship -= index
+	  }
+	}
+	
+	def addFriend(id1: Int, id2: Int) {
+	  if(subscribed(id1) && subscribed(id2)) {
+	    friendship(id1) += id2
+	    friendship(id2) += id1
+	  }
+	}
+	
+	def removeFriend(id1: Int, id2: Int) {
+	  if(subscribed(id1) && subscribed(id2)) {
+	    friendship(id1) -= id2
+	    friendship(id2) -= id1
+	  }
+	}
+	
+	def addRandomFriendsAndSubscribers(id: Int, max1: Int) {
+	  var max = max1
+	  if(subscribed contains id) {
+	    var notFriends = alive -- friendship(id)
+	    while(notFriends.size > alive.size/10 && max > 0) {
+	      var found = false
+	      while(!found) {
+	        val id2 = random.between(0, population.length - 1)
+	        if(notFriends(id2)) {
+	          subscribe(id2)
+	          addFriend(id, id2)
+	          notFriends -= id2
+	          max -= 1
+	          found = true
+	        }
+	      }
+	    }
+	  }
+	}
+	
+	def addRandomFriends(id: Int, max1: Int) {
+	  var max = max1
+	  if(subscribed contains id) {
+	    val active = subscribed intersect alive
+	    var notFriends = active -- friendship(id)
+	    while(notFriends.size > active.size/10 && max > 0) {
+	      var found = false
+	      while(!found) {
+	        val id2 = random.between(0, population.length - 1)
+	        if(notFriends(id2)) {
+	          addFriend(id, id2)
+	          notFriends -= id2
+	          max -= 1
+	          found = true
+	        }
+	      }
+	    }
+	  }
+	}
+}

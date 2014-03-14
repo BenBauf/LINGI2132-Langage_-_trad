@@ -1,0 +1,23 @@
+package simulation.api
+
+import simulation.Duration
+
+class PersonSimulator(val population: PopulationSimulator, val index: Int) {
+  val p = population(index)
+  val m = population.model
+  
+  birth()
+  
+  def birth() {
+    if(p.birthDate <= 0) {
+      live()
+    } else {
+      m.wait((p.birthDate).years())
+    }
+  }
+  
+  def live() {
+    die()
+  }
+  
+}

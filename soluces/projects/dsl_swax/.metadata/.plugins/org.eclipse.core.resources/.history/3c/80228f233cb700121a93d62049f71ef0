@@ -1,0 +1,12 @@
+package simulation.api
+
+import simulation.Duration._
+
+object SimulationApiTest extends App {
+  val dayDuration = 10 years
+  val population = Population(1000, dayDuration)
+  println(population.population.size)
+  println(population.alive.size)
+  println(population.subscribed.size)
+  population.simulate()
+}

@@ -1,0 +1,149 @@
+package simulation.api
+
+import simulation.Duration._
+import simulation.random
+import simulation.constants._
+import simulation.Person
+
+class PersonSimulator(val pop: PopulationSimulator, val index: Int) {
+  val p = pop(index)
+  val model = pop.model
+  
+  birth()
+  
+  def birth() {
+    if(p.birthDate <= 0) {
+      live()
+    } else {
+      model.wait(p.birthDate years) {
+        pop.born(index)
+        live()
+      }
+    }
+  }
+  
+  def live() {
+    getAJob()
+    die()
+  }
+  
+  def getAJob() {
+    model.wait(random.between(1, newJob) years) {
+      if (pop.alive(index)) {
+        p.haveJob = true
+        if (pop.subscribed(index) || (!pop.subscribed(index) && random.happens(subscribeAfterJob))) {
+          pop.subscribe(index)
+          pop.addRandomFriends(index, random.between(1, 500))
+        }
+        getAJob()
+      }
+    }
+  }
+    
+  def behaveScandalouslyFun(taggedMalicious:Int){
+    model.wait(random.between(1, goOutP*behaveScandalously*peopleTaggingYou) days){
+      if(pop.alive(index)){
+       val tagMal = taggedMalicious+random.between(7, 20)
+	      if(tagMal>maxShamed && p.haveJob){
+	        pop.unsubscribe(index)
+	      }
+	      behaveScandalouslyFun(tagMal) 
+      }
+    }
+  }
+    
+  def goOut(){
+    model.wait(random.between(1, goOutP*meetANiceGirl) days){
+      if(pop.alive(index)) {
+         pop.subscribe(index)
+    	 pop.addRandomFriends(index, 1)
+    	 goOut()
+      }   
+    }
+  }
+
+  def becomeCrazy() {
+    model.wait(random.between(1, brainDefective) years) {
+      if (pop.alive(index) && !p.isCrazy) {
+        p.isCrazy = true
+        beCrazy()
+      }
+    }
+  }
+
+  def getInSet[B](set:Set[B], index:Int) : B = {
+    var count = 0
+    for(b <- set.iterator) {
+      if(count == index){
+        return b
+      }
+      count +=1
+    }
+    throw new IndexOutOfBoundsException()
+  }
+    
+  def beCrazy() {
+    model.wait(day * random.between(1, friendLeavingIfCrazy)) {
+      if (alive && isCrazy) {
+        if (subscribed) {
+          val friendlist = population.friendship(index)
+          if (friendlist.size != 0) {
+            val idx = random.between(0, friendlist.size)
+            //println(idx)
+            //val friend = friendlist.iterator.drop(idx).next
+            //println(friend)
+            val friend:Int = getInSet(friendlist, idx)
+            
+            
+            population.removeFriend(index, friend)
+            if (friendlist.size == 0) {
+              population.unsubscribe(index)
+            }
+          }
+        }
+        beCrazy()
+      }
+    }
+  }
+
+  def changeSocialRank() {
+    model.wait(year * random.between(1, socialRankChange)) {
+      if (alive) {
+        if (random.happens(rankUp)) {
+          if (socialRank == "low") {
+            socialRank = "medium"
+          } else if (socialRank == "medium") {
+            socialRank = "high"
+            beSomebodyWithLotsOfMoneyOrPower()
+          }
+        } else {
+          if (socialRank == "high") {
+            socialRank = "medium"
+          } else if (socialRank == "mid") {
+            socialRank = "low"
+          }
+        }
+        changeSocialRank()
+      }
+    }
+  }
+  
+  def beSomebodyWithLotsOfMoneyOrPower() {
+    model.wait(year) {
+      if(alive && socialRank == "high") {
+        if(subscribed) {
+          population.addRandomFriends(index, rand.between(0, 100))
+          population.addRandomFriendsAndSubscribers(index, rand.between(0, 20))
+        }
+        beSomebodyWithLotsOfMoneyOrPower()
+      }
+    }
+  }
+  
+  def die() {
+    model.wait(p.lifeTime years) {
+      population.kill(index)
+    }
+  }
+  
+}

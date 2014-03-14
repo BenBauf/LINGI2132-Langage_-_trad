@@ -1,0 +1,57 @@
+Scenario 1
+----------
+
+1) You are already on social net:
+      
+   Become someone powerful P=X/year
+   Current friend number increase Y% every year
+   
+2) you join -> 40 people join
+
+Don't be a powerfull person anymore -> P=Z/year -> stop increase friend
+
+Scenario 2
+----------
+Not yet on social network
+
+Have a new job= P=X / year => join the network Y/year
+
+Scenario 3
+----------
+Not yet on social network
+
+
+GO to a new social place: P=X/month
+    Meet a nice girl P=Y
+        => Join P=Z
+
+Scenario 4
+----------
+Already on social network
+
+Have a serious accident P=X/year -> and brain becomes defective: P=Y
+    => unfriendly P=W => You leave the network P=Z
+
+Scenario 5
+----------
+
+Go out in parties P=X/month
+    Behave scandalously in parties P=Y
+        Peolple tag you P=W
+            => you leave P=L
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

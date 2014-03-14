@@ -1,0 +1,285 @@
+\documentclass[a4paper, 12pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage{parskip}
+\usepackage{graphicx} 
+\usepackage{lscape}
+\usepackage{mathptmx}
+\usepackage[text={16cm,24cm}]{geometry}
+\usepackage{titlesec}
+\usepackage{qtree}
+
+\titlespacing{\section}{0pt}{2ex}{1ex}
+\titlespacing{\subsection}{0pt}{1ex}{0ex}
+\titlespacing{\subsubsection}{0pt}{0.5ex}{0ex}
+
+\linespread{0.9}
+\setlength{\parskip}{0,4cm}
+\geometry{scale=0.8}
+
+\title{{\Huge  LINGI2132 - Assignment 2}}
+\author{Group 6\\ 
+        Arnaud Schils SINF21MS \\
+        Antoine Maes SINF21MS}
+\begin{document}\fontsize{11.5}{14}\rm
+\maketitle
+
+\section{Lexical Analysis}
+    \subsection{Theory}
+
+        The regexp: $(a|b)^{*}a(a|b)$ with the following syntactic tree:
+        
+        \Tree [. [. [. [. [. [.( ] [.a ] [.| ] [.b ] [.) ] ] [.* ] ] ] [.a ] ] [. [.( ] [.a ] [.| ] [.b ] [.) ]] ]
+        
+        \subsubsection{Give 5 different strings belonging to the language described by this regExp.}
+        
+            aaa, baa, aab, bab, abab
+            
+        \subsubsection{Construct the NFA from this regExp (Thompson Construction).}
+
+            \textbf{$a|b$ :}
+
+            \begin{center}
+                \includegraphics[scale=0.4]{thompson1.png}
+            \end{center}
+
+            \textbf{$(a|b)^{*}$ :}
+            
+            \begin{center}
+                \includegraphics[scale=0.4]{thompson2.png}
+            \end{center}
+
+            \textbf{$(a|b)^{*}a(a|b)$ :}
+            
+            \begin{center}
+                \includegraphics[scale=0.7]{thompson3.png}
+            \end{center}
+            
+        \subsubsection{Transform the NFA into a DFA (justify important steps, $\epsilon$-closures).}
+        
+            $s_{0} = \epsilon-closure(\{0\}) = \{0,1,2,4,7,8\}$
+            
+            $s_{1} = \epsilon-closure(\{3,9\}) = \{1,2,3,4,6,7,8,9,10,11,13\}$ scan \texttt{a} from $s_{0}$
+            
+            $s_{2} = \epsilon-closure(\{5\}) = \{1,2,4,5,6,7,8\}$ scan \texttt{b} from $s_{0}$
+            
+            $s_{3} = \epsilon-closure(\{3,9,12\}) = \{1,2,3,4,6,7,8,9,10,11,12,13,15\}$ scan \texttt{a} from $s_{1}$
+            
+            $s_{4} = \epsilon-closure(\{5,14\}) = \{1,2,4,5,6,7,8,14,15\}$ scan \texttt{b} from $s_{1}$
+
+            \begin{center}
+                \includegraphics[scale=0.7]{dfa.png}
+            \end{center}
+            
+        \subsubsection{Minimize the DFA (Hopcroft Algorithm).}
+            
+            \begin{center}
+                \includegraphics[scale=0.7]{minimized_dfa.png}
+            \end{center}
+    \subsection{Programming}
+    
+        \subsubsection{Hand written Compiler}
+        
+            We extended the method \texttt{getNextToken()} from the \texttt{Scanner} class. To manage multi line comment we added a subcase in the condition where we find a '/'. If the next char is '*' we have found the start of a multi line comment. Thus we have to skip all the char until we found the sequence "*/" or the end of file character. If we don't check for the end of file character the scanner will loop trying to process fail tests.
+            
+            We added a test file to check if the scanner works for various multi line comments use. For example we test the following cases: open and close multi line comment sequence in one line, multi line, many multi line comments following each other, before an instruction, in the middle of an instruction,... Our fail test check if there is an error reported when we forget to close the multi line comment (with "*/"). We also checked if the scanner skip the characters from "/*" to "*/" sequences (included) changing the Ant target.
+            
+        \subsubsection{Generated Compiler}
+        
+            We first tried to add in the \texttt{j$--$.jj} file:
+            
+            \begin{verbatim}
+                SKIP: {<MULTI_LINE_COMMENT: "/*" (~[])* ("*/")>}
+            \end{verbatim}
+            
+            But it didn't work... This line skips all the characters to the last "*/" sequence of the file, so skipping uncommented sequences between two multi line comments sequences. Thus we did it this way:
+            
+            \begin{verbatim}
+                MORE: { "/*": IN_MULTI_LINE_COMMENT }
+                <IN_MULTI_LINE_COMMENT>
+                SPECIAL_TOKEN: { <MULTI_LINE_COMMENT: "*/" > : DEFAULT }
+                <IN_MULTI_LINE_COMMENT>
+                MORE: { < ~[] > }
+            \end{verbatim} 
+            
+            To check if it works we changed the ank traget to use the generated compiler. Looking in the output we can see that the scanner ignores muli line comments of our test file (in the pass directory) without ignoring uncommented sequences. Finally we modified the lexicalgrammar file to add the multi line comment grammar description.
+           
+\section{Parsing}
+
+    \subsection{Theory}
+    
+        \subsubsection{Give evidence that this grammar is not LL(1).}
+        
+            This grammar is not LL(1) because it has a rule with left recursion: $B:=Bv$ and $B:=w$.
+
+        \subsubsection{Modify the grammar as little as possible to make an LL(1) grammar that accepts the same language.}
+        
+            We can introduce an extra non-terminal, an extra rule, and replace the left recursion with right recursion to easily removes the direct left recursion:
+            
+            \begin{center}
+            
+                $B:=wB'$
+                
+                $B':=vB'$
+                
+                $B':=\epsilon$
+                
+                Thus we remove from the grammar the rules $B:=Bv$ and $B:=w$ and we introduce the rules above.
+            \end{center}
+            
+        \subsubsection{Calculate first and follow sets for this grammar.}
+                        
+            $first(u) = \{u\}\\
+            first(v) = \{v\}\\
+            first(w) = \{w\}\\
+            first(x) = \{x\}\\
+            first(y) = \{y\}\\
+            first(z) = \{z\}$
+                
+            $\epsilon \in first(E), first(F), first(B')$
+
+            $Rule 1: S:== uBDz\\
+            first(uBDz) = \{u\}\\
+            \rightarrow u \in first(S)$
+            
+            $Rule 2: B::=wB'\\
+            first(wB')=\{w\}\\
+            \rightarrow w\in first(B)$
+            
+            $Rule 3: B'::= wB'\\
+            first(vB') = \{v\}\\
+            \rightarrow v \in first(B')$
+            
+            $Rule 5: D::= EF$\\
+            $first(EF) = first(E) \backslash \{\epsilon\} \cup first(F)$ (car $E\in first(E)$)$=\{x,y,E\}$\\
+            $\rightarrow {x,y,E} \subset first(D)$
+            
+            $Rule 6: E::= y\\
+            y \in first(E)$
+            
+            $Rule 8: F::=x\\
+            x \in first(F)$
+            
+            $first(S) = \{u\}\\
+            first(B) = \{w\}\\
+            first(B') = \{v,\epsilon\}\\
+            first(D) = \{x,y,\epsilon\}\\
+            first(E) = \{y,\epsilon\}\\
+            first(F) = \{x, \epsilon\}$
+            
+            \textbf{Follow}
+            
+            $\#E \, follow(S)$
+            
+            $Rule 1: S::= uBDz\\
+            \rightarrow \{x,y,z\} \subset B follow(B)\\
+            and \, z \in follow(D)$
+            
+            $Rule 2: \, B::= wB'\\
+            \rightarrow follow(B)=\{x,y,z\} \subset follow(B')$
+            
+            $Rule 5: D::=EF\\
+            \rightarrow x \in follow(E)\\
+            follow(D) = \{z\} \subset follow(E)\\
+            and \, follow(D) = \{z\} \subset follow(F)$
+             
+            $follow(S) = \{\#\}\\
+            follow(B) = \{x,y,z\}\\
+            follow(B') = \{x,y,z\}\\
+            follow(D) = \{z\}\\
+            follow(E) = \{x,z\}\\
+            follow(F) = \{z\}$
+            
+        \subsubsection{Construct the LL(1) parsing table.}
+        
+            $Rule 1: S::= uBDz\\
+            \rightarrow table[S,u] = 1$
+            
+            $Rule 2: B::= wB'\\
+            \rightarrow table[B,w] = 2$
+            
+            $Rule 3: B'::= vB'\\
+            \rightarrow table[B',v] = 3$
+            
+            $Rule 4: B'::= \epsilon\\
+            \rightarrow table[B',x] = 4\\
+            \rightarrow table[B',y] = 4\\
+            \rightarrow table[B',z] = 4$
+            
+            $Rule 5: D::= EF\\
+            \rightarrow table[D,x] = 5\\
+            \rightarrow table[D,y] = 5\\
+            \rightarrow table[D,z] = 5$
+            
+            $Rule 6: E::= y\\
+            \rightarrow table[E,y] = 6$
+            
+            $Rule 7: E::= \epsilon\\
+            \rightarrow table[E,x] = 7\\
+            \rightarrow talbe[E,z] = 7$
+            
+            $Rule 8: F::= x\\
+            \rightarrow table[F,x] = 8$
+            
+            $Rule 9: F::= \epsilon\\
+            \rightarrow table[F,z] = 9$
+            
+            \begin{tabular}{ p{2cm} | p{2cm} | p{2cm} | p{2cm} | p{2cm} | p{2cm} | p{2cm}}
+                \hline
+                & u & v & w & x & y & z \\ \hline                        
+                S & 1 & & & & & \\ \hline
+                B & & & 2 & & & \\ \hline
+                B' & & 3 & & 4 & 4 & 4 \\ \hline
+                D & & & & 5 & 5 & 5 \\ \hline
+                E & & & & 7 & 6 & 7 \\ \hline
+                F & & & & 8 & & 9 \\
+                \hline
+            \end{tabular}
+        
+    \subsection{Programming}
+    
+        \subsubsection{Modify the Parser (manual parsing) to parse and return nodes for the conditional expression.}
+        
+            First we modified the \texttt{assignmentExpression()} method in the \texttt{Parser} class: the level 13 grammar rule considers \texttt{conditionalExpression} instead of just \texttt{conditionalAndExpression}. We added the \texttt{conditionalExpression()} method to handle the level 12 grammar rule. If the parser founds a question mark, it means we see a ternary operator. Thus a JConditionalExpression is returned. If we don't see it the method just returns the conditionalAndExpression() result. 
+            
+            We created a new class \texttt{JConditionalExpression} with three mains variables: \texttt{condition}, \texttt{thenPart} and \texttt{elsePart}. We had to add a new token in the \texttt{TokenInfo} file to handle the question mark character and recognize ternary conditions. Finally we added a test file and checked if the handwritten parser correctly recognize ternary conditions.
+            
+            We completed the grammar and lexical grammar files.
+            
+        \subsubsection{Modify the Parser (JavaCC parser) to parse and return nodes for the conditional expression.}
+        
+        We modified the \texttt{j--.jj} file to handle the ternary operator adding the \texttt{conditionalExpression()} entry. We checked if the parser correctly process the ternary operator changing the ant target to javaccparser and looking the ouput generated for our test file.
+        
+        \subsubsection{Modify the Parser (manual parsing) to parse and return nodes for the for statement, including both the basic for statement and the enhanced for statement.}
+        
+            In the \texttt{Parser.java} file we added conditions in the \texttt{statement()} method. We added a \texttt{FOR} in the reserved words (in the \texttt{Scanner} constructor). If the parser meets a \texttt{FOR} we check further for a colon character or a semi character. If we meet the first we know we found an enhanced for statement, else a basic one. We then return the appropriate class instance. If it was a basic for statement we have to parse the various parts (init, condition and update). We added two test files: \texttt{BasicFor.java} and \texttt{EnhancedFor.java}.
+            
+            Grammar components were added in the grammar and lexicalgrammar files.
+        
+            \paragraph{Basic for}
+        
+                We implemented the basic for statement in the \texttt{JForStatement} class. It has four fields: init, condition, update and body.
+        
+                The first problem was to deal with the two cases for the \textbf{init part}: statement or variableDeclaration. To properly handle these two cases we created the abstract class \texttt{JForInit} which is implemented by the classes \texttt{JForInitStatement} and \texttt{JForInitVarDeclaration}. It allows us to avoid using conditions to distinguish one case from the other. The condition part consists of an already existing JExpression object and the update part of a list of JStatement. 
+                                
+                In the parser we can distinguish between the statement or variableDeclaration this way:
+                
+                \begin{itemize}
+                    \item If we see the \texttt{final} reserved word , OR an identifier or a primitive type FOLLOWED BY an identifier, we know it is a variable declaration.
+                    \item else we know it is a statement.
+                \end{itemize}
+                
+            \paragraph{Enhanced for}
+            
+                Then we implementend the enhanced for statement in the \texttt{JEnhancedForStatement} class. We only have three fields: param, iterable and body.
+        
+        \subsubsection{Modify the Parser (JavaCC parser) to parse and return nodes for the for statement, including both the basic for statement and the enhanced for statement.}
+        
+            \paragraph{Basic for}
+            
+                We added code to handle basic for in the \texttt{j--.jj} file. The logic is the same as for the handwritten parser.
+        
+            \paragraph{Enhanced for}
+            
+                 We added code to handle the enhanced for in the \texttt{j--.jj} file. The logic is the same as for the handwritten parser.     
+        
+\end{document}
