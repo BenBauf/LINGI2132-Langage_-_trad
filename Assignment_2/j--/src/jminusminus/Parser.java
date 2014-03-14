@@ -1007,6 +1007,28 @@ public class Parser {
             return lhs;
         }
     }
+    
+    /**
+	 * Parse a conditional-expression.
+	 * 
+	 * <pre>
+	 *   conditionalExpression ::= conditionalAndExpression // level 12
+	 *                            	[? assignmentExpression : conditionalExpression]
+	 * </pre>
+	 * 
+	 * @return an AST for a conditionalExpression.
+	 */
+	private JExpression conditionalExpression() {
+		int line = scanner.token().line();
+		JExpression condition = conditionalAndExpression();
+		if (have(QUESTION_MARK)) {
+			JExpression thenPart = assignmentExpression();
+			mustBe(COLON);
+			JExpression elsePart = conditionalExpression();
+			condition = new JConditionalExpression(line, condition, thenPart, elsePart);
+		}
+		return condition;
+	}
 
     /**
      * Parse a conditional-and expression.
