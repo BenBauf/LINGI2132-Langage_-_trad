@@ -162,6 +162,7 @@ TOKEN:
 | < PRIVATE: "private" >
 | < PROTECTED: "protected" >
 | < PUBLIC: "public" >
+| < FINAL : "final" >
 | < RETURN: "return" >
 | < STATIC: "static" >
 | < SUPER: "super" >
@@ -169,6 +170,7 @@ TOKEN:
 | < TRUE: "true" >
 | < VOID: "void" >
 | < WHILE: "while" >
+| < FOR : "for" >
 }
 
 // Operators (these could be combined with the reserved words)
@@ -634,6 +636,60 @@ private JStatement blockStatement(): {
     { return statement; }
 }
 
+private JForInitStatement forInitStatement():{
+	int line = 0;
+	JForInitStatement init;
+	JStatement stmnt = null;	
+    ArrayList<JStatement> stmnts = null;
+}
+{
+    stmnt = statementExpression()
+    { line = token.beginLine; stmnts = new ArrayList<JStatement>(); stmnts.add(stmnt); }
+    (
+    	<COMMA> stmnt = statementExpression()
+        { stmnts.add(stmnt); }
+    )*
+    { init = new JForInitStatement(line, stmnts); }
+    { return init; }
+}
+
+private JForInitVarDeclaration forInitVarDeclaration():{
+	int line = 0;
+    JForInitVarDeclaration init = null;
+    JVariableDeclaration decl = null;
+    ArrayList<JVariableDeclarator> decls  = null;
+    ArrayList<String> mods = null;
+    Type type = null;
+}
+{ 
+	{ mods = new ArrayList<String>(); }
+    [<FINAL> {mods.add("final");}] 
+    {line = token.beginLine;} 
+    type = type()
+    decls = variableDeclarators(type)
+    { decl = new JVariableDeclaration(line, mods, decls); init = new JForInitVarDeclaration(line, decl); }
+    { return init; }
+}
+
+private ArrayList<JStatement> forUpdate(): {
+    int line = 0;
+    ArrayList<JStatement> stmnts = null;
+    JStatement aStmnt = null;
+}
+{
+    try{
+        aStmnt = statementExpression()
+        { line = token.beginLine; stmnts = new ArrayList<JStatement>(); stmnts.add(aStmnt); }
+        (
+            <COMMA> aStmnt = statementExpression()
+            { stmnts.add(aStmnt); }
+        )*
+    } catch ( ParseException e ) {
+        recoverFromError( new int[] { SEMI, EOF }, e);
+    }
+    { return stmnts; }
+}
+
 /**
  * Parse a statement.
  * 
@@ -657,6 +713,9 @@ private JStatement statement(): {
     JStatement alternate = null;
     JStatement body = null;
     JExpression expr = null;
+    JForInitExpression forInit = null;
+    ArrayList<JStatement> forUpdate = null;
+    JFormalParameter param = null;
 }
 {       
     try {
@@ -674,7 +733,31 @@ private JStatement statement(): {
             <ELSE> alternate = statement() 
         ]
         { statement = 
-            new JIfStatement( line, test, consequent, alternate ); } |
+            new JIfStatement( line, test, consequent, alternate ); }  |
+        <FOR> { line = token.beginLine; } <LPAREN>
+        (  
+         
+            LOOKAHEAD(formalParameter() <COLON>)
+	            param = formalParameter()
+	            <COLON>
+	            expr = expression()
+	            <RPAREN>
+	            body = statement()
+	            { statement = new JEnhancedForStatement(line, param, expr, body) ; }
+            |
+        		[LOOKAHEAD( <FINAL> | type() <IDENTIFIER> )
+            		forInit = forInitVarDeclaration()
+         		|
+            		forInit = forInitStatement()]          
+            
+            <SEMI>
+            [test = expression()]
+            <SEMI>
+            [forUpdate = forUpdate()]
+            <RPAREN>
+            body = statement()
+            { statement = new JForStatement(line, forInit, test, forUpdate, body); } 
+        )|
         <WHILE> { line = token.beginLine; }
         test = parExpression() 
         body = statement()

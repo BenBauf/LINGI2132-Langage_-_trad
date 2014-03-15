@@ -22,45 +22,47 @@ public interface JavaCCParserConstants {
   int PRIVATE = 21;
   int PROTECTED = 22;
   int PUBLIC = 23;
-  int RETURN = 24;
-  int STATIC = 25;
-  int SUPER = 26;
-  int THIS = 27;
-  int TRUE = 28;
-  int VOID = 29;
-  int WHILE = 30;
-  int PLUS = 31;
-  int ASSIGN = 32;
-  int DEC = 33;
-  int EQUAL = 34;
-  int GT = 35;
-  int INC = 36;
-  int LAND = 37;
-  int LE = 38;
-  int LNOT = 39;
-  int MINUS = 40;
-  int PLUS_ASSIGN = 41;
-  int STAR = 42;
-  int LPAREN = 43;
-  int RPAREN = 44;
-  int LCURLY = 45;
-  int RCURLY = 46;
-  int LBRACK = 47;
-  int RBRACK = 48;
-  int SEMI = 49;
-  int COMMA = 50;
-  int DOT = 51;
-  int QUESTION_MARK = 52;
-  int COLON = 53;
-  int IDENTIFIER = 54;
-  int LETTER = 55;
-  int DIGIT = 56;
-  int NON_ZERO_DIGIT = 57;
-  int INT_LITERAL = 58;
-  int CHAR_LITERAL = 59;
-  int STRING_LITERAL = 60;
-  int ESC = 61;
-  int ERROR = 62;
+  int FINAL = 24;
+  int RETURN = 25;
+  int STATIC = 26;
+  int SUPER = 27;
+  int THIS = 28;
+  int TRUE = 29;
+  int VOID = 30;
+  int WHILE = 31;
+  int FOR = 32;
+  int PLUS = 33;
+  int ASSIGN = 34;
+  int DEC = 35;
+  int EQUAL = 36;
+  int GT = 37;
+  int INC = 38;
+  int LAND = 39;
+  int LE = 40;
+  int LNOT = 41;
+  int MINUS = 42;
+  int PLUS_ASSIGN = 43;
+  int STAR = 44;
+  int LPAREN = 45;
+  int RPAREN = 46;
+  int LCURLY = 47;
+  int RCURLY = 48;
+  int LBRACK = 49;
+  int RBRACK = 50;
+  int SEMI = 51;
+  int COMMA = 52;
+  int DOT = 53;
+  int QUESTION_MARK = 54;
+  int COLON = 55;
+  int IDENTIFIER = 56;
+  int LETTER = 57;
+  int DIGIT = 58;
+  int NON_ZERO_DIGIT = 59;
+  int INT_LITERAL = 60;
+  int CHAR_LITERAL = 61;
+  int STRING_LITERAL = 62;
+  int ESC = 63;
+  int ERROR = 64;
 
   int DEFAULT = 0;
 
@@ -89,6 +91,7 @@ public interface JavaCCParserConstants {
     "\"private\"",
     "\"protected\"",
     "\"public\"",
+    "\"final\"",
     "\"return\"",
     "\"static\"",
     "\"super\"",
@@ -96,6 +99,7 @@ public interface JavaCCParserConstants {
     "\"true\"",
     "\"void\"",
     "\"while\"",
+    "\"for\"",
     "\"+\"",
     "\"=\"",
     "\"--\"",

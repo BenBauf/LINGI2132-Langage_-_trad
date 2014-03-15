@@ -742,7 +742,8 @@ public class Parser {
      * <pre>
      *   statement ::= block
      *               | IF parExpression statement [ELSE statement]
-     *               | FOR TODO
+     *               | FOR LPAREN [forInit] SEMI [expression] SEMI [forUpdate] RPAREN statement
+     *        		 | FOR LPAREN formalParameter COLON expression RPAREN statement
      *               | WHILE parExpression statement 
      *               | RETURN [expression] SEMI
      *               | SEMI 
