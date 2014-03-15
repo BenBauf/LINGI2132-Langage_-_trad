@@ -1,21 +1,19 @@
 package jminusminus;
 
-import jminusminus.JAST;
-import jminusminus.JForInit;
+import jminusminus.JForInitExpression;
 import static jminusminus.CLConstants.*;
 
 import java.util.ArrayList;
 
 public class JForStatement extends JStatement {
 
-	private JForInit init;
+	private JForInitExpression init;
 	private JExpression condition;
 	private ArrayList<JStatement> forUpdate;
 	private JStatement body;
 	private LocalContext context;
 
-	public JForStatement(int line, JForInit forInit, JExpression condition,
-			ArrayList<JStatement> forUpdate, JStatement body) {
+	public JForStatement(int line, JForInitExpression forInit, JExpression condition, ArrayList<JStatement> forUpdate, JStatement body) {
 		super(line);
 		this.init = forInit;
 		this.condition = condition;
@@ -27,7 +25,7 @@ public class JForStatement extends JStatement {
 	public JStatement analyze(Context context) {
 		this.context = new LocalContext(context);
 		if(init != null){
-			init = (JForInit) init.analyze(this.context);
+			init = (JForInitExpression) init.analyze(this.context);
 		}
 		if(condition != null){
 			condition = (JExpression) condition.analyze(this.context);

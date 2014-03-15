@@ -27,11 +27,13 @@ PROTECTED   ::= "protected"
 PUBLIC      ::= "public"
 RETURN      ::= "return"
 STATIC      ::= "static"
+FINAL		::= "final"
 SUPER       ::= "super"
 THIS        ::= "this"
 TRUE        ::= "true"
 VOID        ::= "void"
 WHILE       ::= "while"
+FOR			::= "for"
 
 // Operators
 ASSIGN      ::= "="

@@ -626,6 +626,52 @@ public class Parser {
         }
     }
     
+    /**
+     * TODO
+     * @param line
+     * @return
+     */
+    private JForStatement forStatement(int line){
+    	JForInitExpression init = null;
+		if (!have(SEMI)) {
+			if(isVarDecl()){
+				init = forInitVarDeclaration();
+			}
+			else{
+				init = forInitStatement();
+			}
+			mustBe(SEMI);
+		}
+		
+		JExpression condition = null;
+		if (!have(SEMI)) {
+			condition = expression();
+			mustBe(SEMI);
+		}
+		
+		ArrayList<JStatement> update = null;
+		if (!have(RPAREN)) {
+			update = forUpdate();
+			mustBe(RPAREN);
+		}
+		JStatement body = statement();
+		return new JForStatement(line, init, condition, update, body);
+    }
+    
+    /**
+     * TODO
+     * @param line
+     * @return
+     */
+    private JEnhancedForStatement enhancedForStatement(int line){
+    	JFormalParameter param = formalParameter();
+		mustBe(COLON);
+		JExpression iterable = expression();
+		mustBe(RPAREN);
+		JStatement body = statement();
+		return new JEnhancedForStatement(line, param, iterable, body);
+    }
+    
     private JForInitStatement forInitStatement(){
 		int line = scanner.token().line();
 		ArrayList<JStatement> init = new ArrayList<JStatement>();
@@ -646,7 +692,7 @@ public class Parser {
 	}
 	
 	private ArrayList<JStatement> forUpdate() {
-		int line = scanner.token().line();
+		//int line = scanner.token().line();
 		ArrayList<JStatement> update = new ArrayList<JStatement>();
 		do {
 			update.add(statementExpression());
@@ -654,18 +700,33 @@ public class Parser {
 		return update;
 	}
     
-    /**
+	
+	/**
 	 * TODO
 	 */
-	private boolean isVarDecl(){
-		
-		boolean isDecl = false;
+	private boolean isEnhanced(){
+		mustBe(LPAREN);
 		scanner.recordPosition();
-		
+		while (!(see(COLON) || see(SEMI) || see(EOF))) {
+			scanner.next();
+		}
+		if(see(EOF)){
+			reportParserError("EOF reached in for statement.");
+		}
+		boolean enhanced = see(COLON);
+		scanner.returnToPosition();
+		return enhanced;
+	}
+	
+	/**
+	 * TODO
+	 */
+	private boolean isVarDecl(){		
+		boolean isDecl = false;
+		scanner.recordPosition();		
 		if(see(FINAL)) {
 			isDecl = true;
-		}
-		
+		}		
 		else if(have(IDENTIFIER) || have(BOOLEAN) || have(CHAR) || have(INT)) {
 			if(see(IDENTIFIER)) {
 				isDecl = true;
@@ -700,55 +761,14 @@ public class Parser {
             JStatement consequent = statement();
             JStatement alternate = have(ELSE) ? statement() : null;
             return new JIfStatement(line, test, consequent, alternate);
-        } else if (have(FOR)) {			
-			//See if it is a basic for or enhanced
-			mustBe(LPAREN);
-			scanner.recordPosition();
-			while (!(see(COLON) || see(SEMI) || see(EOF))) {
-				scanner.next();
-			}
-			if(see(EOF)){
-				reportParserError("EOF reached in for statement.");
-			}
-			boolean enhanced = see(COLON);
-			scanner.returnToPosition();
-			
-			if (enhanced) {
-				JFormalParameter param = formalParameter();
-				mustBe(COLON);
-				JExpression iterable = expression();
-				mustBe(RPAREN);
-				JStatement body = statement();
-				return new JEnhancedForStatement(line, param, iterable, body);
-			}
-			
+        } else if (have(FOR)) {						
+			if (isEnhanced()) {
+				return enhancedForStatement(line);
+			}			
 			else {			
-				JForInit init = null;
-				if (!have(SEMI)) {
-					if(isVarDecl()){
-						init = forInitVarDeclaration();
-					}
-					else{
-						init = forInitStatement();
-					}
-					mustBe(SEMI);
-				}
-				
-				JExpression condition = null;
-				if (!have(SEMI)) {
-					condition = expression();
-					mustBe(SEMI);
-				}
-				
-				ArrayList<JStatement> update = null;
-				if (!have(RPAREN)) {
-					update = forUpdate();
-					mustBe(RPAREN);
-				}
-				JStatement body = statement();
-				return new JForStatement(line, init, condition, update, body);
+				return forStatement(line);
 			}
-        }else if (have(WHILE)) {
+        } else if (have(WHILE)) {
             JExpression test = parExpression();
             JStatement statement = statement();
             return new JWhileStatement(line, test, statement);

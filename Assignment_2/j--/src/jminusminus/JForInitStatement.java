@@ -2,7 +2,7 @@ package jminusminus;
 
 import java.util.ArrayList;
 
-public class JForInitStatement extends JForInit{
+public class JForInitStatement extends JForInitExpression{
 	
 	private ArrayList<JStatement> expInit;
 

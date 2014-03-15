@@ -1,8 +1,6 @@
 package jminusminus;
 
-import static jminusminus.CLConstants.*;
 import java.util.ArrayList;
-import java.util.Set; 
 
 public class JEnhancedForStatement extends JStatement {
 
@@ -11,7 +9,14 @@ public class JEnhancedForStatement extends JStatement {
 	private JStatement body;
 	private LocalContext context;
 	private JForStatement equiv;
-
+	
+	/** 
+	 * TODO
+	 * @param line
+	 * @param param
+	 * @param iterable
+	 * @param body
+	 */
 	public JEnhancedForStatement(int line, JFormalParameter param,
 			JExpression iterable, JStatement body) {
 		super(line);
@@ -21,6 +26,9 @@ public class JEnhancedForStatement extends JStatement {
 
 	}
 
+	/**
+	 * TODO
+	 */
 	@Override
 	public JAST analyze(Context context) {		
 
@@ -58,7 +66,7 @@ public class JEnhancedForStatement extends JStatement {
 			i++;
 		}
 
-		JForInit init;
+		JForInitExpression init;
 		JExpression condition;
 		ArrayList<JStatement> update;
 		JStatement body;
@@ -100,12 +108,18 @@ public class JEnhancedForStatement extends JStatement {
 
 		return this;
 	}
-
+	
+	/** 
+	 * TODO
+	 */
 	@Override
 	public void codegen(CLEmitter output) {
 		equiv.codegen(output);
 	}
-
+	
+	/**
+	 * TODO
+	 */
 	@Override
 	public void writeToStdOut(PrettyPrinter p) {
 		p.printf("<JEnhancedForStatement>\n");

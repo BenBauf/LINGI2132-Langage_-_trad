@@ -1,6 +1,6 @@
 package jminusminus;
 
-public class JForInitVarDeclaration extends JForInit{
+public class JForInitVarDeclaration extends JForInitExpression{
 	
 	private JVariableDeclaration declInit;
 
