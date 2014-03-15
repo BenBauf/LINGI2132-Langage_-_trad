@@ -5,7 +5,8 @@ import static grammar.Grammar.*;
 
 
 /**
- * @author pschaus
+ * @author pschaus, Benoit Baufays, Julien Colmonts
+ * 
  */
 public class Parser {
 
@@ -28,7 +29,19 @@ public class Parser {
 	}
 	
 	private int parseS(Integer[] input, int pos){
-		int posIf=parseIf(input,pos);
+		if (!(size(input,pos,1))){
+				return -1;
+		}
+		switch(input[pos]){
+		case Grammar.IF:
+			return parseIf(input,pos);
+		case Grammar.BEGIN:
+			return parseBegin(input,pos);
+		case Grammar.PRINT:
+			return parsePrint(input,pos);
+		}
+		return -1;
+		/*int posIf=parseIf(input,pos);
 		if(posIf==-1){
 			int posB=parseBegin(input,pos);
 			if(posB==-1){
@@ -40,16 +53,26 @@ public class Parser {
 		}
 		else{
 			return posIf;
-		}
+		}*/
 	}
 	private int parseL(Integer[] input,int pos){
-		int posEnd=parseEnd(input,pos);
+		if (!(size(input,pos,1))){
+			return -1;
+		}
+		switch(input[pos]){
+		case Grammar.END:
+			return parseEnd(input,pos);
+		case Grammar.SEMI:
+			return parseSemi(input,pos);
+		}
+		return -1;
+		/*int posEnd=parseEnd(input,pos);
 		if(posEnd==-1){
 			return parseSemi(input,pos);
 		}
 		else{
 			return posEnd;
-		}
+		}*/
 	}
 	
 	private int parseE(Integer[] input,int pos){
