@@ -23,10 +23,8 @@ public class Parser {
 	 */
 	public boolean parse(Integer[] input) {	
 		int soluce=parseS(input,0);
-		System.out.println(soluce);
-		return soluce!=-1;
+		return soluce!=-1&&soluce==input.length;
 		//return true;
-		// TODO edit this class such that this method returns the correct result
 	}
 	
 	private int parseS(Integer[] input, int pos){
@@ -47,7 +45,7 @@ public class Parser {
 	private int parseL(Integer[] input,int pos){
 		int posEnd=parseEnd(input,pos);
 		if(posEnd==-1){
-			return parseSemi(input,pos+1);
+			return parseSemi(input,pos);
 		}
 		else{
 			return posEnd;
@@ -76,9 +74,9 @@ public class Parser {
 	
 	private int parseBegin(Integer[] input, int pos){
 		if(size(input,pos,2)&&input[pos].equals(Grammar.BEGIN)){
-			int parseS=parseS(input, pos+1);
-			if(parseS!=-1){
-				return parseL(input,parseS);
+			int posS=parseS(input, pos+1);
+			if(posS!=-1){
+				return parseL(input,posS);
 			}
 			
 		}
@@ -109,7 +107,7 @@ public class Parser {
 	}
 	
 	private boolean size(Integer[] input,int pos, int size){
-		return input.length>pos+size;
+		return input.length>=pos+size;
 	}
 	
 
