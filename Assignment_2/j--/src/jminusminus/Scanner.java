@@ -105,7 +105,21 @@ class Scanner {
                     while (ch != '\n' && ch != EOFCH) {
                         nextCh();
                     }
-                } else {
+                } 
+                //multi line comments
+                else if (ch == '*') {
+					nextCh();
+					boolean prev_is_star = false;
+					while (!(prev_is_star && ch == '/') && ch != EOFCH) {
+							prev_is_star = ch == '*';
+						if (ch == EOFCH) {
+							reportScannerError("Missing \"*//");
+						}
+						nextCh();
+					}
+					nextCh();
+				}
+                else {
                     return new TokenInfo(DIV, line);
                 }
             } else {
