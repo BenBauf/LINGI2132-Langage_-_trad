@@ -1,2 +1,131 @@
 \section{Lexical Analysis}      
 \subsection{Give 5 different strings belonging to the language described by this regExp.}
+\begin{spacing}{0.1}
+\begin{enumerate}
+\item aab
+\item bbaa
+\item ababab
+\item aaaaaaa
+\item bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbab
+\end{enumerate}
+\end{spacing}
+\subsection{Construct the NFA from this regExp (Thompson Construction}
+\begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=2cm]
+  \node[initial,state] (S)      {$0$};
+  \node[state]         (one) [right of=S]  {$1$};
+  \node[state]         (two) [above right of=one]  {$2$};
+  \node[state]         (three) [right of=two]  {$3$};
+  \node[state]         (four) [below right of=one]  {$4$};
+  \node[state]         (five) [right of=four]  {$5$};
+  \node[state]         (six) [below right of=three]  {$6$};
+  \node[state]         (seven) [right of=six]  {$7$};
+  \node[state]         (eight) [below of=six, node distance=3.0cm]  {$8$};
+  \node[state]         (nine) [above right of=eight]  {$9$};
+  \node[state]         (ten) [right of=nine]  {$10$};
+  \node[state]         (eleven) [below right of=eight]  {$11$};
+  \node[state]         (twelve) [right of=eleven]  {$12$};  
+  \node[state, accepting]         (thirteen) [below right of=ten]  {$13$};
+  \path[->]          (S)  edge node {$\varepsilon$} (one);
+  \path[->]          (one)  edge node {$\varepsilon$} (two);
+  \path[->]          (one)  edge node [below left] {$\varepsilon$} (four);
+  \path[->]          (two)  edge node {$a$} (three);
+  \path[->]          (four)  edge node {$b$} (five);
+  \path[->]          (three)  edge node [below left] {$\varepsilon$} (six);
+  \path[->]          (five)  edge node {$\varepsilon$} (six);
+  \path[->]          (six)  edge node {$\varepsilon$} (seven);
+  \path[->]          (six)  edge node {$\varepsilon$} (seven);
+  \path[->]          (six)  edge node [above]{$\varepsilon$} (one);
+  \path[->]          (S)  edge [bend left=60] node {$\varepsilon$} (seven);
+  \path[->]          (seven)  edge [bend right] node [above left]{$a$} (eight);
+  \path[->]          (eight)  edge node {$\varepsilon$} (nine);
+  \path[->]          (eight)  edge node {$\varepsilon$} (eleven);
+  \path[->]          (nine)  edge node {$a$} (ten);
+  \path[->]          (eleven)  edge node {$b$} (twelve);
+  \path[->]          (ten)  edge node {$\varepsilon$} (thirteen);
+  \path[->]          (twelve)  edge node {$\varepsilon$} (thirteen);
+ 
+\end{tikzpicture}
+
+
+\subsection{Transform the NFA into a DFA (justify important steps, $\varepsilon$-closures).}
+
+Steps from NFA to DFA : \\
+\begin{spacing}{0.3}
+
+\begin{itemize}
+\item $s_{0} = \epsilon-closure(\{0\}) = \{0,1,2,4,7\}$ 
+\item $m(s_{0},a)=s_{1}$, where $s_{1} = \epsilon-closure(\{3,8\}) = \{1,2,3,4,6,7,9,11\}$
+\item $m(s_{0},b)=s_{2}$, where $s_{2} = \epsilon-closure(\{5\}) = \{1,2,4,5,6,7\}$
+\item $m(s_{1},a)=s_{3}$, where $s_{3} = \epsilon-closure(\{3,8,10\}) = \{1,2,3,4,6,7,8,9,11,13\}$
+\item $m(s_{1},b)=s_{4}$, where $s_{4} = \epsilon-closure(\{5,12\}) = \{1,2,4,5,6,7,12,13\}$
+\item $m(s_{2},a)=s_{1}$
+\item $m(s_{2},b)=s_{2}$
+\item $m(s_{3},a)=s_{3}$
+\item $m(s_{3},b)=s_{4}$
+\item $m(s_{4},a)=s_{1}$
+\item $m(s_{4},b)=s_{2}$
+\end{itemize}
+\end{spacing}
+
+Since $s_{3}$ and $s_{4}$ contain state $13$ which was final in the NFA, they are both final state too.
+\begin{center}
+\scalebox{0.6}{
+\begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=5cm, align=center]
+  \node[initial,state] (S)      {$0$ \\ $\{0,1,2,4,7\}$};
+  \node[state]         (one) [above right of=S]  {$1$ \\ $\{1,2,3,4,$ \\ $6,7,9,11\}$} ;
+  \node[state]         (two) [below right of=S]  {$2$ \\ $\{1,2,4,5,6,7\}$ };
+  \node[state, accepting]         (three) [above right of=one]  {$3$ \\ $ \{1,2,3,4,6,$ \\ $7,8,9,10,$ \\ $11,13\}$};
+  \node[state, accepting]         (four) [below right of=one]  {$4$ \\ $\{1,2,4,5,6, $\\$7,12,13\}$};  
+  \path[->]          (S)  edge node {$a$} (one);
+  \path[->]          (S)  edge node {$b$} (two);  
+  \path[->]          (two)  edge node {$a$} (one);
+  \path[->]          (two)  edge [loop below] node {$b$} (two);
+  \path[->]          (one)  edge node {$a$} (three);
+  \path[->]          (one)  edge [bend left] node {$b$} (four);
+  \path[->]          (three)  edge [loop above] node {$a$} (three);
+  \path[->]          (three)  edge node {$b$} (four);
+  \path[->]          (four)  edge [bend left] node {$a$} (one);
+  \path[->]          (four)  edge node {$b$} (two);  
+\end{tikzpicture}
+}
+\end{center}
+
+\subsection{Minimize the DFA (Hopcroft Algorithm).}
+The DFA could be divided in four partitions :
+\begin{spacing}{0.3}
+\begin{itemize}
+\item Two partitions for final states
+\item A partition which contains previous states $\{0,2\}$ because :
+	\begin{itemize}
+	\item $m(0,a) = 1$
+	\item $m(2,a) = 1$	
+	\item $m(0,b) = 2$
+	\item $m(2,b) = 2$	
+	\end{itemize}
+\item A partition which contains previous state $\{1\}$ :
+	\begin{itemize}
+	\item $m(1,a) = 3$
+	\item $m(1,b) = 4$	
+	\end{itemize}
+\end{itemize}
+\end{spacing}
+\begin{center}
+\scalebox{0.9}{
+\begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=2cm, align=center]
+  \node[initial,state] (S)      {$0$};
+  \node[state]         (one) [right of=S]  {$1$} ;
+  \node[state, accepting]         (two) [above right of=one]  {$2$};
+  \node[state, accepting]         (three) [below right of=one]  {$3$};  
+  \path[->]          (S)  edge node {$a$} (one);
+  \path[->]          (S)  edge [loop below] node {$b$} (S);
+  \path[->]          (one)  edge node {$a$} (two);  
+  \path[->]          (two)  edge [loop above] node {$a$} (two);
+  \path[->]          (one)  edge node {$b$} (three);
+  \path[->]          (two)  edge node {$b$} (three);
+  \path[->]          (three)  edge node {$b$} (S);
+
+\end{tikzpicture}
+}
+\end{center}
+
+
