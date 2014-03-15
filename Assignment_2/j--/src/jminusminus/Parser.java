@@ -625,6 +625,55 @@ public class Parser {
             return statement();
         }
     }
+    
+    private JForInitStatement forInitStatement(){
+		int line = scanner.token().line();
+		ArrayList<JStatement> init = new ArrayList<JStatement>();
+		do {
+			init.add(statementExpression());
+		} while (have(COMMA));
+		return new JForInitStatement(line, init);
+	}
+	
+	private JForInitVarDeclaration forInitVarDeclaration(){
+		int line = scanner.token().line();
+		ArrayList<String> mods = new ArrayList<String>();
+		if (have(FINAL)) {
+			mods.add("final");
+		}
+		ArrayList<JVariableDeclarator> decl = variableDeclarators(type());
+		return new JForInitVarDeclaration(line, new JVariableDeclaration(line, mods, decl));
+	}
+	
+	private ArrayList<JStatement> forUpdate() {
+		int line = scanner.token().line();
+		ArrayList<JStatement> update = new ArrayList<JStatement>();
+		do {
+			update.add(statementExpression());
+		} while (have(COMMA));
+		return update;
+	}
+    
+    /**
+	 * TODO
+	 */
+	private boolean isVarDecl(){
+		
+		boolean isDecl = false;
+		scanner.recordPosition();
+		
+		if(see(FINAL)) {
+			isDecl = true;
+		}
+		
+		else if(have(IDENTIFIER) || have(BOOLEAN) || have(CHAR) || have(INT)) {
+			if(see(IDENTIFIER)) {
+				isDecl = true;
+			}
+		}
+		scanner.returnToPosition();
+		return isDecl;
+	}
 
     /**
      * Parse a statement.
@@ -632,6 +681,7 @@ public class Parser {
      * <pre>
      *   statement ::= block
      *               | IF parExpression statement [ELSE statement]
+     *               | FOR TODO
      *               | WHILE parExpression statement 
      *               | RETURN [expression] SEMI
      *               | SEMI 
@@ -650,7 +700,55 @@ public class Parser {
             JStatement consequent = statement();
             JStatement alternate = have(ELSE) ? statement() : null;
             return new JIfStatement(line, test, consequent, alternate);
-        } else if (have(WHILE)) {
+        } else if (have(FOR)) {			
+			//See if it is a basic for or enhanced
+			mustBe(LPAREN);
+			scanner.recordPosition();
+			while (!(see(COLON) || see(SEMI) || see(EOF))) {
+				scanner.next();
+			}
+			if(see(EOF)){
+				reportParserError("EOF reached in for statement.");
+			}
+			boolean enhanced = see(COLON);
+			scanner.returnToPosition();
+			
+			if (enhanced) {
+				JFormalParameter param = formalParameter();
+				mustBe(COLON);
+				JExpression iterable = expression();
+				mustBe(RPAREN);
+				JStatement body = statement();
+				return new JEnhancedForStatement(line, param, iterable, body);
+			}
+			
+			else {			
+				JForInit init = null;
+				if (!have(SEMI)) {
+					if(isVarDecl()){
+						init = forInitVarDeclaration();
+					}
+					else{
+						init = forInitStatement();
+					}
+					mustBe(SEMI);
+				}
+				
+				JExpression condition = null;
+				if (!have(SEMI)) {
+					condition = expression();
+					mustBe(SEMI);
+				}
+				
+				ArrayList<JStatement> update = null;
+				if (!have(RPAREN)) {
+					update = forUpdate();
+					mustBe(RPAREN);
+				}
+				JStatement body = statement();
+				return new JForStatement(line, init, condition, update, body);
+			}
+        }else if (have(WHILE)) {
             JExpression test = parExpression();
             JStatement statement = statement();
             return new JWhileStatement(line, test, statement);
