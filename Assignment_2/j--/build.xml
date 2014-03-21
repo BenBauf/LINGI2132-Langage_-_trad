@@ -462,12 +462,9 @@
 	
 	<target name="testGenerator" depends="compile,jar">
 	<echo message="Running LINGI2132 assignment ..."/>
-	<javac srcdir="${basedir}/src/lingi2132/" destdir="${CLASS_DIR}"
-	includeantruntime="false"
-	debug="on">
+	<javac srcdir="${basedir}/src/lingi2132/" destdir="${CLASS_DIR}" includeantruntime="false" debug="on">
 	</javac>
-	 <java fork="true" failonerror="yes" classname="lingi2132.Generator" classpath=
-	"${basedir}/${CLASS_DIR}">
+	 <java fork="true" failonerror="yes" classname="lingi2132.Generator" classpath="${basedir}/${CLASS_DIR}">
 	 <arg line="/tmp/"/>
 	 </java>
 	</target>
