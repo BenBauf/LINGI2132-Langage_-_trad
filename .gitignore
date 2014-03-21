@@ -8,6 +8,7 @@ spim.jar
 
 # Report #
 .fuse*
+*/_MACOSX/*
 
 #eclipse
 */.metadata/*
