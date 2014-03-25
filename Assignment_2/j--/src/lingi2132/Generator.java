@@ -89,13 +89,14 @@ public class Generator {
 		output.addNoArgInstruction(ILOAD_2);
 		output.addNoArgInstruction(IASTORE);
 		output.addOneArgInstruction(ALOAD, 4);
+		output.addNoArgInstruction(ICONST_1);
 		output.addNoArgInstruction(ILOAD_3);
 		output.addNoArgInstruction(IASTORE);
-		output.addMemberAccessInstruction(GETSTATIC, "java/lan/System", "out", "Ljava/io/PrintStream;");
+		output.addMemberAccessInstruction(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
 		output.addNoArgInstruction(ILOAD_1);
 		output.addMemberAccessInstruction(INVOKESTATIC, "packageOfClassToGenerate/ClassToGenerate", "factorial", "(I)I");
 		output.addMemberAccessInstruction(INVOKEVIRTUAL, "java/io/PrintStream", "println", "(I)V");
-		output.addMemberAccessInstruction(GETSTATIC, "java/lan/System", "out", "Ljava/io/PrintStream;");
+		output.addMemberAccessInstruction(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
 		output.addOneArgInstruction(ALOAD, 4);
 		output.addMemberAccessInstruction(INVOKESTATIC, "packageOfClassToGenerate/ClassToGenerate", "maximum", "([I)I");
 		output.addMemberAccessInstruction(INVOKEVIRTUAL, "java/io/PrintStream", "println", "(I)V");
