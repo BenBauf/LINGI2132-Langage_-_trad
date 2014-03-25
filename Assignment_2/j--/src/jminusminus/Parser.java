@@ -631,7 +631,7 @@ public class Parser {
      * @param line
      * @return
      */
-    private JForStatement forStatement(int line){
+    private JBasicForStatement forStatement(int line){
     	JForInitExpression init = null;
 		if (!have(SEMI)) {
 			if(isVarDecl()){
@@ -655,7 +655,7 @@ public class Parser {
 			mustBe(RPAREN);
 		}
 		JStatement body = statement();
-		return new JForStatement(line, init, condition, update, body);
+		return new JBasicForStatement(line, init, condition, update, body);
     }
     
     /**

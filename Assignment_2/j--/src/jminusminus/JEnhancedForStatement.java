@@ -1,146 +1,94 @@
 package jminusminus;
 
 import java.util.ArrayList;
+import static jminusminus.CLConstants.GOTO;
 
 public class JEnhancedForStatement extends JStatement {
 
-	private JFormalParameter param;
-	private JExpression iterable;
-	private JStatement body;
-	private LocalContext context;
-	private JForStatement equiv;
-	
-	/** 
-	 * TODO
-	 * @param line
-	 * @param param
-	 * @param iterable
-	 * @param body
-	 */
-	public JEnhancedForStatement(int line, JFormalParameter param,
-			JExpression iterable, JStatement body) {
+	JFormalParameter param;
+	JExpression expression;
+	JStatement statement;
+
+
+	JBasicForStatement basicForStatement;
+
+
+
+	protected JEnhancedForStatement(int line, JFormalParameter param, JExpression expression, JStatement statement)
+	{
 		super(line);
 		this.param = param;
-		this.iterable = iterable;
-		this.body = body;
+		this.expression = expression;
+		this.statement = statement;
 
+		// casting enhanced one into basic one
+
+		//ForInit (Iterator i + temporary variable  (...) = tab[i])
+		//ArrayList<JStatement> forInit = new ArrayList<JStatement>();
+		JVariable index = new JVariable(line, "blah"+Math.random()); // need to be random
+		JVariable fparam = new JVariable(line, param.name());
+		ArrayList<JVariableDeclarator> vars = new ArrayList<JVariableDeclarator>(2);
+		vars.add(new JVariableDeclarator(line, index.name(), Type.INT, new JLiteralInt(line, "0"), index));
+		vars.add(new JVariableDeclarator(line, param.name(), param.type(), null, fparam));
+		//forInit.add(new JVariableDeclaration(line, new ArrayList<String>(), vars));
+		JVariableDeclaration declaration = new JVariableDeclaration(line, new ArrayList<String>(), vars);
+		JForInitVarDeclaration init = new JForInitVarDeclaration(line, declaration);
+		//Condition
+		JExpression condition = new JLogicalNotOp(line, new JEqualOp(line, index, new JFieldSelection(line, expression, "length")));
+
+		//forUpdate (Update iterator i & temporary variable )
+		ArrayList<JStatement> forUpdate = new ArrayList<JStatement>();
+		// incrementing i ...
+		forUpdate.add(new JPreIncrementOp(line, index));
+		((JExpression) forUpdate.get(0)).isStatementExpression = true;
+		// assigning temporary variable
+		forUpdate.add(new JAssignOp(line, fparam, new JArrayExpression(line, expression, index)));
+		((JExpression) forUpdate.get(1)).isStatementExpression = true;
+
+		this.basicForStatement = new JBasicForStatement(line,init , condition, forUpdate, statement);
 	}
 
-	/**
-	 * TODO
-	 */
-	@Override
-	public JAST analyze(Context context) {		
-
-		param = (JFormalParameter) param.analyze(context);
-		iterable = (JExpression) iterable.analyze(context);
-		if (!iterable.type().isArray()) {
-			JAST.compilationUnit.reportSemanticError(line,
-					"Iterable is not an array");
-		}
-		param.type().mustMatchExpected(line, iterable.type().componentType());
-
-
-		this.context = new LocalContext(context);
-
-		int offset =  this.context.nextOffset();
-            	LocalVariableDefn defn = new LocalVariableDefn(param.type().resolve(
-                    this.context), offset);
-
-            	// First, check for shadowing
-           	IDefn previousDefn = this.context.lookup(param.name());
-            	if (previousDefn != null
-                    && previousDefn instanceof LocalVariableDefn) {
-                JAST.compilationUnit.reportSemanticError(line,
-                        "The name " + param.name()
-                                + " overshadows another local variable.");
-            }
-
-            // Then declare it in the local context
-            this.context.addEntry(param.line(), param.name(), defn);
-
-		String var = "_i";
-		int i = 0;
-		while (this.context.lookup(var) != null) {
-			var = "_i" + i;
-			i++;
-		}
-
-		JForInitExpression init;
-		JExpression condition;
-		ArrayList<JStatement> update;
-		JStatement body;
-
-		// forInit
-		JVariableDeclaration declaration;
-		JVariableDeclarator declarator = new JVariableDeclarator(line, var,
-				Type.INT, new JLiteralInt(line, "0"));
-		ArrayList<JVariableDeclarator> decl = new ArrayList<JVariableDeclarator>();
-		decl.add(declarator);
-		declaration = new JVariableDeclaration(line, new ArrayList<String>(),
-				decl);
-		init = new JForInitVarDeclaration(line, declaration);
-
-		// condition
-		JExpression lhs, rhs;
-		lhs = new JFieldSelection(line, iterable, "length");
-		rhs = new JVariable(line, var);
-		condition = new JGreaterThanOp(line, lhs, rhs);
-
-		// forUpdate
-		lhs = new JVariable(line, var);
-		rhs = new JLiteralInt(line, "1");
-		update = new ArrayList<JStatement>();
-		update.add(new JPlusAssignOp(line, lhs, rhs));
-
-		// body
-		ArrayList<JStatement> stmnts = new ArrayList<JStatement>();
-		lhs = new JVariable(line, param.name());
-		rhs = new JArrayExpression(line, iterable, new JVariable(line, var));
-		JStatement asgnmnt = new JAssignOp(line, lhs, rhs);
-
-		stmnts.add(asgnmnt);
-		stmnts.add(this.body);
-		body = new JBlock(line, stmnts);
-		
-		equiv = new JForStatement(line, init, condition, update, body);
-		equiv = (JForStatement) equiv.analyze(this.context);
-
+	public JStatement analyze(Context context) {
+		basicForStatement = (JBasicForStatement) basicForStatement.analyze(context);
 		return this;
 	}
-	
-	/** 
-	 * TODO
-	 */
-	@Override
+
 	public void codegen(CLEmitter output) {
-		equiv.codegen(output);
+		String test = output.createLabel();
+		String out  = output.createLabel();
+		this.basicForStatement.getInit().codegen(output);
+		output.addLabel(test);
+		this.basicForStatement.getCondition().codegen(output, out, false);
+
+		this.basicForStatement.getForUpdate().get(1).codegen(output); // need to assign element before updating i
+		statement.codegen(output);
+		this.basicForStatement.getForUpdate().get(0).codegen(output);
+		output.addBranchInstruction(GOTO, test);
+		output.addLabel(out);
 	}
 	
-	/**
-	 * TODO
-	 */
-	@Override
-	public void writeToStdOut(PrettyPrinter p) {
-		p.printf("<JEnhancedForStatement>\n");
-		p.indentRight();
-		p.printf("<Recepient>\n");
-		p.indentRight();
-		param.writeToStdOut(p);
-		p.indentLeft();
-		p.printf("</Recipient>\n");
-		p.printf("<Iterable>\n");
-		p.indentRight();
-		iterable.writeToStdOut(p);
-		p.indentLeft();
-		p.printf("</Iterable>\n");
-		p.printf("<Body>\n");
-		p.indentRight();
-		body.writeToStdOut(p);
-		p.indentLeft();
-		p.printf("</Body>\n");
-		p.indentLeft();
-		p.printf("</JEnhancedForStatement>\n");
+	
+	public void writeToStdOut(PrettyPrinter p){		
+        p.printf("<JEnhancedForStatement line=\"%d\">\n", line());
+        p.indentRight();
+        p.printf("<JFormalParameter>\n");
+        p.indentRight();
+        param.writeToStdOut(p);
+        p.indentLeft();
+        p.printf("</JFormalParameter>\n");
+        p.printf("<JExpression>\n");
+        p.indentRight();
+        expression.writeToStdOut(p);
+        p.indentLeft();
+        p.printf("</JExpression>\n");
+        p.printf("<JStatement>\n");
+        p.indentRight();
+        statement.writeToStdOut(p);
+        p.indentLeft();
+        p.printf("</JStatement>\n");
+        p.indentLeft();
+        p.printf("</JEnhancedForStatement>\n");
+
 	}
 
 }
