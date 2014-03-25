@@ -15,20 +15,25 @@ public class Generator {
 	public void generateClass() {
 		CLEmitter output = new CLEmitter(true);
 		output.destinationDir(outputDir);
-		ArrayList<String> mods = new ArrayList<>();
 		
-		mods.add("public"); 
-		output.addClass(mods , "ClassToGenerate", "java/lang/Object", null, true);
+		ArrayList<String> accessFlags = new ArrayList<>();
 		
-		output.addMethod(mods, "<init>", "()V", null, true);
+		accessFlags.add("public");
+		accessFlags.add("super");
+		output.addClass(accessFlags , "packageOfClassToGenerate/ClassToGenerate", "java/lang/Object", null, false);
+		
+		accessFlags.clear();
+		accessFlags.add("public");
+		
+		
+		output.addMethod(accessFlags, "<init>", "()V", null, false);
 		output.addNoArgInstruction(ALOAD_0);
-		output.addMemberAccessInstruction(INVOKESPECIAL, "java/lang/Object", "<init>", "(");
+		output.addMemberAccessInstruction(INVOKESPECIAL, "java/lang/Object", "<init>", "()V");
 		output.addNoArgInstruction(RETURN);
 		
+		accessFlags.add("static");
 		
-		
-		mods.add("static");
-		output.addMethod(mods, "factorial", "(I)I", null, false);
+		output.addMethod(accessFlags, "factorial", "(I)I", null, false);
 		output.addNoArgInstruction(ILOAD_0);
 		output.addBranchInstruction(IFGT, "ifN");
 		output.addNoArgInstruction(ICONST_1);
@@ -38,11 +43,11 @@ public class Generator {
 		output.addNoArgInstruction(ILOAD_0);
 		output.addNoArgInstruction(ICONST_1);
 		output.addNoArgInstruction(ISUB);
-		output.addMemberAccessInstruction(INVOKEVIRTUAL, "ClassToGenerate", "factorial", "(I)I");
+		output.addMemberAccessInstruction(INVOKESTATIC, "packageOfClassToGenerate/ClassToGenerate", "factorial", "(I)I");
 		output.addNoArgInstruction(IMUL);
 		output.addNoArgInstruction(IRETURN);
 		
-		output.addMethod(mods, "maximum", "([I)I", null, false);
+		output.addMethod(accessFlags, "maximum", "([I)I", null, false);
 		output.addNoArgInstruction(ALOAD_0);
 		output.addNoArgInstruction(ICONST_1);
 		output.addNoArgInstruction(IALOAD);
@@ -60,7 +65,7 @@ public class Generator {
 		output.addNoArgInstruction(IALOAD);
 		output.addNoArgInstruction(IRETURN);
 		
-		output.addMethod(mods, "main", "([Ljava/lang/String;)V", null, false);
+		output.addMethod(accessFlags, "main", "([Ljava/lang/String;)V", null, false);
 		output.addNoArgInstruction(ALOAD_0);
 		output.addNoArgInstruction(ICONST_0);
 		output.addNoArgInstruction(AALOAD);
@@ -88,11 +93,11 @@ public class Generator {
 		output.addNoArgInstruction(IASTORE);
 		output.addMemberAccessInstruction(GETSTATIC, "java/lan/System", "out", "Ljava/io/PrintStream;");
 		output.addNoArgInstruction(ILOAD_1);
-		output.addMemberAccessInstruction(INVOKESTATIC, "ClassToGenerate", "factorial", "(I)I");
+		output.addMemberAccessInstruction(INVOKESTATIC, "packageOfClassToGenerate/ClassToGenerate", "factorial", "(I)I");
 		output.addMemberAccessInstruction(INVOKEVIRTUAL, "java/io/PrintStream", "println", "(I)V");
 		output.addMemberAccessInstruction(GETSTATIC, "java/lan/System", "out", "Ljava/io/PrintStream;");
 		output.addOneArgInstruction(ALOAD, 4);
-		output.addMemberAccessInstruction(INVOKESTATIC, "ClassToGenerate", "maximum", "([I)I");
+		output.addMemberAccessInstruction(INVOKESTATIC, "packageOfClassToGenerate/ClassToGenerate", "maximum", "([I)I");
 		output.addMemberAccessInstruction(INVOKEVIRTUAL, "java/io/PrintStream", "println", "(I)V");
 		output.addNoArgInstruction(RETURN);
 		
