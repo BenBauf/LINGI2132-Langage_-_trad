@@ -763,7 +763,7 @@ private JStatement statement(): {
             [forUpdate = forUpdate()]
             <RPAREN>
             body = statement()
-            { statement = new JForStatement(line, forInit, test, forUpdate, body); } 
+            { statement = new JBasicForStatement(line, forInit, test, forUpdate, body); } 
         )|
         <WHILE> { line = token.beginLine; }
         test = parExpression() 

@@ -783,7 +783,7 @@ class JavaCCParser implements JavaCCParserConstants {
             }
             jj_consume_token(RPAREN);
             body = statement();
-              statement = new JForStatement(line, forInit, test, forUpdate, body);
+              statement = new JBasicForStatement(line, forInit, test, forUpdate, body);
             break;
           default:
             jj_la1[20] = jj_gen;
