@@ -14,23 +14,19 @@ public class JEnhancedForStatement extends JStatement {
 
 
 
-	protected JEnhancedForStatement(int line, JFormalParameter param, JExpression expression, JStatement statement)
-	{
+	protected JEnhancedForStatement(int line, JFormalParameter param, JExpression expression, JStatement statement) {
 		super(line);
 		this.param = param;
 		this.expression = expression;
 		this.statement = statement;
 
 		// casting enhanced one into basic one
-
-		//ForInit (Iterator i + temporary variable  (...) = tab[i])
-		//ArrayList<JStatement> forInit = new ArrayList<JStatement>();
+		
 		JVariable index = new JVariable(line, "blah"+Math.random()); // need to be random
 		JVariable fparam = new JVariable(line, param.name());
 		ArrayList<JVariableDeclarator> vars = new ArrayList<JVariableDeclarator>(2);
-		vars.add(new JVariableDeclarator(line, index.name(), Type.INT, new JLiteralInt(line, "0"), index));
-		vars.add(new JVariableDeclarator(line, param.name(), param.type(), null, fparam));
-		//forInit.add(new JVariableDeclaration(line, new ArrayList<String>(), vars));
+		vars.add(new JVariableDeclarator(line, index.name(), Type.INT, new JLiteralInt(line, "0")));
+		vars.add(new JVariableDeclarator(line, param.name(), param.type(), null));
 		JVariableDeclaration declaration = new JVariableDeclaration(line, new ArrayList<String>(), vars);
 		JForInitVarDeclaration init = new JForInitVarDeclaration(line, declaration);
 		//Condition
