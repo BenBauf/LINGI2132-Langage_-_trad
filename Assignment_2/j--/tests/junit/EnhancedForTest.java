@@ -15,8 +15,10 @@ public class EnhancedForTest extends TestCase {
 		super.tearDown();
 	}
 
-	public void testDivide() {
-		this.assertEquals(enhancedFor.loop1(), 5);
+	public void testEnhancedFor() {
+		this.assertEquals(enhancedFor.enhancedForIntArray(new int[]{ 3, 4, 5, 6, 7 }), 25);
+		this.assertEquals(enhancedFor.enhancedForIntArray(new int[]{ 0, 0, 0, 0 }), 0);
+		this.assertEquals(enhancedFor.enhancedForIntArray(new int[]{ }), 0);
 		
 	}
 }

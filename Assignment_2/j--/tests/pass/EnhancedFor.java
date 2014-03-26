@@ -3,13 +3,11 @@ import java.lang.System;
 
 public class EnhancedFor {
 
-	public int loop1(){
-		int[] t = { 3, 4, 5, 6, 7 };
+	public int enhancedForIntArray(int[] table){
 		int i = 0;
-		for(int a : t){
-			i = i+1;
+		for(int a : table){
+			i = i + a;
 		}
-		return i; //should be 5
+		return i; 
 	}
-
 }

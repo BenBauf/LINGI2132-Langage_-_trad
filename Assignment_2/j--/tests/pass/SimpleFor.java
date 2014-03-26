@@ -1,13 +1,7 @@
 package pass;
 import java.lang.System;
 
-public class SimpleFor{
-	
-	public int simpleFor(){
-		
-		if(loop1() == 128 && loop2() == 1 && loop3() == -5 && loop4() == 2 && loop5() == 12 && loop6() == 4) return 1;
-		else return 0;
-	}
+public class SimpleFor {
 	
 	public int loop1() {
 		// statementExpression init
@@ -53,9 +47,10 @@ public class SimpleFor{
 	}
 	
 	public int loop5(){
-		// More than one statementExpression in forupdate
+		// More than one statementExpression in forupdate and no init
 		int k=0;
-		for (int i = 0, j = 2; !(i == j); i = i + 1, j = j - 1) {
+		int i = 0, j = 2;
+		for (; !(i == j); i = i + 1, j = j - 1) {
 			k = 10 + i;
 			k = k + j;
 		}
@@ -77,17 +72,5 @@ public class SimpleFor{
 			}
 		}
 		return k; //should be 4
-	}
-	
-	//Not called to test parser
-	public void embeddedLoops(){
-				
-		int k =0;
-		//Embedded loops
-		for(int i=0; !(i>10); i=i+1){
-			for(int j=0; !(j>i); j=j+2){
-				k += i+j;
-			}
-		}
 	}
 }

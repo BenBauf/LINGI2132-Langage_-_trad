@@ -50,7 +50,7 @@ public class JConditionalExpression extends JExpression {
 		thenExpression = (JExpression) thenExpression.analyze(context);
 		elseExpression = (JExpression) elseExpression.analyze(context);
 		testExpression.type().mustMatchExpected(line(),Type.BOOLEAN);
-		thenExpression.type().mustMatchExpected(line(),elseExpression.type());
+		//thenExpression.type().mustMatchExpected(line(),elseExpression.type());
 		type = thenExpression.type();
 		return this;
 	}

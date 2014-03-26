@@ -1,16 +1,17 @@
 package junit;
 
 import junit.framework.TestCase;
-import pass.ConditionalExpression;
+import java.lang.System;
+import pass.ConditionalTestExpression;
 
 public class ConditionTest extends TestCase
 {
-	private ConditionalExpression condition;
+	private ConditionalTestExpression condition;
 	
 	protected void setUp() throws Exception
 	{
 		super.setUp();
-		condition = new ConditionalExpression();
+		condition = new ConditionalTestExpression();
 	}
 	
 	protected void tearDown() throws Exception
@@ -18,9 +19,11 @@ public class ConditionTest extends TestCase
 		super.tearDown();
 	}
 	
-	public void testDivide()
+	public void testCondition()
 	{
 		this.assertEquals(condition.checkIf(0, 42), 42);
 		this.assertEquals(condition.checkIf(43, 42), 43);
+		this.assertEquals(condition.checkIfMultiTypes(43, 42), 43);
+		this.assertEquals(condition.checkIfMultiTypes(0, 42), 'a');
 	}
 }

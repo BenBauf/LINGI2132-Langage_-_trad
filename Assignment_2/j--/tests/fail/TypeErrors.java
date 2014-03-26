@@ -3,6 +3,7 @@
 package fail;
 
 import java.lang.System;
+import java.lang.Integer;
 
 // This program has type errors and shouldn't compile.
 
