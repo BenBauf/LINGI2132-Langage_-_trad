@@ -23,6 +23,7 @@ public class JMinusMinusTestRunner {
         suite.addTestSuite(ClassesTest.class);
         suite.addTestSuite(SimpleForTest.class);
         suite.addTestSuite(EnhancedForTest.class);
+        suite.addTestSuite(ConditionTest.class);
         return suite;
     }
 
