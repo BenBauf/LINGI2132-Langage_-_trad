@@ -83,8 +83,10 @@ public class JBasicForStatement extends JStatement {
         }
         
         body.codegen(output);
-        for(JStatement jstatement: forUpdate)
-        	jstatement.codegen(output);
+        if(forUpdate != null){
+        	for(JStatement jstatement: forUpdate)
+        		jstatement.codegen(output);
+        }
         
         output.addBranchInstruction(GOTO, test);
         output.addLabel(out);

@@ -54,13 +54,19 @@ public class SimpleFor{
 	
 	public int loop5(){
 		// More than one statementExpression in forupdate
-		int k;
+		int k=0;
 		for (int i = 0, j = 2; !(i == j); i = i + 1, j = j - 1) {
 			k = 10 + i;
 			k = k + j;
 		}
-		//return k; //should be 12
-		return 12;
+		int z = 0;
+		for(;;){
+			if(z > 10){
+				return k;
+			}
+			z= z + 10;
+		}
+		return k; //should be 12
 	}
 	
 	public int loop6(){
