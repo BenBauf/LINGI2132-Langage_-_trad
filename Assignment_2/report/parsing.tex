@@ -11,7 +11,8 @@ We replaced the left recursion with a right recursion to avoid the problem indic
 \end{center}
 Thus, we removed from the grammar the rules $B:=Bv$ and $B:=w$ and we introduced rules above.\\
 \subsection{Sets for this grammar}
-$first(u) = \{u\}\\
+
+			$first(u) = \{u\}\\
             first(v) = \{v\}\\
             first(w) = \{w\}\\
             first(x) = \{x\}\\
@@ -71,7 +72,7 @@ $first(u) = \{u\}\\
             follow(D) = \{z\}\\
             follow(E) = \{x,z\}\\
             follow(F) = \{z\}$
-\subsection{}
+\subsection{Parsing Table}
           Rule 1: $S::= uBDz\\
             \rightarrow table[S,u] = 1$
             
@@ -102,9 +103,11 @@ $first(u) = \{u\}\\
             \rightarrow table[F,x] = 8$
             
           Rule 9: $F::= \epsilon\\
-            \rightarrow table[F,z] = 9$
-            
-            \begin{tabular}{ p{2cm} | p{2cm} | p{2cm} | p{2cm} | p{2cm} | p{2cm} | p{2cm}}
+            \rightarrow table[F,z] = 9$\\
+            The final parsing table is :
+            \begin{center}
+           
+            \begin{tabular}{ |c|c|c|c|c|c|c|}
                 \hline
                 & u & v & w & x & y & z \\ \hline                        
                 S & 1 & & & & & \\ \hline
@@ -115,5 +118,5 @@ $first(u) = \{u\}\\
                 F & & & & 8 & & 9 \\
                 \hline
             \end{tabular}
+                        \end{center}
   
-

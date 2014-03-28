@@ -7,4 +7,7 @@
 \BOOKMARK [2][-]{subsection.0.2.1}{LL\(1\) Grammar}{section.0.2}% 7
 \BOOKMARK [2][-]{subsection.0.2.2}{Modify the grammar}{section.0.2}% 8
 \BOOKMARK [2][-]{subsection.0.2.3}{Sets for this grammar}{section.0.2}% 9
-\BOOKMARK [2][-]{subsection.0.2.4}{}{section.0.2}% 10
+\BOOKMARK [2][-]{subsection.0.2.4}{Parsing Table}{section.0.2}% 10
+\BOOKMARK [1][-]{section.0.3}{Programming Part}{}% 11
+\BOOKMARK [2][-]{subsection.0.3.1}{Recursive Descent}{section.0.3}% 12
+\BOOKMARK [2][-]{subsection.0.3.2}{Programming directly in Java bytecode}{section.0.3}% 13
