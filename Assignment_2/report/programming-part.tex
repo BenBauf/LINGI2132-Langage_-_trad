@@ -1,17 +1,41 @@
 \section{Programming Part}
 \subsection{Recursive Descent}
-
+We created a parsing method for each non-terminal symbol. In each of these methods, we checked if the current position was respecting the given rule and then recursively parsed next positions. After the \texttt{end} token, we checked if we reached the end of the input string. Finally, we wrote some additional tests in another JUnit Java class.
 
 \subsection{Programming directly in Java bytecode}
+Following the objective of writing the \texttt{generateClass}, we first had to understand how a compiler build a stack. To check if our implementation using the \texttt{CLEmitter} class was correct, we used the \texttt{javap} command on a class file compiled with \texttt{javac}. Even if the real java compiler adds more informations (Line Numbers informations, a Stack Map Table,etc.), we could observe if our way of fill the stack was correct. Finally, after launched the ant build to compile our work, we tried directly if we could execute the generated class with some random parameters. 
 
-
-\subsection{J--}
+\subsection{J$-$ $-$}
 \subsubsection{Lexical Analysis}
+\texttt{Handwritten compiler} \\
+For this part, we modified the behaviour of the Scanner class when it was scanning the next token. When a slash character was read, a star character or another slash could follow. If it was going in a multi-line comment, the scanner had to wait for a star followed by a slash string and ignore everything else. To prevent errors, we had to check on all ignored characters if it wasn't parsing a end of file character.\\
+
+\texttt{Generated Compiler} \\
+We modified the j--.jj file and added the following rules :
+\begin{verbatim}
+MORE: { "/*": IN_MULTI_LINE_COMMENT } 
+<IN_MULTI_LINE_COMMENT> 
+SPECIAL_TOKEN: { 
+<MULTI_LINE_COMMENT: "*/" > : DEFAULT } 
+<IN_MULTI_LINE_COMMENT> 
+MORE: { < ~[] > }
+\end{verbatim}
+These rules allow to skip all the content between comment symbols.
 
 \subsubsection{Parsing}
+\texttt{1. Conditional Expression}\\
+We added two new tokens which are the question mark and the colons. We modified the parser to make it able to understand the meaning of these tokens. The line in java that corresponds to these tokens must be divided in three parts : first, a conditional expression followed by a question mark that will introduce two expression split around the colons. We had to create a new kind of expression which is \texttt{JConditionalExpression}. It corresponds to the AST node of this conditional expression. To support multiple type returns, we don't check if the same type is returned in all cases. As a choice of implementation, we force the final type of representation to be the one in the \textsc{then} part of the conditional expression. \\
 
-\subsubsection{Semantic Analysis + JVM­Code Generation}
+In the j--.jj file, we added the corresponding tokens and we modified the assignment expression to make it able to use the new conditional expression method written underneath. 
+
+\texttt{2. For loop}\\
+There are two parts for the for loop implementation: first the basic one, containing an iteration, and an enhanced one, iterating on an array. We modified the statement method in the parser class to observe the for loop in the parsed code. We created the JForInitExpression class to manage both kind of loops initialisation which is an abstract class. For each kind of loop, we have a specific which extends the standard initialisation. When it's needed to declare a variable, like in the basic for loop, we use the JForInitVarDeclaration class. Otherwise, we use the JForInitStatement class. The AST node representation of the basic for loop is implemented via the JBasicForStatement class. It is used to analyse and generate the node. The representation of the enhanced for loop is declared in the JEnhancedForStatement class. The behaviour of this class methods uses to build the representation of the enhanced for loop, making it corresponding to a basic for loop. This could be interpreted as syntaxic sugar to help programmers to work more efficiently. 
+
+
+\subsubsection{Semantic Analysis + JVMCode Generation}
 
 \subsubsection{Testing}
+
+
 
 
