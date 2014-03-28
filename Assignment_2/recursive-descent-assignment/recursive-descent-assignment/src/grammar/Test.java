@@ -7,11 +7,11 @@ import junit.framework.TestCase;
 
 /**
  * @author pschaus
- * DO NOT MODIFY
+ * add some tests
  */
 public class Test extends TestCase {
 	public void test() {
-		/*Parser parser = new Parser();
+		Parser parser = new Parser();
 		String debug = "";
 		boolean expectedOK = true;
 		boolean ok=true;
@@ -37,14 +37,14 @@ public class Test extends TestCase {
 	    if (ok != expectedOK) {
 	      System.out.println(Arrays.toString(sentence3));
 	    }
-		assertTrue(ok == expectedOK);	*/
+		assertTrue(ok == expectedOK);	
 		for (int i = 0; i < 1000000; i++) {
 			Random rand = new Random();
 			Generator gen = new Generator();
-			Parser parser = new Parser();
-			Integer [] sentence = gen.generate();
-			String debug = "";
-			boolean expectedOK = true;
+			parser = new Parser();
+			sentence = gen.generate();
+			debug = "";
+			expectedOK = true;
 			if (rand.nextBoolean()) {
 				int idx = rand.nextInt(sentence.length);
 				int value = rand.nextInt(9);
@@ -55,7 +55,7 @@ public class Test extends TestCase {
 				}
 				
 			}
-		    boolean ok = parser.parse(sentence);
+		    ok = parser.parse(sentence);
 		    if (ok != expectedOK) {
 		      System.out.println("problem:" + debug);
 		      System.out.println(Arrays.toString(sentence));
