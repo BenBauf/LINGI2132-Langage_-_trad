@@ -1,7 +1,5 @@
 package jminusminus;
 
-import static jminusminus.CLConstants.GOTO;
-
 public class JConditionalExpression extends JExpression {
 	
 	
@@ -34,15 +32,6 @@ public class JConditionalExpression extends JExpression {
 		this.thenExpression = thenE;
 		this.elseExpression = elseE;
 	}
-	
-    /**
-     * Analyzing an conditional expression means analyzing its test and the two parts then and else. 
-     * We also check that the types of a conditional expression match.
-     * 
-     * @param context
-     *            context in which names are resolved.
-     * @return the analyzed (and possibly rewritten) AST subtree.
-     */
 
 	@Override
 	public JExpression analyze(Context context) {
@@ -50,20 +39,10 @@ public class JConditionalExpression extends JExpression {
 		thenExpression = (JExpression) thenExpression.analyze(context);
 		elseExpression = (JExpression) elseExpression.analyze(context);
 		testExpression.type().mustMatchExpected(line(),Type.BOOLEAN);
-		//thenExpression.type().mustMatchExpected(line(),elseExpression.type());
 		type = thenExpression.type();
 		return this;
 	}
 	
-    /**
-     * Branching code generation for conditional expression.
-     * we have, first, the test branch, follow by the then and a goto(to doesn't execute the else part) and the else part.
-     * 
-     * @param output
-     *            the code emitter (basically an abstraction for producing the
-     *            .class file).
-     */
-
 	@Override
 	public void codegen(CLEmitter output) {
 		String endLabel = output.createLabel();
@@ -71,7 +50,7 @@ public class JConditionalExpression extends JExpression {
         testExpression.codegen(output, elseLabel, false);
         
         thenExpression.codegen(output);
-        output.addBranchInstruction(GOTO, endLabel);
+        output.addBranchInstruction(jminusminus.CLConstants.GOTO, endLabel);
         
         output.addLabel(elseLabel);
         elseExpression.codegen(output);

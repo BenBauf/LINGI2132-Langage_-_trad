@@ -6,46 +6,23 @@ import java.util.ArrayList;
 
 public class JBasicForStatement extends JStatement {
 
-	/*ArrayList<JStatement> forInit;
-	private ArrayList<JStatement> forUpdate;
-	JExpression expression;
-	JStatement statement;
-	JBlock block;
-	*/
 	private JForInitExpression init;
-	private JExpression condition;
+	private JExpression test;
 	private JStatement body;
 	private ArrayList<JStatement> forUpdate;
 	private LocalContext context;
 	
-	/*protected JBasicForStatement(int line, JForInitExpression forInit, JExpression expression, ArrayList<JStatement> forUpdate, JStatement statement) 
-	{
-		super(line);
-		this.init = forInit;
-		this.condition = condition;
-		this.forUpdate = forUpdate;
-		this.body = body;
-	}*/
-	
+	/**
+     * Construct an AST node for a basic for statement 	
+     */
+
 	public JBasicForStatement(int line, JForInitExpression forInit, JExpression condition, ArrayList<JStatement> forUpdate, JStatement body) {
 		super(line);
 		this.init = forInit;
-		this.condition = condition;
+		this.test = condition;
 		this.forUpdate = forUpdate;
 		this.body = body;
 	}
-
-
-	/*protected JBasicForStatement(int line, ArrayList<JStatement> forInit, JExpression expression, ArrayList<JStatement> forUpdate, JStatement statement) 
-	{
-		super(line);
-
-
-		this.forInit = forInit;
-		this.forUpdate = forUpdate;
-		this.statement = statement;
-		this.expression = expression;
-	}*/
 
 	public JStatement analyze(Context context) {
 		this.context = new LocalContext(context);
@@ -53,9 +30,9 @@ public class JBasicForStatement extends JStatement {
 			init = (JForInitExpression) init.analyze(this.context);
 		}
 
-		if(condition != null){
-			condition = (JExpression) condition.analyze(this.context);
-			condition.type().mustMatchExpected(line(),Type.BOOLEAN);
+		if(test != null){
+			test = (JExpression) test.analyze(this.context);
+			test.type().mustMatchExpected(line(),Type.BOOLEAN);
 		}
 		if(forUpdate != null){
 			for(JStatement jstatement : forUpdate)
@@ -67,19 +44,17 @@ public class JBasicForStatement extends JStatement {
 		return this;
 	}
 
-
 	public void codegen(CLEmitter output) {
-		String test = output.createLabel();
+		String testS = output.createLabel();
         String out = output.createLabel();
         
 		if(init != null){
 			init.codegen(output);
 		}
-
         
-        output.addLabel(test);
-        if (condition != null){
-        	condition.codegen(output, out, false);
+        output.addLabel(testS);
+        if (test != null){
+        	test.codegen(output, out, false);
         }
         
         body.codegen(output);
@@ -88,7 +63,7 @@ public class JBasicForStatement extends JStatement {
         		jstatement.codegen(output);
         }
         
-        output.addBranchInstruction(GOTO, test);
+        output.addBranchInstruction(GOTO, testS);
         output.addLabel(out);
 
 	}
@@ -101,14 +76,14 @@ public class JBasicForStatement extends JStatement {
 	}
 
 	public JExpression getCondition() {
-		return this.condition;
+		return this.test;
 	}
 
 	public JStatement getBidy() {
 		return this.body;
 	}
-	public void writeToStdOut(PrettyPrinter p)
-	{
+	
+	public void writeToStdOut(PrettyPrinter p) {
         p.printf("<JForStatement line=\"%d\">\n", line());
         p.indentRight();
         if (init != null) {
@@ -118,10 +93,10 @@ public class JBasicForStatement extends JStatement {
 	        p.indentLeft();
 	        p.printf("</ForInit>\n");
         }
-        if(condition != null ) {
+        if(test != null ) {
 	        p.printf("<JExpression>\n");
 	        p.indentRight();
-	        condition.writeToStdOut(p);
+	        test.writeToStdOut(p);
 	        p.indentLeft();
 	        p.printf("</JExpression>\n");
         }
