@@ -18,11 +18,7 @@ public class SimpleFor {
 	public int loop2(){
 
 		int i = 0;
-		
-		//More than one statementEpxression in init
-		for(int x=100, y=2*25, z=-4; !(x==y); y=y*2){
-			char c = 'a';
-			char d = 'd';
+		for(int x=100, y=2*25, z=-4, w; !(x==y); y=y*2){			
 			i = i+1;
 		}
 		return i; // should be 1
