@@ -12,10 +12,10 @@ public class Comments{
 		
 		
 		
-		int c /*loool*/
+		int c 
 		= 4;
 		
-		/*test*/ int d = 40;
+		/*test int d = 40;
 		
 		return a;
 	}
