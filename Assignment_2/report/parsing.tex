@@ -1,16 +1,16 @@
 \label{parsing}
 \section{Parsing}
-\subsection{}
+\subsection{LL(1) Grammar}
  This grammar is not LL(1) because it has a rule with left recursion: $B:=Bv$ and $B:=w$.\\
-\subsection{}
-We replace the left recursion with a right recursion to avoid the problem indicated in the first exercice.\\
+\subsection{Modify the grammar}
+We replaced the left recursion with a right recursion to avoid the problem indicated in the first exercise.
 \begin{center}            
 	$B:=wB'$\\
         $B':=vB'$\\
         $B':=\epsilon$\\
 \end{center}
-Thus we remove from the grammar the rules $B:=Bv$ and $B:=w$ and we introduce the rules above.\\
-\subsection{}
+Thus, we removed from the grammar the rules $B:=Bv$ and $B:=w$ and we introduced rules above.\\
+\subsection{Sets for this grammar}
 $first(u) = \{u\}\\
             first(v) = \{v\}\\
             first(w) = \{w\}\\
@@ -20,26 +20,26 @@ $first(u) = \{u\}\\
                 
             $\epsilon \in first(E), first(F), first(B')$
 
-            $Rule 1: S:== uBDz\\
+            Rule 1:$ S:== uBDz\\
             first(uBDz) = \{u\}\\
             \rightarrow u \in first(S)$
             
-            $Rule 2: B::=wB'\\
+            Rule 2: $B::=wB'\\
             first(wB')=\{w\}\\
             \rightarrow w\in first(B)$
             
-            $Rule 3: B'::= wB'\\
+            Rule 3: $B'::= wB'\\
             first(vB') = \{v\}\\
             \rightarrow v \in first(B')$
             
-            $Rule 5: D::= EF$\\
+            Rule 5: $D::= EF$\\
             $first(EF) = first(E) \backslash \{\epsilon\} \cup first(F)$ (car $E\in first(E)$)$=\{x,y,E\}$\\
             $\rightarrow {x,y,E} \subset first(D)$
             
-            $Rule 6: E::= y\\
+            Rule 6: $E::= y\\
             y \in first(E)$
             
-            $Rule 8: F::=x\\
+            Rule 8: $F::=x\\
             x \in first(F)$
             
             $first(S) = \{u\}\\
@@ -53,14 +53,14 @@ $first(u) = \{u\}\\
             
             $\#E \, follow(S)$
             
-            $Rule 1: S::= uBDz\\
+            Rule 1: $S::= uBDz\\
             \rightarrow \{x,y,z\} \subset B follow(B)\\
             and \, z \in follow(D)$
             
-            $Rule 2: \, B::= wB'\\
+            Rule 2: $\, B::= wB'\\
             \rightarrow follow(B)=\{x,y,z\} \subset follow(B')$
             
-            $Rule 5: D::=EF\\
+            Rule 5: $D::=EF\\
             \rightarrow x \in follow(E)\\
             follow(D) = \{z\} \subset follow(E)\\
             and \, follow(D) = \{z\} \subset follow(F)$
@@ -72,36 +72,36 @@ $first(u) = \{u\}\\
             follow(E) = \{x,z\}\\
             follow(F) = \{z\}$
 \subsection{}
-          $Rule 1: S::= uBDz\\
+          Rule 1: $S::= uBDz\\
             \rightarrow table[S,u] = 1$
             
-            $Rule 2: B::= wB'\\
+          Rule 2: $B::= wB'\\
             \rightarrow table[B,w] = 2$
             
-            $Rule 3: B'::= vB'\\
+          Rule 3: $B'::= vB'\\
             \rightarrow table[B',v] = 3$
             
-            $Rule 4: B'::= \epsilon\\
+          Rule 4: $B'::= \epsilon\\
             \rightarrow table[B',x] = 4\\
             \rightarrow table[B',y] = 4\\
             \rightarrow table[B',z] = 4$
             
-            $Rule 5: D::= EF\\
+          Rule 5: $D::= EF\\
             \rightarrow table[D,x] = 5\\
             \rightarrow table[D,y] = 5\\
             \rightarrow table[D,z] = 5$
             
-            $Rule 6: E::= y\\
+          Rule 6: $E::= y\\
             \rightarrow table[E,y] = 6$
             
-            $Rule 7: E::= \epsilon\\
+          Rule 7: $E::= \epsilon\\
             \rightarrow table[E,x] = 7\\
             \rightarrow talbe[E,z] = 7$
             
-            $Rule 8: F::= x\\
+          Rule 8: $F::= x\\
             \rightarrow table[F,x] = 8$
             
-            $Rule 9: F::= \epsilon\\
+          Rule 9: $F::= \epsilon\\
             \rightarrow table[F,z] = 9$
             
             \begin{tabular}{ p{2cm} | p{2cm} | p{2cm} | p{2cm} | p{2cm} | p{2cm} | p{2cm}}
