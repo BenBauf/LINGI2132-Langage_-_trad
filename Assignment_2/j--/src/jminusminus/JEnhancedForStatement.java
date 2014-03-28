@@ -13,6 +13,9 @@ public class JEnhancedForStatement extends JStatement {
 	JBasicForStatement basicForStatement;
 
 
+	/**
+     * Construct an AST node for a enhanced for statement
+     */
 
 	protected JEnhancedForStatement(int line, JFormalParameter param, JExpression expression, JStatement statement) {
 		super(line);
@@ -20,28 +23,29 @@ public class JEnhancedForStatement extends JStatement {
 		this.expression = expression;
 		this.statement = statement;
 
-		// casting enhanced one into basic one
+		// le enhanced for étant un sucre syntaxique, on le transforme en un for basic
 		
-		JVariable index = new JVariable(line, "blah"+Math.random()); // need to be random
-		JVariable fparam = new JVariable(line, param.name());
+		//création de l'init qui sera l'index du tableau
+		JVariable index = new JVariable(line, "variable"+Math.random()); // need to be random
 		ArrayList<JVariableDeclarator> vars = new ArrayList<JVariableDeclarator>(2);
 		vars.add(new JVariableDeclarator(line, index.name(), Type.INT, new JLiteralInt(line, "0")));
 		vars.add(new JVariableDeclarator(line, param.name(), param.type(), null));
 		JVariableDeclaration declaration = new JVariableDeclaration(line, new ArrayList<String>(), vars);
 		JForInitVarDeclaration init = new JForInitVarDeclaration(line, declaration);
-		//Condition
-		JExpression condition = new JLogicalNotOp(line, new JEqualOp(line, index, new JFieldSelection(line, expression, "length")));
+		
+		//création du test
+		JExpression test = new JLogicalNotOp(line, new JEqualOp(line, index, new JFieldSelection(line, expression, "length")));
 
-		//forUpdate (Update iterator i & temporary variable )
+		//création du forupdate qui va incrémenter l'index
 		ArrayList<JStatement> forUpdate = new ArrayList<JStatement>();
-		// incrementing i ...
+		// incrémentation index
 		forUpdate.add(new JPreIncrementOp(line, index));
 		((JExpression) forUpdate.get(0)).isStatementExpression = true;
-		// assigning temporary variable
-		forUpdate.add(new JAssignOp(line, fparam, new JArrayExpression(line, expression, index)));
+		// et on change la variable temporaire
+		forUpdate.add(new JAssignOp(line, new JVariable(line, param.name()), new JArrayExpression(line, expression, index)));
 		((JExpression) forUpdate.get(1)).isStatementExpression = true;
 
-		this.basicForStatement = new JBasicForStatement(line,init , condition, forUpdate, statement);
+		this.basicForStatement = new JBasicForStatement(line,init , test, forUpdate, statement);
 	}
 
 	public JStatement analyze(Context context) {
@@ -55,8 +59,7 @@ public class JEnhancedForStatement extends JStatement {
 		this.basicForStatement.getInit().codegen(output);
 		output.addLabel(test);
 		this.basicForStatement.getCondition().codegen(output, out, false);
-
-		this.basicForStatement.getForUpdate().get(1).codegen(output); // need to assign element before updating i
+		this.basicForStatement.getForUpdate().get(1).codegen(output);
 		statement.codegen(output);
 		this.basicForStatement.getForUpdate().get(0).codegen(output);
 		output.addBranchInstruction(GOTO, test);

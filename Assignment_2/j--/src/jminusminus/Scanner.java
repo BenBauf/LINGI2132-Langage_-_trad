@@ -112,7 +112,9 @@ class Scanner {
                 else if (ch == '*') {
 					nextCh();
 					boolean prev_is_star = false;
+					//with this while, we can loop forever if we don't discover a end of multiline comments
 					while (!(prev_is_star && ch == '/') && ch != EOFCH) {
+							//test if the current char is *  so maybe the next is the end of multiline comments
 							prev_is_star = ch == '*';
 						if (ch == EOFCH) {
 							reportScannerError("Missing \"*//");

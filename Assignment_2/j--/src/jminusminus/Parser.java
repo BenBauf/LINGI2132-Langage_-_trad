@@ -627,9 +627,9 @@ public class Parser {
     }
     
     /**
-     * TODO
+     * Parse a for statement
      * @param line
-     * @return
+     * @return an AST for a for statement
      */
     private JBasicForStatement forStatement(int line){
     	JForInitExpression init = null;
@@ -659,9 +659,9 @@ public class Parser {
     }
     
     /**
-     * TODO
+     * Parse a EnhancedFor statement
      * @param line
-     * @return
+     * @return an AST EnhancedFor statement
      */
     private JEnhancedForStatement enhancedForStatement(int line){
     	JFormalParameter param = formalParameter();
@@ -672,37 +672,48 @@ public class Parser {
 		return new JEnhancedForStatement(line, param, iterable, body);
     }
     
+    /**
+     * Parse the init (if it is a statement) part of a for
+     * @return a JForInitStatement
+     */
     private JForInitStatement forInitStatement(){
 		int line = scanner.token().line();
 		ArrayList<JStatement> init = new ArrayList<JStatement>();
 		do {
 			init.add(statementExpression());
-		} while (have(COMMA));
+		} while (have(COMMA));  // on peut donc avoir plusieurs statement
 		return new JForInitStatement(line, init);
 	}
-	
+    
+    /**
+     * Parse the init (if it is a var declaration) part of a for
+     * @return a JForInitStatement
+     */
 	private JForInitVarDeclaration forInitVarDeclaration(){
 		int line = scanner.token().line();
 		ArrayList<String> mods = new ArrayList<String>();
 		if (have(FINAL)) {
-			mods.add("final");
+			mods.add(FINAL.name());
 		}
 		ArrayList<JVariableDeclarator> decl = variableDeclarators(type());
 		return new JForInitVarDeclaration(line, new JVariableDeclaration(line, mods, decl));
 	}
 	
+	/**
+     * Parse the forUpdate part of a for
+     * @return a JForInitStatement
+     */
 	private ArrayList<JStatement> forUpdate() {
-		//int line = scanner.token().line();
 		ArrayList<JStatement> update = new ArrayList<JStatement>();
 		do {
 			update.add(statementExpression());
-		} while (have(COMMA));
+		} while (have(COMMA));  //on peut donc avoir plusieurs update
 		return update;
 	}
     
 	
 	/**
-	 * TODO
+	 * test if we found an enhanced for
 	 */
 	private boolean isEnhanced(){
 		mustBe(LPAREN);
@@ -719,7 +730,7 @@ public class Parser {
 	}
 	
 	/**
-	 * TODO
+	 * test if a var is declared
 	 */
 	private boolean isVarDecl(){		
 		boolean isDecl = false;
@@ -1139,14 +1150,15 @@ public class Parser {
 	 */
 	private JExpression conditionalExpression() {
 		int line = scanner.token().line();
-		JExpression condition = conditionalAndExpression();
+		JExpression test = conditionalAndExpression();
+		//have ?
 		if (have(QUESTION_MARK)) {
-			JExpression thenPart = assignmentExpression();
+			JExpression thenE = assignmentExpression();
 			mustBe(COLON);
-			JExpression elsePart = conditionalExpression();
-			condition = new JConditionalExpression(line, condition, thenPart, elsePart);
+			JExpression elseE = conditionalExpression();
+			test = new JConditionalExpression(line, test, thenE, elseE);
 		}
-		return condition;
+		return test;
 	}
 
     /**

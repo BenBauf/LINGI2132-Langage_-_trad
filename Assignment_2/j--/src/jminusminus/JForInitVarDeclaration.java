@@ -2,22 +2,22 @@ package jminusminus;
 
 public class JForInitVarDeclaration extends JForInitExpression{
 	
-	private JVariableDeclaration declInit;
+	private JVariableDeclaration init;
 
 	public JForInitVarDeclaration(int line, JVariableDeclaration declInit) {
 		super(line);
-		this.declInit = declInit;
+		this.init = declInit;
 	}
 
 	@Override
 	public JAST analyze(Context context) {
-		declInit = (JVariableDeclaration)declInit.analyze(context);
+		init = (JVariableDeclaration) init.analyze(context);
 		return this;
 	}
 
 	@Override
 	public void codegen(CLEmitter output) {
-		declInit.codegen(output);
+		init.codegen(output);
 	}
 
 	@Override
@@ -26,7 +26,7 @@ public class JForInitVarDeclaration extends JForInitExpression{
 		p.indentRight();
 		p.printf("<InitDeclarations>\n");
 		p.indentRight();
-		declInit.writeToStdOut(p);
+		init.writeToStdOut(p);
 		p.indentLeft();
 		p.printf("</InitDeclarations>\n");
 		p.indentLeft();
