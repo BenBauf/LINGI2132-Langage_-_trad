@@ -26,6 +26,6 @@ class UtilsSuite extends TestSuite {
   }
   
   test("flip should work") {
-    ???
+    flip(List(Banana, Orange, Apple)) shouldBe List(Banana, Apple, Orange)
   }
 }

@@ -7,7 +7,7 @@ object Utils {
    * hint: Use function filter on list to implement it
    */
   def filterOut(l: List[Int], predicate : Int => Boolean): List[Int] = {
-    l.filter(predicate)
+    l.filterNot(predicate)
   }
   
   /**
