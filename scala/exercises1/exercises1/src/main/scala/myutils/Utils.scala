@@ -34,7 +34,7 @@ object Utils {
    * hint: use the map function
    */
   def toLowerCase(l: String): String = {
-    ???
+    l.map(c => c.toLower)
   }
   
   abstract class Fruit
