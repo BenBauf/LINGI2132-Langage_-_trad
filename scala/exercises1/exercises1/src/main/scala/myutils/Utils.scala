@@ -47,6 +47,12 @@ object Utils {
    * hint: use the map function with match statement
    */
   def flip(l: List[Fruit]): List[Fruit] = {
-    ???
+    l.map( f =>
+    	f match {
+	    case Apple => Orange 
+	    case Orange => Apple
+	    case _ => f
+	  }
+    )
   }  
 }
