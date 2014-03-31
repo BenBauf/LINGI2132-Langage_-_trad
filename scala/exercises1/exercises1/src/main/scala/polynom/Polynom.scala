@@ -16,7 +16,7 @@ class Polynom(coefs: Traversable[Int]) {
    */
   def apply(degree: Int): Int = {
     if (degree < 0) throw new IllegalArgumentException("negative degree")
-    else ???
+    else coefficients(degree)
   }
 
   /** 

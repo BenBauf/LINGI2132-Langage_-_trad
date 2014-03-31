@@ -7,15 +7,16 @@ object Utils {
    * hint: Use function filter on list to implement it
    */
   def filterOut(l: List[Int], predicate : Int => Boolean): List[Int] = {
-    ???
+    l.filter(predicate)
   }
   
   /**
    * Concatenate l1 and l2 pairwise and keep only the pairs satisfying the predicate
    * hint: use zip and filter
    */
-  def zipAndFilter(l1: List[Int], l2: List[Int], predicate: (Int,Int) => Boolean): List[Int] = {
-    ???
+  def zipAndFilter(l1: List[Int], l2: List[Int], predicate: (Int,Int) => Boolean): List[(Int, Int)] = {
+    def pred2(p : (Int, Int)): Boolean = predicate(p._1, p._2)
+    (l1 zip l2).filter(pred2)
   }
   
   /**
@@ -23,7 +24,9 @@ object Utils {
    * hint: implement it using the foldLeft function
    */
   def trueForAll(l1: List[Int], predicate: Int => Boolean): Boolean = {
-    ???
+    l1.foldLeft(true){
+      (z, i) => predicate(i)&(z) 
+    }
   }
   
   /**
