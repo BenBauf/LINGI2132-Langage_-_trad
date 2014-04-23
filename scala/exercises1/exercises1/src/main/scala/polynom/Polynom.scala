@@ -23,7 +23,19 @@ class Polynom(coefs: Traversable[Int]) {
    * Returns the product of this `Polynom` with the `Polynom` p.
    * Example: (1 + 2x + 5x^2) * (4x) = 4x + 8x^2 + 20x^3
    */
-  def *(p: Polynom): Polynom = ???
+  def *(p: Polynom): Polynom = {
+    //??? //p.coefficients.
+    
+    val it = coefficients.iterator
+    /*for (val row <- it){
+            println(row)
+        }*/
+    while(it.hasNext){
+      val degree = it.next
+      ???
+    }
+    ???
+  }
 
   /** 
    * Returns the subtraction of this `Polynom` with the `Polynom` p.
