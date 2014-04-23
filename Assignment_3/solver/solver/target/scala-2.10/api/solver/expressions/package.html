@@ -1,0 +1,291 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html>
+        <head>
+          <title>expressions - solver.expressions</title>
+          <meta name="description" content="expressions - solver.expressions" />
+          <meta name="keywords" content="expressions solver.expressions" />
+          <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+          
+      <link href="../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
+      <script type="text/javascript">
+         if(top === self) {
+            var url = '../../index.html';
+            var hash = 'solver.expressions.package';
+            var anchor = window.location.hash;
+            var anchor_opt = '';
+            if (anchor.length >= 1)
+              anchor_opt = '@' + anchor.substring(1);
+            window.location.href = url + '#' + hash + anchor_opt;
+         }
+   	  </script>
+    
+        </head>
+        <body class="value">
+      <div id="definition">
+        <img src="../../lib/package_big.png" />
+        <p id="owner"><a href="../package.html" class="extype" name="solver">solver</a></p>
+        <h1>expressions</h1>
+      </div>
+
+      <h4 id="signature" class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <span class="name">expressions</span>
+      </span>
+      </h4>
+      
+          <div id="comment" class="fullcommenttop"></div>
+        
+
+      <div id="mbrsel">
+        <div id="textfilter"><span class="pre"></span><span class="input"><input id="mbrsel-input" type="text" accesskey="/" /></span><span class="post"></span></div>
+        
+        
+        <div id="visbl">
+            <span class="filtertype">Visibility</span>
+            <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
+          </div>
+      </div>
+
+      <div id="template">
+        <div id="allMembers">
+        
+
+        <div id="types" class="types members">
+              <h3>Type Members</h3>
+              <ol><li name="solver.expressions.And" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="AndextendsLiteralwithProductwithSerializable"></a>
+      <a id="And:And"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="And.html"><span class="name">And</span></a><span class="params">(<span name="cs">cs: <a href="Literal.html" class="extype" name="solver.expressions.Literal">Literal</a>*</span>)</span><span class="result"> extends <a href="Literal.html" class="extype" name="solver.expressions.Literal">Literal</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4>
+      <p class="comment cmt"><code>And</code> is a case class representing the conjunction of constraints.</p>
+    </li><li name="solver.expressions.BooleanVar" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="BooleanVarextendsLiteral"></a>
+      <a id="BooleanVar:BooleanVar"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="BooleanVar.html"><span class="name">BooleanVar</span></a><span class="result"> extends <a href="Literal.html" class="extype" name="solver.expressions.Literal">Literal</a></span>
+      </span>
+      </h4>
+      
+    </li><li name="solver.expressions.Expr" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="ExprextendsAnyRef"></a>
+      <a id="Expr:Expr"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="Expr.html"><span class="name">Expr</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4>
+      <p class="comment cmt">Abstract class for <code>Term</code>s and <code>Literal</code>s.</p>
+    </li><li name="solver.expressions.IntVar" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="IntVarextendsTerm"></a>
+      <a id="IntVar:IntVar"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="IntVar.html"><span class="name">IntVar</span></a><span class="result"> extends <a href="Term.html" class="extype" name="solver.expressions.Term">Term</a></span>
+      </span>
+      </h4>
+      
+    </li><li name="solver.expressions.LeZero" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="LeZeroextendsLiteralwithProductwithSerializable"></a>
+      <a id="LeZero:LeZero"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="LeZero.html"><span class="name">LeZero</span></a><span class="params">(<span name="sum">sum: <a href="Sum.html" class="extype" name="solver.expressions.Sum">Sum</a></span>)</span><span class="result"> extends <a href="Literal.html" class="extype" name="solver.expressions.Literal">Literal</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4>
+      <p class="comment cmt"><code>LeZero</code> is a case class representing the constraint meaning the given linear
+summation is less than or equal to zero, that is, <code>sum &lt;= 0</code>.</p>
+    </li><li name="solver.expressions.Literal" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="LiteralextendsExpr"></a>
+      <a id="Literal:Literal"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="Literal.html"><span class="name">Literal</span></a><span class="result"> extends <a href="Expr.html" class="extype" name="solver.expressions.Expr">Expr</a></span>
+      </span>
+      </h4>
+      <p class="comment cmt"><code>Literal</code> is an abstract class for literals.</p>
+    </li><li name="solver.expressions.Not" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="NotextendsLiteralwithProductwithSerializable"></a>
+      <a id="Not:Not"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="Not.html"><span class="name">Not</span></a><span class="params">(<span name="p">p: <a href="BooleanVar.html" class="extype" name="solver.expressions.BooleanVar">BooleanVar</a></span>)</span><span class="result"> extends <a href="Literal.html" class="extype" name="solver.expressions.Literal">Literal</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4>
+      <p class="comment cmt"><code>Not</code> is a case class for negations of Boolean variables.</p>
+    </li><li name="solver.expressions.Or" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="OrextendsLiteralwithProductwithSerializable"></a>
+      <a id="Or:Or"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="Or.html"><span class="name">Or</span></a><span class="params">(<span name="cs">cs: <a href="Literal.html" class="extype" name="solver.expressions.Literal">Literal</a>*</span>)</span><span class="result"> extends <a href="Literal.html" class="extype" name="solver.expressions.Literal">Literal</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4>
+      <p class="comment cmt"><code>Or</code> is a case class representing the disjunction of constraints.</p>
+    </li><li name="solver.expressions.Sum" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="SumextendsTerm"></a>
+      <a id="Sum:Sum"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="Sum.html"><span class="name">Sum</span></a><span class="result"> extends <a href="Term.html" class="extype" name="solver.expressions.Term">Term</a></span>
+      </span>
+      </h4>
+      <p class="comment cmt"><code>Sum</code> is a class for linear expressions.</p>
+    </li><li name="solver.expressions.Term" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="TermextendsExpr"></a>
+      <a id="Term:Term"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="Term.html"><span class="name">Term</span></a><span class="result"> extends <a href="Expr.html" class="extype" name="solver.expressions.Expr">Expr</a></span>
+      </span>
+      </h4>
+      <p class="comment cmt"><code>Term</code> is an abstract class for linear arithmetic expressions.</p>
+    </li></ol>
+            </div>
+
+        
+
+        <div id="values" class="values members">
+              <h3>Value Members</h3>
+              <ol><li name="solver.expressions.And" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="And"></a>
+      <a id="And:And"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="And$.html"><span class="name">And</span></a><span class="result"> extends <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="solver.expressions.BooleanVar" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="BooleanVar"></a>
+      <a id="BooleanVar:BooleanVar"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="BooleanVar$.html"><span class="name">BooleanVar</span></a>
+      </span>
+      </h4>
+      
+    </li><li name="solver.expressions.IntVar" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="IntVar"></a>
+      <a id="IntVar:IntVar"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="IntVar$.html"><span class="name">IntVar</span></a>
+      </span>
+      </h4>
+      
+    </li><li name="solver.expressions.Or" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="Or"></a>
+      <a id="Or:Or"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="Or$.html"><span class="name">Or</span></a><span class="result"> extends <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="solver.expressions.Sum" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="Sum"></a>
+      <a id="Sum:Sum"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="Sum$.html"><span class="name">Sum</span></a>
+      </span>
+      </h4>
+      
+    </li></ol>
+            </div>
+
+        
+
+        
+        </div>
+
+        <div id="inheritedMembers">
+        
+        
+        </div>
+
+        <div id="groupedMembers">
+        <div class="group" name="Ungrouped">
+              <h3>Ungrouped</h3>
+              
+            </div>
+        </div>
+
+      </div>
+
+      <div id="tooltip"></div>
+
+      <div id="footer">  </div>
+      <script defer="defer" type="text/javascript" id="jquery-js" src="../../lib/jquery.js"></script><script defer="defer" type="text/javascript" id="jquery-ui-js" src="../../lib/jquery-ui.js"></script><script defer="defer" type="text/javascript" id="tools-tooltip-js" src="../../lib/tools.tooltip.js"></script><script defer="defer" type="text/javascript" id="template-js" src="../../lib/template.js"></script>
+    </body>
+      </html>
