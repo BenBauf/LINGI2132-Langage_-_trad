@@ -48,24 +48,44 @@ class Polynom(coefs: Traversable[Int]) {
    * Example: (1 + 2x + 5x^2) + (4x + x^3) = 1 + 6x + 5x^2 + x^3
    */
   def +(p: Polynom): Polynom = ???
+	  val it = coefficients.iterator
+	    while(it.hasNext){
+	      val degree = it.next
+	      ???
+	    }
 
   /** 
    * Returns the maximum degree of this `Polynom`.
    * Example: the maximum degree of 4x + x^3 is 3
    */
-  def maxDegree: Int = ???
+  def maxDegree: Int = coefficients.size
 
   /** 
    * Returns the minimum degree of this `Polynom`.
    * Example: the minimum degree of 1 + 4x + x^3 is 0
    */
-  def minDegree: Int = ???
+  def minDegree: Int = {
+     for( i <- 0 to coefficients.size-1){      
+       if(coefficients(i)!=0){
+        i
+      }      
+    }
+    0
+  }
 
   /** 
    * Returns true if this `Polynom` represents the same `Polynom` as that.
    */
   override def equals(that: Any) = that match {
-    case p: Polynom => ??? 
+    case p: Polynom => {
+      if(coefficients.size!=p.coefficients.size){
+    	  false
+      }
+      for( i <- 0 to coefficients.size-1){
+        if(coefficients(i)!=p.coefficients(i)){false}
+      }
+      true    
+    }
     case _ => false
   }
   
