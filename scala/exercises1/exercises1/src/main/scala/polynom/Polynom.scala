@@ -41,7 +41,18 @@ class Polynom(coefs: Traversable[Int]) {
    * Returns the subtraction of this `Polynom` with the `Polynom` p.
    * Example: (1 + 2x + 5x^2) - (4x + x^3) = 1 - 2x + 5x^2 - x^3
    */
-  def -(p: Polynom): Polynom = ???
+  def -(p: Polynom): Polynom = {
+    val smallP=if (p.coefficients.size > this.coefficients.size) this;else p;
+    val bigP=if (p.coefficients.size > this.coefficients.size) p;else this;
+    var pol:Array[Int] = new Array[Int](bigP.coefficients.size)
+    for(i<-0 to smallP.coefficients.size-1){
+      pol(i)=p.coefficients(i)-this.coefficients(i)
+    }
+    for(i<-smallP.coefficients.size to bigP.coefficients.size-1){
+    	  pol(i)=bigP.coefficients(i)
+      }
+    new Polynom(pol)
+  }
 
   /** 
    * Returns the addiction of this `Polynom` with the `Polynom` p
@@ -64,7 +75,14 @@ class Polynom(coefs: Traversable[Int]) {
    * Returns the maximum degree of this `Polynom`.
    * Example: the maximum degree of 4x + x^3 is 3
    */
-  def maxDegree: Int = coefficients.size - 1
+  def maxDegree: Int =  {
+     for( i <- 0 to coefficients.size-1){ 
+       if(coefficients(coefficients.size-1-i)!=0){
+        return coefficients.size-1-i
+      }      
+    }
+    return 0
+  }
 
   /** 
    * Returns the minimum degree of this `Polynom`.
@@ -83,17 +101,7 @@ class Polynom(coefs: Traversable[Int]) {
    * Returns true if this `Polynom` represents the same `Polynom` as that.
    */
   override def equals(that: Any) = that match {
-    case p: Polynom => {
-      if(coefficients.size!=p.coefficients.size){
-    	  false
-      }
-      for( i <- 0 to coefficients.size-1){
-        if(coefficients(i)!=p.coefficients(i)){
-          false
-        }
-      }
-      true    
-    }
+    case p: Polynom => this.coefficients.equals(p.coefficients) 
     case _ => false
   }
   
