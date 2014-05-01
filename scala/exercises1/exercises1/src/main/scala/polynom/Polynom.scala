@@ -48,24 +48,15 @@ class Polynom(coefs: Traversable[Int]) {
    * Example: (1 + 2x + 5x^2) + (4x + x^3) = 1 + 6x + 5x^2 + x^3
    */
   def +(p: Polynom): Polynom = {
-    val sizeThis = coefficients.size-1
-    val sizeP = p.coefficients.size-1
-    val plusgrand = Math.max(sizeThis, sizeP)
-    var pol:Array[Int] = new Array[Int](plusgrand+1)
-    for(i<-0 to Math.min(sizeThis, sizeP)){
+    val smallP=if (p.coefficients.size > this.coefficients.size) this;else p;
+    val bigP=if (p.coefficients.size > this.coefficients.size) p;else this;
+    var pol:Array[Int] = new Array[Int](bigP.coefficients.size)
+    for(i<-0 to smallP.coefficients.size-1){
       pol(i)=p.coefficients(i)+this.coefficients(i)
     }
-    if(sizeThis>sizeP){
-      for(i<-sizeP+1 to sizeThis){
-    	  pol(i)=this.coefficients(i)
+    for(i<-smallP.coefficients.size to bigP.coefficients.size-1){
+    	  pol(i)=bigP.coefficients(i)
       }
-    }
-    else{
-      for(i<-sizeThis+1 to sizeP){
-    	  pol(i)=p.coefficients(i)
-      }
-    }
-    
     new Polynom(pol)
   }
 
@@ -97,7 +88,9 @@ class Polynom(coefs: Traversable[Int]) {
     	  false
       }
       for( i <- 0 to coefficients.size-1){
-        if(coefficients(i)!=p.coefficients(i)){false}
+        if(coefficients(i)!=p.coefficients(i)){
+          false
+        }
       }
       true    
     }
