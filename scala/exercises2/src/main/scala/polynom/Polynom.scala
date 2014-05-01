@@ -31,12 +31,13 @@ class Polynom(coefs: Int*) {
     val smallP=if (p.coefficients.size > this.coefficients.size) this;else p;
     val bigP=if (p.coefficients.size > this.coefficients.size) p;else this;
     var pol:Array[Int] = new Array[Int](bigP.coefficients.size)
-    for(i<-0 to smallP.coefficients.size-1){
+    for(i<-0 until smallP.coefficients.size){
       pol(i)=p.coefficients(i)+this.coefficients(i)
     }
-    for(i<-smallP.coefficients.size to bigP.coefficients.size-1){
+    for(i<-smallP.coefficients.size until bigP.coefficients.size){
     	  pol(i)=bigP.coefficients(i)
       }
+     //println("final "+new Polynom(pol.iterator).toString())
     new Polynom(pol.map(+_):_*)
   }
 
@@ -58,12 +59,12 @@ class Polynom(coefs: Int*) {
    * Example: the minimum degree of 1 + 4x + x^3 is 0
    */
   def minDegree: Int = {
-     for( i <- 0 until coefficients.size){      
+     for( i <- 0 until coefficients.size){   
        if(coefficients(i)!=0){
-        i
+        return i
       }      
     }
-    0
+    return 0
   }
 	
 	override def hashCode = coefficients.hashCode
@@ -76,7 +77,15 @@ class Polynom(coefs: Int*) {
     }
 	
 	override def toString(): String = {
-	   coefficients.zipWithIndex.filter(p => p._2 != 0).map(p => p._2 + "x^" + p._1).mkString(" + ")
+	  for(i<-0 until coefficients.size){
+	    print(coefficients(i))
+	    print("x^")
+	    print(i)
+	    print("+")
+	  }
+	  println();
+	  ""
+	   //coefficients.zipWithIndex.filter(p => p._2 != 0).map(p => p._2 + "x^" + p._1).mkString(" + ")
 	}
 
 }
@@ -101,7 +110,7 @@ object Polynom {
     }
     
   }
-    implicit def Int2x(value : Int) = {
+  implicit def Int2x(value : Int) = {
        var pol:Array[Int] = new Array[Int](1)
        pol(0)=value
        new Polynom(pol.map(+_):_*)

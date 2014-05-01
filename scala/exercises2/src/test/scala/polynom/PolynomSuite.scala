@@ -10,16 +10,16 @@ class PolynomSuite extends FlatSpec with Matchers {
     
     
     //TODO: uncomment and make it work
-    val y: Polynom =  1 + x 
+    val y: Polynom =  1 + x + x +  (x^2) - 1
     //y.minDegree()
         println(y) // should print 1 + x
-    y.minDegree should be(0)
+    /*y.minDegree should be(0)
     y.maxDegree should be(1)
     y(0) should be(Some(0))
     y(1) should be(Some(1))
     y(-1) should be(None)
     
-    println(y) // should print 1 + x
+    println(y) // should print 1 + x*/
     
     
     
