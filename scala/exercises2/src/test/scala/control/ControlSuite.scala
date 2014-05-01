@@ -8,7 +8,7 @@ class ControlSuite extends FlatSpec with Matchers {
   "Control" should "work" in {
     
     /*
-    TODO: unfomment and make it work
+    TODO: unfomment and make it work*/
     var nbErr = 0
     loop(1 to 6) { i =>
       if (i % 2  == 0) println(i)
@@ -19,7 +19,7 @@ class ControlSuite extends FlatSpec with Matchers {
     
     nbErr should be(3)  
     
-    */
+    
     
   }
   

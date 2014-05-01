@@ -1,6 +1,20 @@
 package control
 
 object Control {
+  def loop(n: Range)(body: => Int): Int = {	
+    val i =0
+    i
+	  /*if (n > 0) {	
+		  println(n)	
+		  body	
+		  loop(n-1) (body)	
+	  }	*/
+  }	
+  
+  object i{
+    
+  }
+
   
   /*
     
