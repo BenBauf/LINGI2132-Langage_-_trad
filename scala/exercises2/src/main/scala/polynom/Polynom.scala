@@ -11,7 +11,14 @@ class Polynom(coefs: Int*) {
      * Example: 1+2x+5x^2 
      * p(0)=Some(1) p(1)=Some(2) p(10)=0 p(-1)=None
      */
-    def apply(i: Int) : Option[Int] = ???
+    def apply(i: Int) : Option[Int] = {
+      try{
+    	  Some(coefficients(i))
+      }
+      catch{
+          case e: Exception => None
+      }
+    }
     
     
     

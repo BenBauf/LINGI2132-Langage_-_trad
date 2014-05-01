@@ -8,8 +8,8 @@ class PolynomSuite extends FlatSpec with Matchers {
 
   "Polynom" should "be able to add" in {
     
-    /*
-    TODO: uncomment and make it work
+    
+    //TODO: uncomment and make it work
     val y: Polynom = 1 + x + x +  (x^2) + 2 + (x^2) + (x^5) - 3 - x - x
     
     //y.minDegree()
@@ -21,7 +21,7 @@ class PolynomSuite extends FlatSpec with Matchers {
     
     println(y) // should print 2x^2+1x^5
     
-    */
+    
     
   }
   
