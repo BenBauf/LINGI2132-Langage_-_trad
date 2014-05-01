@@ -26,7 +26,22 @@ class Polynom(coefs: Int*) {
       this + new Polynom(p.coefficients.map(-_):_*)
     }
     
-    def +(p: Polynom): Polynom = ???
+    /** 
+   * Returns the addiction of this `Polynom` with the `Polynom` p
+   * Example: (1 + 2x + 5x^2) + (4x + x^3) = 1 + 6x + 5x^2 + x^3
+   */
+  def +(p: Polynom): Polynom = {
+    val smallP=if (p.coefficients.size > this.coefficients.size) this;else p;
+    val bigP=if (p.coefficients.size > this.coefficients.size) p;else this;
+    var pol:Array[Int] = new Array[Int](bigP.coefficients.size)
+    for(i<-0 to smallP.coefficients.size-1){
+      pol(i)=p.coefficients(i)+this.coefficients(i)
+    }
+    for(i<-smallP.coefficients.size to bigP.coefficients.size-1){
+    	  pol(i)=bigP.coefficients(i)
+      }
+    new Polynom(p.coefficients.map(-_):_*)
+  }
 
 	/** 
    * Returns the maximum degree of this `Polynom`.
@@ -78,13 +93,20 @@ object Polynom {
   }
   
   object x extends Polynom{
-    def ^(p: Int): Polynom = {
-      ???
+	private val coefficients: Vector[Int] = Vector(0,1)
+    def ^(expo: Int): Polynom = {
+      var pol:Array[Int] = new Array[Int](expo+1)
+      pol(expo)=1
+      new Polynom(pol.map(+_):_*)
     }
     
     
   }
-    implicit def Int2x(value : Int) = new Polynom()
+    implicit def Int2x(value : Int) = {
+       var pol:Array[Int] = new Array[Int](1)
+       pol(0)=value
+       new Polynom(pol.map(+_):_*)
+    }
   
   
   
