@@ -12,6 +12,15 @@ class PolynomSuite extends TestSuite {
     p3.minDegree shouldBe 0
     p3(2) shouldBe 6
   }
+  
+  test("Addition of Polynoms first bigger") {
+    val p1 = Polynom(1, 2, 3,4)
+    val p2 = Polynom(1, 2, 3)
+    val p3 = p1 + p2
+    p3.maxDegree shouldBe 3
+    p3.minDegree shouldBe 0
+    p3(2) shouldBe 6
+  }
 
   test("Equality on Polynoms") {
     val p1 = Polynom(1, 2, 3)
