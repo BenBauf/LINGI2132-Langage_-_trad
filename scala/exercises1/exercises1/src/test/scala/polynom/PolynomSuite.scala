@@ -40,5 +40,14 @@ class PolynomSuite extends TestSuite {
     intercept[Exception] { p3(-1) }
   }
   
+  test("mul of Polynoms") {
+    val p1 = Polynom(1, 2, 5)
+    val p2 = Polynom(0, 4)
+    val soluce = Polynom(0, 4, 8, 20)
+    
+    val p3 = p1 * p2
+    p3 == soluce shouldBe true 
+  }
+  
   // Add more tests
 }

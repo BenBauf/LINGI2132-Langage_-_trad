@@ -24,17 +24,13 @@ class Polynom(coefs: Traversable[Int]) {
    * Example: (1 + 2x + 5x^2) * (4x) = 4x + 8x^2 + 20x^3
    */
   def *(p: Polynom): Polynom = {
-    //??? //p.coefficients.
-    
-    val it = coefficients.iterator
-    /*for (val row <- it){
-            println(row)
-        }*/
-    while(it.hasNext){
-      val degree = it.next
-      ???
+    var pol:Array[Int] = new Array[Int](p.maxDegree+this.maxDegree+1)
+    for(i<-0 until this.coefficients.size){
+      for(j<-0 until p.coefficients.size){
+        pol(i+j)+=this.coefficients(i)*p.coefficients(j)
+      }
     }
-    ???
+    new Polynom(pol)
   }
 
   /** 
@@ -45,10 +41,10 @@ class Polynom(coefs: Traversable[Int]) {
     val smallP=if (p.coefficients.size > this.coefficients.size) this;else p;
     val bigP=if (p.coefficients.size > this.coefficients.size) p;else this;
     var pol:Array[Int] = new Array[Int](bigP.coefficients.size)
-    for(i<-0 to smallP.coefficients.size-1){
+    for(i<-0 until smallP.coefficients.size){
       pol(i)=p.coefficients(i)-this.coefficients(i)
     }
-    for(i<-smallP.coefficients.size to bigP.coefficients.size-1){
+    for(i<-smallP.coefficients.size until bigP.coefficients.size){
     	  pol(i)=bigP.coefficients(i)
       }
     new Polynom(pol)
@@ -76,7 +72,7 @@ class Polynom(coefs: Traversable[Int]) {
    * Example: the maximum degree of 4x + x^3 is 3
    */
   def maxDegree: Int =  {
-     for( i <- 0 to coefficients.size-1){ 
+     for( i <- 0 until coefficients.size){ 
        if(coefficients(coefficients.size-1-i)!=0){
         return coefficients.size-1-i
       }      
@@ -89,7 +85,7 @@ class Polynom(coefs: Traversable[Int]) {
    * Example: the minimum degree of 1 + 4x + x^3 is 0
    */
   def minDegree: Int = {
-     for( i <- 0 to coefficients.size-1){      
+     for( i <- 0 until coefficients.size){      
        if(coefficients(i)!=0){
         i
       }      
