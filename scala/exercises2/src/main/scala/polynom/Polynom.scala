@@ -1,6 +1,5 @@
 package polynom
 
-
 class Polynom(coefs: Int*) {
   
     // coefficients(0) + coefficients(1) * x + coefficients(2) * x^2 + ... 
@@ -20,8 +19,6 @@ class Polynom(coefs: Int*) {
       }
     }
     
-    
-    
     def -(p: Polynom): Polynom = {
       this + new Polynom(p.coefficients.map(-_):_*)
     }
@@ -40,7 +37,7 @@ class Polynom(coefs: Int*) {
     for(i<-smallP.coefficients.size to bigP.coefficients.size-1){
     	  pol(i)=bigP.coefficients(i)
       }
-    new Polynom(p.coefficients.map(-_):_*)
+    new Polynom(pol.map(+_):_*)
   }
 
 	/** 
@@ -79,7 +76,7 @@ class Polynom(coefs: Int*) {
     }
 	
 	override def toString(): String = {
-	  ???
+	   coefficients.zipWithIndex.filter(p => p._2 != 0).map(p => p._2 + "x^" + p._1).mkString(" + ")
 	}
 
 }
@@ -91,15 +88,17 @@ object Polynom {
   def sum(polynoms: Iterable[Polynom]): Polynom = {
     polynoms.reduce((p1,p2) => p1 + p2)
   }
+ 
   
-  object x extends Polynom{
-	private val coefficients: Vector[Int] = Vector(0,1)
+  
+  object x extends Polynom(0,1){
+   
+		
     def ^(expo: Int): Polynom = {
-      var pol:Array[Int] = new Array[Int](expo+1)
+      var pol:Array[Int] = new Array[Int](expo+1) 
       pol(expo)=1
       new Polynom(pol.map(+_):_*)
     }
-    
     
   }
     implicit def Int2x(value : Int) = {
@@ -107,16 +106,6 @@ object Polynom {
        pol(0)=value
        new Polynom(pol.map(+_):_*)
     }
-  
-  
-  
-  
-  //def x=0
-  
-  // TODO
-  
-  // define an x object 
-  
-  // define implicit convertions for constants  (see test suite)
+
 }
 

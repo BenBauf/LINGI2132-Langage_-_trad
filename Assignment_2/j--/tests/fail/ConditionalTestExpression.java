@@ -5,7 +5,7 @@ import java.lang.System;
 public class ConditionalTestExpression{
 	
 	public int checkIf(int x, int y){
-		return (a<b) a:;
+		return (x > y) ? x:;;
 	}
 	
 }
