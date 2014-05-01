@@ -28,9 +28,31 @@ class Polynom(coefs: Int*) {
     
     def +(p: Polynom): Polynom = ???
 
-	def maxDegree: Int = ???
-	
-	def minDegree: Int = ???
+	/** 
+   * Returns the maximum degree of this `Polynom`.
+   * Example: the maximum degree of 4x + x^3 is 3
+   */
+  def maxDegree: Int =  {
+     for( i <- 0 until coefficients.size){ 
+       if(coefficients(coefficients.size-1-i)!=0){
+        return coefficients.size-1-i
+      }      
+    }
+    return 0
+  }
+
+  /** 
+   * Returns the minimum degree of this `Polynom`.
+   * Example: the minimum degree of 1 + 4x + x^3 is 0
+   */
+  def minDegree: Int = {
+     for( i <- 0 until coefficients.size){      
+       if(coefficients(i)!=0){
+        i
+      }      
+    }
+    0
+  }
 	
 	override def hashCode = coefficients.hashCode
 	
@@ -54,6 +76,20 @@ object Polynom {
   def sum(polynoms: Iterable[Polynom]): Polynom = {
     polynoms.reduce((p1,p2) => p1 + p2)
   }
+  
+  object x extends Polynom{
+    def ^(p: Int): Polynom = {
+      ???
+    }
+    
+    
+  }
+    implicit def Int2x(value : Int) = new Polynom()
+  
+  
+  
+  
+  //def x=0
   
   // TODO
   
