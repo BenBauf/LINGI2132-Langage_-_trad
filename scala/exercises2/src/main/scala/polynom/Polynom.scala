@@ -28,8 +28,8 @@ class Polynom(coefs: Int*) {
    * Example: (1 + 2x + 5x^2) + (4x + x^3) = 1 + 6x + 5x^2 + x^3
    */
   def +(p: Polynom): Polynom = {
-    val smallP=if (p.coefficients.size > this.coefficients.size) this;else p;
-    val bigP=if (p.coefficients.size > this.coefficients.size) p;else this;
+    val smallP=if (p.coefficients.size > this.coefficients.size) this;else p
+    val bigP=if (p.coefficients.size > this.coefficients.size) p;else this
     var pol:Array[Int] = new Array[Int](bigP.coefficients.size)
     for(i<-0 until smallP.coefficients.size){
       pol(i)=p.coefficients(i)+this.coefficients(i)
@@ -37,7 +37,6 @@ class Polynom(coefs: Int*) {
     for(i<-smallP.coefficients.size until bigP.coefficients.size){
     	  pol(i)=bigP.coefficients(i)
       }
-     //println("final "+new Polynom(pol.iterator).toString())
     new Polynom(pol.map(+_):_*)
   }
 

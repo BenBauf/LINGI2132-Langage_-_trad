@@ -14,21 +14,28 @@ abstract class MyStream {
       else tail(i-1)
     }
     def filter(p: Int => Boolean): MyStream = {
-      ???
+      if(p(this.head)){
+        cons(head, tail.filter(p))
+      }
+      else{
+    	  tail.filter(p)
+      }
     }
     
     /**
      * take the n first entry of this stream to create a finite stream of at most n entry
      */
     def take(n: Int): MyStream = {
-      take(n+1,this)
+      take(n,this)
     }
     
     private def take(n: Int, s: MyStream): MyStream= {
-      if (n <1)
+      if (n <1){
         empty
-      else
+      }
+      else{
         cons(s.head,take(n-1,s.tail))
+      }
     } 
     
     /**
@@ -58,7 +65,7 @@ object StreamUtils {
   
   import MyStream._
   
-  def streamFrom(from: Int): MyStream = cons(from,empty)
+  def streamFrom(from: Int): MyStream = cons(from,streamFrom(from+1))
   
   /**
    * Return an infinite fibonacci stream: a, b, a+b, b+a+b, a+b+b+a+b, b+a+b+a+b+b+a+b, ...

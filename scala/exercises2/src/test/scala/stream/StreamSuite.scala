@@ -29,7 +29,7 @@ class StreamSuite extends TestSuite {
     fib(6) should be(8)
     
     
-    //fib.filter(_ > 100)(5) should be(1597)
+    fib.filter(_ > 100)(5) should be(1597)
     
   }  
   
