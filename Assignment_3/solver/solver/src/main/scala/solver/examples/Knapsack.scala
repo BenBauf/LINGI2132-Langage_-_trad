@@ -1,5 +1,6 @@
 package solver.examples
 
+
 import solver.core.SatSolver
 import solver.core.encoder.OrderEncoder
 import solver.expressions.IntVar
@@ -9,6 +10,7 @@ import solver.expressions.LeZero
 import solver.expressions.Or
 import solver.expressions.Sum
 import solver.expressions.And
+import dsl.SolverDSL
 
 object Knapsack extends App {
 

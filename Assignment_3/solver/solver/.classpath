@@ -25,5 +25,6 @@
 	<classpathentry kind="lib" path="lib/sat4j-maxsat.jar"/>
 	<classpathentry kind="lib" path="lib/sat4j-pb.jar"/>
 	<classpathentry kind="lib" path="lib/sat4j-sat.jar"/>
+	<classpathentry kind="lib" path="lib/scalatest_2.10-2.1.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
