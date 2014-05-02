@@ -28,12 +28,16 @@ class SolverDSL(length :Int, profit :Array[Int], weight :Array[Int], cap :Int) {
     }
   }
   
-  def addValue(){
+  def addValues(){
     val p = new IntVar("profit", 0, profits.sum)
     solver.addVariable(p)
   
     val w = new IntVar("weight", 0, weights.sum)
     solver.addVariable(w)
+  }
+  
+  def addConstraint(c : Constraint){
+    solver.addConstraint(c.literal)
   }
 
 }
