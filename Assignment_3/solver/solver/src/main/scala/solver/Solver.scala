@@ -13,8 +13,21 @@ import solver.expressions.IntVar
 
 /**
  * `Solver` is a class for CSP solvers.
+ * It encodes the given CSP to a SAT instance by using the specified encoder,
+ * and solves the encoded SAT instance by using the specified SAT solver.
+ *
+ * Typical usage of the solver is as follows.
+ * {{{
+ *     val solver = new Solver(csp, sat, encoder)
+ *     if (solver.find) {
+ *       println(solver.solution)
+ *     }
+ * }}}
  *
  * @constructor Creates a new solver
+ * @param csp the CSP to be solved
+ * @param satSolver the SAT solver to be used
+ * @param encoder the encoder to be used
  */
 class Solver {
   

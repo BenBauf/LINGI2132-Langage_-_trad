@@ -4,7 +4,7 @@ import solver.core.Assignment
 
 class BooleanVar(n: String) extends Literal {
   
-  val name: String = if (n.isEmpty) "BOOLEAN_VAR_" + BooleanVar.count else n
+  val name: String = if (n.isEmpty) "BOOLEAN_VAR_" + BooleanVar.newId() else n
   
   override def unary_! : Literal = Not(this)
   
@@ -17,4 +17,9 @@ class BooleanVar(n: String) extends Literal {
 
 object BooleanVar {
   private var count = 0
+  private def newId(): Int = {
+    val c = count
+    count += 1
+    c
+  }
 }
