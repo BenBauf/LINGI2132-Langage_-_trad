@@ -1,44 +1,19 @@
 package control
 
 object Control {
-  def loop(n: Range)(body: => Int): Int = {	
-    val i =0
-    i
-	  /*if (n > 0) {	
-		  println(n)	
-		  body	
-		  loop(n-1) (body)	
-	  }	*/
-  }	
+  def loop(range: Range)(body: Int => Unit): UnitExc =
+      new UnitExc(range, body)
   
-  object i{
-    
+  class UnitExc(range : Range, body: Int => Unit) {
+    def onException(exc: => Unit) {
+      for (i <- range) {
+          try {
+          body(i)
+          } catch {
+           case _: Throwable => {exc}
+          }
+        }
+    }
   }
-
-  
-  /*
-    
-  TODO: 
-    
-  Create Scala constructs to make this new control block work
-   
-  loop(1 to 5) { i =>
-    
-  } onException {
-    
-  }   
-   
-   
-   This code iterates over a Scala range, 
-   i is the current value if iteration passed as argument to the closure.
-   If an exception is thrown, it is catched and the the onException block is executed
-   before continuing on next value of the range
-   
-   Hint: Don't hesitate to create intermediate classes
-  
-  */
-  
-
-
-
 }
+ 
