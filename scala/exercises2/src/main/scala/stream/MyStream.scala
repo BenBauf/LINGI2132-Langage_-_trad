@@ -21,8 +21,15 @@ abstract class MyStream {
      * take the n first entry of this stream to create a finite stream of at most n entry
      */
     def take(n: Int): MyStream = {
-    	???
+      take(n+1,this)
     }
+    
+    private def take(n: Int, s: MyStream): MyStream= {
+      if (n <1)
+        empty
+      else
+        cons(s.head,take(n-1,s.tail))
+    } 
     
     /**
      * apply the f function on each entry of the stream
@@ -51,12 +58,12 @@ object StreamUtils {
   
   import MyStream._
   
-  def streamFrom(from: Int): MyStream = ???
+  def streamFrom(from: Int): MyStream = cons(from,empty)
   
   /**
    * Return an infinite fibonacci stream: a, b, a+b, b+a+b, a+b+b+a+b, b+a+b+a+b+b+a+b, ...
    */
-  def fibonacci(a: Int, b: Int): MyStream = ???
+  def fibonacci(a: Int, b: Int): MyStream = cons(a,cons(b,fibonacci(a+b,b+a+b)))
   
 }
 
