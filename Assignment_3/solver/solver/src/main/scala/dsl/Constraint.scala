@@ -6,7 +6,7 @@ class Constraint(lit: Literal) {
 
   val literal = lit
 
-  def and(c: Constraint): Constraint = {
+  def &(c: Constraint): Constraint = {
     new Constraint(And(this.literal, c.literal))
   }
 
@@ -14,4 +14,8 @@ class Constraint(lit: Literal) {
 
 object Constraint {
   def apply(lit: Literal) = new Constraint(lit)
+
+  def >>(sum: Sum): Constraint = {
+    new Constraint(LeZero(sum))
+  }
 }

@@ -17,18 +17,17 @@ class KnapsackDSLTest extends FlatSpec with Matchers {
     val weights = Array(3, 4, 2, 3, 3)
     val capa = 10
 
-    var s = new SolverDSL(nItems, profits, weights, capa)
-    s.assigned(i => {
+    var s = new SolverDSL(nItems)
+    /*s.assigned(i => {
       val x = new IntVar("item_" + (i + 1), 0, 1)
       x
-    })
-    s.addValues()
-
+    })*/
+    //todo add
     val items = 0 until nItems
 
     val assigned = Array.tabulate(nItems)(i => {
       val x = new IntVar("item_" + (i + 1), 0, 1)
-      //solver.addVariable(x)
+      s.addVariable(x)
       x
     })
 
@@ -45,8 +44,32 @@ class KnapsackDSLTest extends FlatSpec with Matchers {
     }
 
     val p = new IntVar("profit", 0, profits.sum)
-    val c: Constraint = new Constraint(LeZero(p - totProfit)) and new Constraint(LeZero(Sum(1)))
-    s.addConstraint(c)
+    s.addVariable(p)
+
+    val w = new IntVar("weight", 0, weights.sum)
+    s.addVariable(w)
+
+    s.addConstraint {
+      >>(p - totProfit) & >>(totProfit - p)
+    }
+
+    s.addConstraint {
+      >>(w - totWeight) & >>(totWeight - w)
+    }
+
+    s.addConstraint {
+      >>(w - capa)
+    }
+
+    var best = 0
+    println("on commence")
+    while (s.solveWith(>>(-p + (best + 1)))) {
+      val solution = s.solution
+      best = p.value(solution)
+      println(solution)
+    }
+    println("finished")
+    best should be(12)
 
   }
 
