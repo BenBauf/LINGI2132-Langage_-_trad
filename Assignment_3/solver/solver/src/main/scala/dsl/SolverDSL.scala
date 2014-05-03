@@ -15,19 +15,18 @@ class SolverDSL(length: Int) extends Solver {
   private val nItems = length
   private val items = 0 until nItems
 
-  val assigned = new Array[IntVar](nItems)
+  //val itemsList = new Array[IntVar](nItems)
+
+  var itemsHash: Map[String, IntVar] = Map()
 
   def assigned(body: Int => RangeVal) {
     for (i <- 0 until nItems) {
       val x = body(i)
       addVariable(x)
-      assigned(i) = x
+      //itemsList(i) = x
+      itemsHash += (x.name -> x)
       x
     }
-  }
-
-  def assign(i: Int) {
-
   }
 
   def solveWith(c: Constraint): Boolean = {
@@ -38,8 +37,7 @@ class SolverDSL(length: Int) extends Solver {
     addConstraint(c.literal)
   }
 
-  /*def addVariable(r: RangeVal) {
-    addVariable(r)
+  def getItem(name: String): IntVar = {
+    return itemsHash.get(name).get
   }
-*/
 }

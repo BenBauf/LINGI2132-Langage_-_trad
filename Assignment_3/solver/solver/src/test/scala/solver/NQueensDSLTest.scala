@@ -22,13 +22,13 @@ class NQueensDSLTest extends FlatSpec with Matchers {
 
     //val solver = new Solver
 
-    val upDiags = queens.map(i => s.assigned(i) - i)
-    val doDiags = queens.map(i => s.assigned(i) + i)
+    val upDiags = queens.map(i => s.getItem("queen" + (i + 1)) - i)
+    val doDiags = queens.map(i => s.getItem("queen" + (i + 1)) + i)
 
     for (q1 <- queens; q2 <- queens; if q1 < q2) {
 
       s.addConstraint {
-        val sum = s.assigned(q1) - s.assigned(q2)
+        val sum = s.getItem("queen" + (q1 + 1)) - s.getItem("queen" + (q2 + 1))
         >>(sum + 1) | >>(sum.neg + 1)
       }
 
