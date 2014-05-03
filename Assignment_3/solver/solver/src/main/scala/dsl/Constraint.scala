@@ -10,6 +10,10 @@ class Constraint(lit: Literal) {
     new Constraint(And(this.literal, c.literal))
   }
 
+  def |(c: Constraint): Constraint = {
+    new Constraint(Or(this.literal, c.literal))
+  }
+
 }
 
 object Constraint {
