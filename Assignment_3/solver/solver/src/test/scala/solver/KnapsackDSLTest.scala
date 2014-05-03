@@ -2,6 +2,7 @@ package solver
 
 import org.scalatest._
 import dsl._
+import dsl.RangeVal._
 import dsl.Constraint._
 import solver.expressions.LeZero
 import solver.expressions.IntVar
@@ -19,7 +20,7 @@ class KnapsackDSLTest extends FlatSpec with Matchers {
 
     var s = new SolverDSL(nItems)
     s.assigned(i => {
-      val x = new IntVar("item_" + (i + 1), 0, 1)
+      val x = "item_" + (i + 1) //new IntVar("item_" + (i + 1), 0, 1)
       x
     })
     //todo add
@@ -37,7 +38,9 @@ class KnapsackDSLTest extends FlatSpec with Matchers {
       (acc, sum) => acc.add(sum)
     }
 
-    val p = new IntVar("profit", 0, profits.sum)
+    //val p = new IntVar("profit", 0, profits.sum)
+    val p = ("profit" range (0 to profits.sum)) toIntVar ()
+    //s.addVariable(p)
     s.addVariable(p)
 
     val w = new IntVar("weight", 0, weights.sum)
