@@ -2,15 +2,7 @@ package dsl
 
 import solver.expressions.IntVar
 
-class RangeVal(n: String, r: Range) {
-
-  private val name = n
-  private val rangeR = r
-
-  def toIntVar(): IntVar = {
-    println(name);
-    return new IntVar(name, rangeR.start, rangeR.end)
-  }
+class RangeVal(n: String, r: Range) extends IntVar(n, r.start, r.end) {
 
   def range(r: Range): RangeVal = {
     return new RangeVal(this.name, r)

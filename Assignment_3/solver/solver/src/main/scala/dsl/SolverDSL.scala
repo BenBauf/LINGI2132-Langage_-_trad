@@ -19,7 +19,7 @@ class SolverDSL(length: Int) extends Solver {
 
   def assigned(body: Int => RangeVal) {
     for (i <- 0 until nItems) {
-      val x = body(i).toIntVar
+      val x = body(i)
       addVariable(x)
       assigned(i) = x
       x
@@ -38,8 +38,8 @@ class SolverDSL(length: Int) extends Solver {
     addConstraint(c.literal)
   }
 
-  def addVariable(r: RangeVal) {
-    addVariable(r.toIntVar)
+  /*def addVariable(r: RangeVal) {
+    addVariable(r)
   }
-
+*/
 }
