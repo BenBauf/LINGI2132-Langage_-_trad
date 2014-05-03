@@ -18,22 +18,16 @@ class KnapsackDSLTest extends FlatSpec with Matchers {
     val capa = 10
 
     var s = new SolverDSL(nItems)
-    /*s.assigned(i => {
+    s.assigned(i => {
       val x = new IntVar("item_" + (i + 1), 0, 1)
       x
-    })*/
+    })
     //todo add
     val items = 0 until nItems
 
-    val assigned = Array.tabulate(nItems)(i => {
-      val x = new IntVar("item_" + (i + 1), 0, 1)
-      s.addVariable(x)
-      x
-    })
+    val profitsVar = items.map(i => s.assigned(i) * profits(i))
 
-    val profitsVar = items.map(i => assigned(i) * profits(i))
-
-    val weightsVar = items.map(i => assigned(i) * weights(i))
+    val weightsVar = items.map(i => s.assigned(i) * weights(i))
 
     val totProfit = profitsVar.foldLeft(Sum.zero) {
       (acc, sum) => acc.add(sum)

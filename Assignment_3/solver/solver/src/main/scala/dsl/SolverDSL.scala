@@ -15,12 +15,19 @@ class SolverDSL(length: Int) extends Solver {
   private val nItems = length
   private val items = 0 until nItems
 
-  val assigned = new Array[Int](nItems)
+  val assigned = new Array[IntVar](nItems)
 
   def assigned(body: Int => IntVar) {
     for (i <- 0 until nItems) {
-      addVariable(body(i))
+      val x = body(i)
+      addVariable(x)
+      assigned(i) = x
+      x
     }
+  }
+
+  def assign(i: Int) {
+
   }
 
   def solveWith(c: Constraint): Boolean = {
