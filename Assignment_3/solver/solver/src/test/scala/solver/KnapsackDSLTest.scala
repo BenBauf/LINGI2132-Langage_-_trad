@@ -38,10 +38,10 @@ class KnapsackDSLTest extends FlatSpec with Matchers {
       (acc, sum) => acc.add(sum)
     }
 
-    val p = ("profit" range (0 to profits.sum))
+    val p = "profit" to profits.sum
     s.addVariable(p)
 
-    val w = "weight" range (0 to weights.sum)
+    val w = "weight" to weights.sum
     s.addVariable(w)
 
     s.addConstraint {

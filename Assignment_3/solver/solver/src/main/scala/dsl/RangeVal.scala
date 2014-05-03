@@ -8,6 +8,10 @@ class RangeVal(n: String, r: Range) extends IntVar(n, r.start, r.end) {
     return new RangeVal(this.name, r)
   }
 
+  def to(value: Int): RangeVal = {
+    return new RangeVal(this.name, 0 to value)
+  }
+
 }
 
 object RangeVal {
