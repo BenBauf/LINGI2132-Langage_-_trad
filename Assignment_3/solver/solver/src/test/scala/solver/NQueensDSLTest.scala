@@ -16,7 +16,7 @@ class NQueensDSLTest extends FlatSpec with Matchers {
 
     var s = new SolverDSL(nQueens)
     s.assigned(i => {
-      "queen" + (i + 1) range (1 to nQueens)
+      "queen" + (i + 1) -> (1 to nQueens)
     })
 
     //val solver = new Solver

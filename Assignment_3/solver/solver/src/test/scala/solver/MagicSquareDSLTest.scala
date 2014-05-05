@@ -21,20 +21,11 @@ class MagicSquareDSLTest extends FlatSpec with Matchers {
 
     var s = new SolverDSL(magicNumber * magicNumber);
     s.assigned(i => {
-      //TODO 0 to magicSum
-      "item_" + (i + 1) range (1 to magicSum)
+      "item_" + (i + 1) -> (0 to magicSum)
     })
-
-    /*s.addConstraint(
-      (s.variable(0) + s.variable(1) + s.variable(2)) === magicSum)*/
-
     s.E(0 to 6, 3, i => {
       s.addConstraint(s.E(i to 2 + i) === magicSum)
     })
-
-    /*s.addConstraint(s.E(0 to 2) === magicSum)
-    s.addConstraint(s.E(3 to 5) === magicSum)
-    s.addConstraint(s.E(6 to 8) === magicSum)*/
 
     s.addConstraint(s.E(0 to 8, 4) === magicSum)
     s.addConstraint(s.E(2 to 6, 2) === magicSum)
@@ -42,24 +33,6 @@ class MagicSquareDSLTest extends FlatSpec with Matchers {
     s.E(0 to 2, 1, i => {
       s.addConstraint(s.E(i to 6 + i, 3) === magicSum)
     })
-    /*s.addConstraint(s.E(0 to 6, 3) === magicSum)
-    s.addConstraint(s.E(1 to 7, 3) === magicSum)
-    s.addConstraint(s.E(2 to 8, 3) === magicSum)*/
-
-    /*s.addConstraint(
-      (s.variable(0) + s.variable(4) + s.variable(8)) === magicSum)*/
-
-    /*s.addConstraint(
-      (s.variable(2) + s.variable(4) + s.variable(6)) === magicSum)*/
-
-    /*s.addConstraint(
-      (s.variable(0) + s.variable(3) + s.variable(6)) === magicSum)*/
-
-    /*s.addConstraint(
-      (s.variable(1) + s.variable(4) + s.variable(7)) === magicSum)*/
-
-    /*s.addConstraint(
-      (s.variable(2) + s.variable(5) + s.variable(8)) === magicSum)*/
 
     if (s.solve) println(s.solution)
     else println("infeasible")

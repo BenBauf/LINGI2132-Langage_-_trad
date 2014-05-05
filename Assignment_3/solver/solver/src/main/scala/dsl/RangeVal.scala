@@ -4,13 +4,15 @@ import solver.expressions.IntVar
 
 class RangeVal(n: String, r: Range) extends IntVar(n, r.start, r.end) {
 
-  def range(r: Range): RangeVal = {
-    return new RangeVal(this.name, r)
-  }
-
   def to(value: Int): RangeVal = {
     return new RangeVal(this.name, 0 to value)
   }
+
+  def ->(r: Range): RangeVal = {
+    return new RangeVal(this.name, r)
+  }
+
+  def ->(value: Int): RangeVal = to(value)
 
 }
 
