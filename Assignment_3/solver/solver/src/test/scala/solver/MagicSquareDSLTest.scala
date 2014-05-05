@@ -1,11 +1,11 @@
 package solver
 
 import org.scalatest._
+
 import dsl._
-import dsl.SumDsl._
-import dsl.RangeVal._
 import dsl.Constraint._
-import solver.expressions.LeZero
+import dsl.RangeVal._
+import dsl.SumDsl._
 import solver.expressions.IntVar
 import solver.expressions.Sum
 
@@ -16,68 +16,51 @@ class MagicSquareDSLTest extends FlatSpec with Matchers {
     val magicNumber = 3 // number of lines/columns
     
     val magicSum = 15
+    val zero = 0
+    val possibilities = zero.to(magicSum).toArray
+    
     
     var s = new SolverDSL(magicNumber^2);
     s.assigned(i => {
       "item_" + (i + 1)      
     })
     
+    
+    
     s.addConstraint(
       (s.variable(1)+s.variable(2)+s.variable(3)) === magicSum
      )
-  /**  val nItems = 5
-
-    val profits = Array(2, 5, 1, 3, 4)
-    val weights = Array(3, 4, 2, 3, 3)
-    val capa = 10
-
-    var s = new SolverDSL(nItems)
-    s.assigned(i => {
-      val x = "item_" + (i + 1)
-      x
-    })
-    val items = 0 until nItems
-
-    val profitsVar = items.map(i => s.variable(i) * profits(i))
-
-    val weightsVar = items.map(i => s.variable(i) * weights(i))
-
-    val totProfit = profitsVar.foldLeft(Sum.zero) {
-      (acc, sum) => acc.add(sum)
-    }
-
-    val totWeight = weightsVar.foldLeft(Sum.zero) {
-      (acc, sum) => acc.add(sum)
-    }
-
-    val p = "profit" to profits.sum
-    s.addVariable(p)
-
-    val w = "weight" to weights.sum
-    s.addVariable(w)
-
-    s.addConstraint {
-      0 >= (p - totProfit) & 0 >= (totProfit - p)
-    }
-
-    s.addConstraint {
-      0 >= (w - totWeight) & 0 >= (totWeight - w)
-    }
-
-    s.addConstraint {
-      >>(w - capa)
-    }
-
-    var best = 0
-    println("on commence")
-    while (s.solveWith(0 >= (-p + (best + 1)))) {
-      val solution = s.solution
-      best = p.value(solution)
-      println(solution)
-    }
-    println("finished")
-    best should be(12)
-**/
+     
+    s.addConstraint(
+      (s.variable(4)+s.variable(5)+s.variable(6)) === magicSum
+     )
+     
+     s.addConstraint(
+      (s.variable(7)+s.variable(8)+s.variable(9)) === magicSum
+     )
+     
+     s.addConstraint(
+      (s.variable(1)+s.variable(4)+s.variable(7)) === magicSum
+     )
+     
+     s.addConstraint(
+      (s.variable(2)+s.variable(5)+s.variable(8)) === magicSum
+     )
+     
+     s.addConstraint(
+      (s.variable(3)+s.variable(6)+s.variable(9)) === magicSum
+     )
+     
+     s.addConstraint(
+      (s.variable(1)+s.variable(5)+s.variable(9)) === magicSum
+     )
+     
+     s.addConstraint(
+      (s.variable(3)+s.variable(5)+s.variable(7)) === magicSum
+     )
+     
+if (s.solve) println(s.solution)
+    else println("infeasible")
   }
 
 }
