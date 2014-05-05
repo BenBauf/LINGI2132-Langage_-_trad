@@ -45,7 +45,7 @@ class KnapsackDSLTest extends FlatSpec with Matchers {
     s.addVariable(w)
 
     s.addConstraint {
-      >>(p - totProfit) & >>(totProfit - p)
+      <<(-p + totProfit) & >>(totProfit - p)
     }
 
     s.addConstraint {
