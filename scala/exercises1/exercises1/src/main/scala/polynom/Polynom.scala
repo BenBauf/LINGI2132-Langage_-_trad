@@ -1,7 +1,6 @@
 package polynom
 
 class Polynom(coefs: Traversable[Int]) {
-
   assert(!coefs.isEmpty, "no coefficient")
 
   // coefficients(0) + coefficients(1) * x + coefficients(2) * x^2 + ... 
@@ -106,15 +105,16 @@ class Polynom(coefs: Traversable[Int]) {
   override def toString: String = {
     coefficients.zipWithIndex.filter(p => p._2 != 0).map(p => p._2 + "x^" + p._1).mkString(" + ")
   }
+
 }
 
 object Polynom {
 
-  // coefs(0) + coefs(1) * x + coefs(2) * x^2 + ...
-  def apply(coefs: Int*) = new Polynom(coefs)
+	// coefs(0) + coefs(1) * x + coefs(2) * x^2 + ...
+	def apply(coefs: Int*) = new Polynom(coefs)
 
-  def sum(polynoms: Iterable[Polynom]): Polynom = {
-    // hint, uses map/max/min/... to first compute coefficients
-    ???
-  }
+	def sum(polynoms: Iterable[Polynom]): Polynom = {
+		// hint, uses map/max/min/... to first compute coefficients
+		???
+	}
 }

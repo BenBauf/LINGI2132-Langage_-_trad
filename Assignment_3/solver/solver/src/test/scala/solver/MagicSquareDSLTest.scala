@@ -9,12 +9,21 @@ import solver.expressions.LeZero
 import solver.expressions.IntVar
 import solver.expressions.Sum
 
-class KnapsackDSLTest extends FlatSpec with Matchers {
+class MagicSquareDSLTest extends FlatSpec with Matchers {
 
-  "Knapsack" should "work" in {
-
-    val nItems = 5
+  "MagicSquare" should "work" in {
     
+    val magicNumber = 3 // number of lines/columns
+    
+    val magicSum = 15
+    
+    var s = new SolverDSL(magicNumber^2);
+    s.assigned(i => {
+      "item_" + (i + 1)      
+    })
+    
+    s.addConstraint(s.variable(1)+s.variable(2)+s.variable(3)==magicSum))
+  /**  val nItems = 5
 
     val profits = Array(2, 5, 1, 3, 4)
     val weights = Array(3, 4, 2, 3, 3)
@@ -25,7 +34,6 @@ class KnapsackDSLTest extends FlatSpec with Matchers {
       val x = "item_" + (i + 1)
       x
     })
-    //todo add
     val items = 0 until nItems
 
     val profitsVar = items.map(i => s.variable(i) * profits(i))
@@ -67,7 +75,7 @@ class KnapsackDSLTest extends FlatSpec with Matchers {
     }
     println("finished")
     best should be(12)
-
+**/
   }
 
 }
