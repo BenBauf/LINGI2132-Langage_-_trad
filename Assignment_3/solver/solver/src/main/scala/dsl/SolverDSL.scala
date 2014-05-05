@@ -49,7 +49,7 @@ class SolverDSL(length: Int) extends Solver {
     return itemsHash.get(name).get
   }
 
-  def sum(range: Range): SumDsl = {
+  def E(range: Range): SumDsl = {
     var s: Sum = (Sum(0))
     for (i <- range) {
       s = s + variable(i)
