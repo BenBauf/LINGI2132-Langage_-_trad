@@ -17,11 +17,11 @@ class SumDsl(sumParam: Sum) {
     new Constraint(new LeZero((sum - sumParam)))
   }
 
-  def ==(sumParam: Sum): Constraint = {
+  def equal(sumParam: Sum): Constraint = {
     new Constraint(And(new LeZero((sum - sumParam).neg), new LeZero((sum - sumParam))))
   }
 
-  def !=(sumParam: Sum): Constraint = {
+  def neq(sumParam: Sum): Constraint = {
     new Constraint(Or(new LeZero((sum - sumParam).neg).unary_!, new LeZero(sum - sumParam).unary_!))
   }
 
@@ -33,4 +33,13 @@ object SumDsl {
     new SumDsl(Sum(value))
   }
 
+  implicit def Sum2SumDsl(value: Sum) = {
+    new SumDsl(value)
+  }
+
+  implicit def Int2Sum(value: Int) = {
+    Sum(value)
+  }
+
 }
+

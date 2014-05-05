@@ -27,6 +27,10 @@ object Constraint {
     new Constraint(LeZero(sum.neg))
   }
 
+  /*implicit def SumDsl2Constraint(value: SumDsl) = {
+    new Constraint(value)
+  }*/
+
   /*implicit def Int2Constraint(value: Int) = {
     new Constraint(value)
     //new RangeVal(value, 0 to 1)

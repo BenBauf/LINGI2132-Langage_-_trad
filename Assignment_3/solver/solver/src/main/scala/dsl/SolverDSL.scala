@@ -19,6 +19,10 @@ class SolverDSL(length: Int) extends Solver {
 
   var itemsHash: Map[String, IntVar] = Map()
 
+  def range(): Range = {
+    items
+  }
+
   def assigned(body: Int => RangeVal) {
     for (i <- 0 until nItems) {
       val x = body(i)
@@ -28,8 +32,8 @@ class SolverDSL(length: Int) extends Solver {
       x
     }
   }
-  
-  def variable(i :Int): IntVar={
+
+  def variable(i: Int): IntVar = {
     itemsList(i)
   }
 
