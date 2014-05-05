@@ -22,4 +22,8 @@ object Constraint {
   def >>(sum: Sum): Constraint = {
     new Constraint(LeZero(sum))
   }
+
+  def <<(sum: Sum): Constraint = {
+    new Constraint(LeZero(sum.neg))
+  }
 }

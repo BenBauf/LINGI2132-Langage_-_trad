@@ -26,9 +26,9 @@ class KnapsackDSLTest extends FlatSpec with Matchers {
     //todo add
     val items = 0 until nItems
 
-    val profitsVar = items.map(i => s.getItem("item_" + (i + 1)) * profits(i))
+    val profitsVar = items.map(i => s.variable(i) * profits(i))
 
-    val weightsVar = items.map(i => s.getItem("item_" + (i + 1)) * weights(i))
+    val weightsVar = items.map(i => s.variable(i) * weights(i))
 
     val totProfit = profitsVar.foldLeft(Sum.zero) {
       (acc, sum) => acc.add(sum)
