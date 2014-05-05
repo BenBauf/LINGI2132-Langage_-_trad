@@ -2,6 +2,7 @@ package solver
 
 import org.scalatest._
 import dsl._
+import dsl.SumDsl._
 import dsl.RangeVal._
 import dsl.Constraint._
 import solver.expressions.LeZero
@@ -45,11 +46,11 @@ class KnapsackDSLTest extends FlatSpec with Matchers {
     s.addVariable(w)
 
     s.addConstraint {
-      <<(-p + totProfit) & >>(totProfit - p)
+      0 >= (p - totProfit) & 0 >= (totProfit - p)
     }
 
     s.addConstraint {
-      >>(w - totWeight) & >>(totWeight - w)
+      0 >= (w - totWeight) & 0 >= (totWeight - w)
     }
 
     s.addConstraint {
@@ -58,7 +59,7 @@ class KnapsackDSLTest extends FlatSpec with Matchers {
 
     var best = 0
     println("on commence")
-    while (s.solveWith(>>(-p + (best + 1)))) {
+    while (s.solveWith(0 >= (-p + (best + 1)))) {
       val solution = s.solution
       best = p.value(solution)
       println(solution)

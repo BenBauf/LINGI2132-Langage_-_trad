@@ -21,12 +21,6 @@ class ColoringDSLTest extends FlatSpec with Matchers {
       x
     })
 
-    /*val colors = Array.tabulate(nNodes)(i => {
-      val x = new IntVar(s"node $i", 0, maxColor)
-      solver.addVariable(x)
-      x
-    })*/
-
     val nColors = "nColor" to maxColor
     s.addVariable(nColors)
 
