@@ -2,6 +2,7 @@ package dsl
 
 import solver.expressions.Sum
 import solver.expressions.And
+import solver.expressions.Or
 import solver.expressions.LeZero
 
 class SumDsl(sumParam: Sum) {
@@ -18,7 +19,10 @@ class SumDsl(sumParam: Sum) {
 
   def ==(sumParam: Sum): Constraint = {
     new Constraint(And(new LeZero((sum - sumParam).neg), new LeZero((sum - sumParam))))
-    ???
+  }
+
+  def !=(sumParam: Sum): Constraint = {
+    new Constraint(Or(new LeZero((sum - sumParam).neg).unary_!, new LeZero(sum - sumParam).unary_!))
   }
 
 }
