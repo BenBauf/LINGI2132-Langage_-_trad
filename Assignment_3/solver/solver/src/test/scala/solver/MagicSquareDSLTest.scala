@@ -21,17 +21,22 @@ class MagicSquareDSLTest extends FlatSpec with Matchers {
 
     var s = new SolverDSL(magicNumber * magicNumber);
     s.assigned(i => {
-      "item_" + (i + 1) to magicSum
+      //TODO 0 to magicSum
+      "item_" + (i + 1) range (0 to magicSum)
     })
 
-    s.addConstraint(
-      (s.variable(0) + s.variable(1) + s.variable(2)) === magicSum)
+    /*s.addConstraint(
+      (s.variable(0) + s.variable(1) + s.variable(2)) === magicSum)*/
 
-    s.addConstraint(
+    s.addConstraint(s.E(0 to 2) === magicSum)
+    s.addConstraint(s.E(3 to 5) === magicSum)
+    s.addConstraint(s.E(6 to 8) === magicSum)
+
+    /*s.addConstraint(
       (s.variable(3) + s.variable(4) + s.variable(5)) === magicSum)
 
     s.addConstraint(
-      (s.variable(6) + s.variable(7) + s.variable(8)) === magicSum)
+      (s.variable(6) + s.variable(7) + s.variable(8)) === magicSum)*/
 
     s.addConstraint(
       (s.variable(0) + s.variable(4) + s.variable(8)) === magicSum)
