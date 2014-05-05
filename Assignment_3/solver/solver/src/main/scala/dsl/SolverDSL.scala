@@ -48,4 +48,13 @@ class SolverDSL(length: Int) extends Solver {
   def getItem(name: String): IntVar = {
     return itemsHash.get(name).get
   }
+
+  def sum(range: Range): SumDsl = {
+    var s: Sum = (Sum(0))
+    for (i <- range) {
+      s = s + variable(i)
+    }
+    return new SumDsl(s)
+  }
+
 }

@@ -14,6 +14,10 @@ class Constraint(lit: Literal) {
     new Constraint(Or(this.literal, c.literal))
   }
 
+  def sum(): Constraint = {
+    ???
+  }
+
 }
 
 object Constraint {
