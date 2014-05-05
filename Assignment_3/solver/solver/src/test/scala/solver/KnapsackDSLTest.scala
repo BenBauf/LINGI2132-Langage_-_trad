@@ -45,15 +45,15 @@ class KnapsackDSLTest extends FlatSpec with Matchers {
     val w = "weight" to weights.sum
     s.addVariable(w)
 
-    s.addConstraint(0 equal p - totProfit)
+    s.addConstraint(0 === p - totProfit)
 
-    s.addConstraint(w - totWeight equal 0)
+    s.addConstraint(w - totWeight === 0)
 
     s.addConstraint(0 >= w - capa)
 
     var best = 0
     println("on commence")
-    while (s.solveWith(0 >= (-p + (best + 1)))) {
+    while (s.solveWith(0 >= -p + best + 1)) {
       val solution = s.solution
       best = p.value(solution)
       println(solution)
