@@ -19,7 +19,7 @@ class KnapsackDSLTest extends FlatSpec with Matchers {
     val weights = Array(3, 4, 2, 3, 3)
     val capa = 10
 
-    var s = new SolverDSL(nItems)
+    val s = new SolverDSL(nItems)
     s.assigned(i => {
       "item_" + (i + 1)
     })
