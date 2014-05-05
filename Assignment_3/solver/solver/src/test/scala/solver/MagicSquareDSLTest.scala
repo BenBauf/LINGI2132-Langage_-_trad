@@ -22,7 +22,9 @@ class MagicSquareDSLTest extends FlatSpec with Matchers {
       "item_" + (i + 1)      
     })
     
-    s.addConstraint(s.variable(1)+s.variable(2)+s.variable(3)==magicSum))
+    s.addConstraint(
+      (s.variable(1)+s.variable(2)+s.variable(3)) === magicSum
+     )
   /**  val nItems = 5
 
     val profits = Array(2, 5, 1, 3, 4)
