@@ -21,7 +21,7 @@ class MagicSquareDSLTest extends FlatSpec with Matchers {
 
     var s = new SolverDSL(magicNumber * magicNumber);
     s.assigned(i => {
-      "item_" + (i + 1)
+      "item_" + (i + 1) to magicSum
     })
 
     s.addConstraint(
