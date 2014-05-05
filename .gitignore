@@ -5,7 +5,7 @@ j--.jar
 spim.jar
 *.war
 *.ear
-
+.cache
 # Report #
 .fuse*
 */_MACOSX/*
