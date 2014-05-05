@@ -65,4 +65,10 @@ class SolverDSL(length: Int) extends Solver {
     return new SumDsl(s)
   }
 
+  def E(range: Range, pas: Int, body: Int => Unit) {
+    for (i <- range by pas) {
+      body(i)
+    }
+  }
+
 }
