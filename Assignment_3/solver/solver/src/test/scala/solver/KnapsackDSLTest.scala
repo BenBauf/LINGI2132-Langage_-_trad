@@ -14,7 +14,6 @@ class KnapsackDSLTest extends FlatSpec with Matchers {
   "Knapsack" should "work" in {
 
     val nItems = 5
-    
 
     val profits = Array(2, 5, 1, 3, 4)
     val weights = Array(3, 4, 2, 3, 3)
