@@ -13,11 +13,8 @@ class NQueens(n: Int) extends Problem {
   private val nQueens = n
   val queens = 0 until nQueens
 
-  /*override def mustCompute(): Boolean = {
-    !this.isComputed
-  }*/
-
   override def compute() {
+    this.isComputed = true
     s.assigned(i => {
       "queen" + (i + 1) -> (1 to nQueens)
     })

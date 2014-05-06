@@ -2,11 +2,13 @@ package solver
 
 import org.scalatest._
 import dsl._
+import dsl.SumDsl._
 import dsl.RangeVal._
 import dsl.Constraint._
-import solver.expressions.Or
 import solver.expressions.LeZero
 import solver.expressions.IntVar
+import solver.expressions.Sum
+import dsl.problems.Coloring
 
 class ColoringDSLTest extends FlatSpec with Matchers {
 
@@ -36,9 +38,25 @@ class ColoringDSLTest extends FlatSpec with Matchers {
       s.addConstraint(>>(s.variable(n) - nColors))
     }
 
-    while (s.solveWith(new LeZero(nColors - (maxColor - 1)))) {
+    while (s.solveWith(0 >= nColors - (maxColor - 1))) {
       val solution = s.solution
       maxColor = nColors.value(solution)
+      println(solution)
+    }
+
+    println("finished")
+  }
+
+  "Coloring encapsulation" should "work" in {
+    val nNodes = 10
+    val Nodes = 0 until nNodes
+    var maxColor = 10
+
+    var s = new Coloring(nNodes, maxColor)
+
+    while (s.solveProblemWith((s.nColors - (maxColor - 1)) <= 0)) {
+      val solution = s.solution
+      maxColor = s.nColors.value(solution)
       println(solution)
     }
 
