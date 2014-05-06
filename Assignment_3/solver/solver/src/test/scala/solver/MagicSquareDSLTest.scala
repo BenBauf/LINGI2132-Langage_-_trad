@@ -34,6 +34,9 @@ class MagicSquareDSLTest extends FlatSpec with Matchers {
       s.addConstraint(s.E(i to 6 + i, 3) === magicSum)
     })
 
+    //add every square is unique, o yééééé
+    s.allVariables !== s.allVariables
+
     if (s.solve) println(s.solution)
     else println("infeasible")
   }

@@ -71,4 +71,13 @@ class SolverDSL(length: Int) extends Solver {
     }
   }
 
+  def allVariables(): Chose = {
+    val allV = new Array[Sum](nItems)
+    var s: Sum = (Sum(0))
+    for (i <- items) {
+      allV(i) = s + variable(i)
+    }
+    new Chose(allV)
+  }
+
 }
