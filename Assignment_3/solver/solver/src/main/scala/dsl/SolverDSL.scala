@@ -25,7 +25,8 @@ class SolverDSL(length: Int) extends Solver {
 
   def assigned(body: Int => RangeVal) {
     for (i <- 0 until nItems) {
-      val x = body(i)
+      val x = body(i).changeName(i)
+      //x.changeName(i)
       addVariable(x)
       itemsList(i) = x
       itemsHash += (x.name -> x)

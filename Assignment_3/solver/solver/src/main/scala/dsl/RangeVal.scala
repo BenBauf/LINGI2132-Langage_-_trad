@@ -14,6 +14,10 @@ class RangeVal(n: String, r: Range) extends IntVar(n, r.start, r.end) {
 
   def ->(value: Int): RangeVal = to(value)
 
+  def changeName(value: Int): RangeVal = {
+    new RangeVal(this.name.replace("%", "" + value), this.r)
+  }
+
 }
 
 object RangeVal {
