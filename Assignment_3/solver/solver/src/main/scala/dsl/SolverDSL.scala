@@ -26,7 +26,6 @@ class SolverDSL(length: Int) extends Solver {
   def assigned(body: Int => RangeVal) {
     for (i <- 0 until nItems) {
       val x = body(i).changeName(i)
-      //x.changeName(i)
       addVariable(x)
       itemsList(i) = x
       itemsHash += (x.name -> x)
@@ -49,14 +48,6 @@ class SolverDSL(length: Int) extends Solver {
   def getItem(name: String): IntVar = {
     return itemsHash.get(name).get
   }
-
-  /*def E(range: Range): SumDsl = {
-    var s: Sum = (Sum(0))
-    for (i <- range) {
-      s = s + variable(i)
-    }
-    return new SumDsl(s)
-  }*/
 
   def E(range: Range, pas: Int = 1): SumDsl = {
     var s: Sum = (Sum(0))
