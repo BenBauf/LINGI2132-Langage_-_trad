@@ -24,8 +24,6 @@ class KnapsackDSLTest extends FlatSpec with Matchers {
     s.assigned(i => {
       "item_" + (i + 1)
     })
-    //todo add
-    //val items = 0 until nItems
 
     val profitsVar = s.range.map(i => s.variable(i) * profits(i))
 
@@ -75,7 +73,7 @@ class KnapsackDSLTest extends FlatSpec with Matchers {
 
     var best = 0
     println("on commence")
-    while (s.solveKnapsackWith(0 >= -s.p + best + 1)) {
+    while (s.solveProblemWith(0 >= -s.p + best + 1)) {
       val solution = s.solution
       best = s.p.value(solution)
       println(solution)

@@ -1,22 +1,23 @@
-package solver
+package dsl.problems
 
-import org.scalatest._
 import dsl._
 import dsl.SumDsl._
-import dsl.problems.NQueens
 import dsl.RangeVal._
 import dsl.Constraint._
-import solver.expressions.Or
 import solver.expressions.LeZero
 import solver.expressions.IntVar
+import solver.expressions.Sum
 
-class NQueensDSLTest extends FlatSpec with Matchers {
+class NQueens(n: Int) extends Problem {
+  s = new SolverDSL(n)
+  private val nQueens = n
+  val queens = 0 until nQueens
 
-  "NQueens" should "work" in {
-    val nQueens = 10
-    val queens = 0 until nQueens
+  /*override def mustCompute(): Boolean = {
+    !this.isComputed
+  }*/
 
-    var s = new SolverDSL(nQueens)
+  override def compute() {
     s.assigned(i => {
       "queen" + (i + 1) -> (1 to nQueens)
     })
@@ -43,17 +44,6 @@ class NQueensDSLTest extends FlatSpec with Matchers {
         0 >= (1 + sum) | 0 >= (sum.neg + 1)
       }
     }
-
-    if (s.solve) println(s.solution)
-    else println("infeasible")
-  }
-
-  "NQueens encapsulation" should "work" in {
-    val nQueens = 10
-    val s = new NQueens(nQueens)
-
-    if (s.solveProblem) println(s.solution)
-    else println("infeasible")
   }
 
 }

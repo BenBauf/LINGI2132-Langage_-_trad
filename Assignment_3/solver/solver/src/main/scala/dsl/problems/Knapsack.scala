@@ -8,21 +8,20 @@ import solver.expressions.LeZero
 import solver.expressions.IntVar
 import solver.expressions.Sum
 
-class Knapsack(n: Int, profit: Array[Int], weight: Array[Int], ca: Int) extends SolverDSL(n) {
+class Knapsack(n: Int, profit: Array[Int], weight: Array[Int], ca: Int) extends Problem {
+  s = new SolverDSL(n)
   private val nItems = n
 
   private val profits = profit
   private val weights = weight
   private val capa = ca
 
-  private var isComputed = false
-
   val p = "profit" to profits.sum
 
-  val s = this
+  //val s = this
 
-  private def compute() {
-    isComputed = true
+  override def compute() {
+    this.isComputed = true
     s.assigned(i => {
       "item_" + (i + 1)
     })
@@ -49,17 +48,4 @@ class Knapsack(n: Int, profit: Array[Int], weight: Array[Int], ca: Int) extends 
 
     s.addConstraint(0 >= w - capa)
   }
-
-  def solveKnapsackWith(c: Constraint): Boolean = {
-    if (!isComputed)
-      compute
-    solveWith(c)
-  }
-
-  def solveKnapsack(): Boolean = {
-    if (!isComputed)
-      compute
-    return solve
-  }
-
 }
