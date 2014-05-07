@@ -9,23 +9,23 @@ import solver.expressions.IntVar
 import solver.expressions.Sum
 
 class NQueens(n: Int) extends Problem {
-  s = new SolverDSL(n)
+  new SolverDSL()
   private val nQueens = n
   val queens = 0 until nQueens
 
   override def compute() {
     this.isComputed = true
-    s.assigned(i => {
+    assigned(nQueens, i => {
       "queen" + (i + 1) -> (1 to nQueens)
     })
 
-    val upDiags = queens.map(i => s.variable(i) - i)
-    val doDiags = queens.map(i => s.variable(i) + i)
+    val upDiags = queens.map(i => variable(i) - i)
+    val doDiags = queens.map(i => variable(i) + i)
 
     for (q1 <- queens; q2 <- queens; if q1 < q2) {
-      s.addConstraint(s.variable(q1) !== s.variable(q2))
-      s.addConstraint(upDiags(q1) !== upDiags(q2))
-      s.addConstraint(doDiags(q1) !== doDiags(q2))
+      addConstraint(variable(q1) !== variable(q2))
+      addConstraint(upDiags(q1) !== upDiags(q2))
+      addConstraint(doDiags(q1) !== doDiags(q2))
     }
   }
 

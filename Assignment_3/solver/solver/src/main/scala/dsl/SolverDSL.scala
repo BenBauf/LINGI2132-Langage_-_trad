@@ -10,24 +10,37 @@ import solver.expressions.Or
 import solver.expressions.Sum
 import solver.expressions.And
 
-class SolverDSL(length: Int) extends Solver {
+class SolverDSL() extends Solver {
 
-  private val nItems = length
-  private val items = 0 until nItems
+  private var itemsList: List[IntVar] = Nil
 
-  private val itemsList = new Array[IntVar](nItems)
+  private var count = 0
 
   var itemsHash: Map[String, IntVar] = Map()
 
   def range(): Range = {
-    items
+    0 until count
   }
 
-  def assigned(body: Int => RangeVal) {
-    for (i <- 0 until nItems) {
+  def assigned(r: RangeVal, i: Int = count) {
+    if (count > itemsList.length || i > itemsList.length) {
+      //todo error
+    } else {
+      val x: RangeVal = r.changeName(i)
+      addVariable(x)
+      itemsList = itemsList.+:(x)
+      itemsHash += (x.name -> x)
+      count = count + 1
+    }
+  }
+
+  def assigned(c: Int, body: Int => RangeVal) {
+    count = c
+    for (i <- 0 until count) {
+      assigned(body(i), i)
       val x = body(i).changeName(i)
       addVariable(x)
-      itemsList(i) = x
+      itemsList = itemsList.+:(x)
       itemsHash += (x.name -> x)
       x
     }
@@ -64,9 +77,9 @@ class SolverDSL(length: Int) extends Solver {
   }
 
   def allVariables(): Chose = {
-    val allV = new Array[Sum](nItems)
+    val allV = new Array[Sum](count)
     var s: Sum = (Sum(0))
-    for (i <- items) {
+    for (i <- range) {
       allV(i) = s + variable(i)
     }
     new Chose(allV)

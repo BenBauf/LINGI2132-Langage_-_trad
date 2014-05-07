@@ -9,7 +9,6 @@ import solver.expressions.IntVar
 import solver.expressions.Sum
 
 class Knapsack(n: Int, profit: Array[Int], weight: Array[Int], ca: Int) extends Problem {
-  s = new SolverDSL(n)
   private val nItems = n
 
   private val profits = profit
@@ -22,13 +21,13 @@ class Knapsack(n: Int, profit: Array[Int], weight: Array[Int], ca: Int) extends 
 
   override def compute() {
     this.isComputed = true
-    s.assigned(i => {
+    assigned(nItems, i => {
       "item_" + (i + 1)
     })
 
-    val profitsVar = s.range.map(i => s.variable(i) * profits(i))
+    val profitsVar = range.map(i => variable(i) * profits(i))
 
-    val weightsVar = s.range.map(i => s.variable(i) * weights(i))
+    val weightsVar = range.map(i => variable(i) * weights(i))
 
     val totProfit = profitsVar.foldLeft(Sum.zero) {
       (acc, sum) => acc.add(sum)
@@ -37,15 +36,15 @@ class Knapsack(n: Int, profit: Array[Int], weight: Array[Int], ca: Int) extends 
     val totWeight = weightsVar.foldLeft(Sum.zero) {
       (acc, sum) => acc.add(sum)
     }
-    s.addVariable(p)
+    addVariable(p)
 
     val w = "weight" to weights.sum
-    s.addVariable(w)
+    addVariable(w)
 
-    s.addConstraint(0 === p - totProfit)
+    addConstraint(0 === p - totProfit)
 
-    s.addConstraint(w - totWeight === 0)
+    addConstraint(w - totWeight === 0)
 
-    s.addConstraint(0 >= w - capa)
+    addConstraint(0 >= w - capa)
   }
 }

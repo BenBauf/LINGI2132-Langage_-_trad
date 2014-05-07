@@ -14,13 +14,13 @@ class MagicSquareDSLTest extends FlatSpec with Matchers {
   "MagicSquare" should "work" in {
 
     val magicNumber = 3 // number of lines/columns
-
+    val items = magicNumber * magicNumber
     val magicSum = 15
     val zero = 0
     val possibilities = zero.to(magicSum).toArray
 
-    var s = new SolverDSL(magicNumber * magicNumber);
-    s.assigned(i => {
+    var s = new SolverDSL();
+    s.assigned(items, i => {
       "item_%" -> (0 to magicSum)
     })
     s.E(0 to 6, 3, i => {

@@ -9,7 +9,6 @@ import solver.expressions.IntVar
 import solver.expressions.Sum
 
 class Coloring(n: Int, max: Int) extends Problem {
-  s = new SolverDSL(n)
   val nNodes = n
   val Nodes = 0 until nNodes
   var maxColor = max
@@ -18,23 +17,23 @@ class Coloring(n: Int, max: Int) extends Problem {
 
   override def compute() {
     this.isComputed = true
-    s.assigned(i => {
+    assigned(n, i => {
       val x = "node" + 1 to maxColor
       x
     })
 
-    s.addVariable(nColors)
+    addVariable(nColors)
 
     val rand = new scala.util.Random(0)
     for (n1 <- Nodes; n2 <- Nodes; if n1 < n2 && rand.nextInt(100) < 70) {
-      s.addConstraint {
-        val sum = s.variable(n1) - s.variable(n2)
+      addConstraint {
+        val sum = variable(n1) - variable(n2)
         >>(sum + 1) | >>(sum.neg + 1)
       }
     }
 
     for (n <- Nodes) {
-      s.addConstraint(>>(s.variable(n) - nColors))
+      addConstraint(>>(variable(n) - nColors))
     }
   }
 
