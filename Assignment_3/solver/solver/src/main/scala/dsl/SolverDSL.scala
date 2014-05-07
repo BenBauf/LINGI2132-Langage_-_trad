@@ -16,9 +16,8 @@ class SolverDSL() {
 }
 object SolverDSL {
   private var s: Solver = new Solver
-  private var itemsList: List[IntVar] = Nil
   private var constraint: Set[Constraint] = Set()
-  private var variable: Set[RangeVal] = Set()
+  private var variables: Set[RangeVal] = Set()
 
   private var isAdded = false
   private var count = 0
@@ -32,19 +31,16 @@ object SolverDSL {
   def init() {
     s = new Solver
     isAdded = false
-    itemsList = Nil
     count = 0
     itemsHash = Map()
     constraint = Set()
-    variable = Set()
+    variables = Set()
   }
 
   def assign(r: RangeVal, i: Int = count) {
     val x: RangeVal = r.changeName(i)
-    //s.addVariable(x)
-    itemsList = itemsList.+:(x)
     itemsHash += (x.name -> x)
-    variable = variable + x
+    variables = variables + x
     count = count + 1
   }
 
@@ -52,17 +48,18 @@ object SolverDSL {
     for (i <- 0 until c) {
       assign(body(i), i)
       body(i).changeName(i)
+      rmVariable(body(i).changeName(i))
     }
   }
 
   def variable(i: Int): IntVar = {
-    itemsList(i)
+    //itemsHashInt.get(i).get
+    ???
   }
 
   def solveWith(c: Constraint): Boolean = {
     constraint = constraint - (c)
     addAllConstraintsandvariables
-    println(itemsList.size)
     s.solveWith(c.literal)
   }
 
@@ -78,10 +75,14 @@ object SolverDSL {
     return itemsHash.get(name).get
   }
 
-  def E(range: Range, pas: Int = 1): SumDsl = {
+  def getItem(name: String, i: Int): IntVar = {
+    getItem(name.replace("%", "" + i))
+  }
+
+  def E(range: Range, pas: Int = 1, name: String): SumDsl = {
     var s: Sum = (Sum(0))
     for (i <- range by pas) {
-      s = s + variable(i)
+      s = s + getItem(name, i)
     }
     return new SumDsl(s)
   }
@@ -95,8 +96,10 @@ object SolverDSL {
   def allVariables(): Chose = {
     val allV = new Array[Sum](count)
     var s: Sum = (Sum(0))
-    for (i <- range) {
-      allV(i) = s + variable(i)
+    var index = 0
+    for (i <- variables) {
+      allV(index) = s + i
+      index += 1
     }
     new Chose(allV)
   }
@@ -106,18 +109,15 @@ object SolverDSL {
   }
 
   def addVariable(x: RangeVal) {
-    itemsList = itemsList.+:(x)
     itemsHash += (x.name -> x)
     count = count + 1
-    variable = variable + x
+    variables = variables + x
   }
 
   def rmVariable(x: RangeVal) {
-    itemsList = itemsList.drop(itemsList.indexOf(x))
-    //itemsList = itemsList.-:(x)
     itemsHash = itemsHash - x.name
     count = count - 1
-    variable = variable - x
+    variables = variables - x
   }
 
   def solve(): Boolean = {
@@ -126,13 +126,14 @@ object SolverDSL {
   }
 
   private def addAllConstraintsandvariables() {
+    println("##########adding#########")
     if (isAdded) { return }
     isAdded = true
     for (i <- constraint) {
       s.addConstraint(i.literal)
     }
-    for (i <- variable) {
-      //println(i)
+    for (i <- variables) {
+      println(i)
       s.addVariable(i)
     }
   }

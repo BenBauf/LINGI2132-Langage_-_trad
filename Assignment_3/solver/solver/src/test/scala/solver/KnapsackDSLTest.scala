@@ -22,13 +22,16 @@ class KnapsackDSLTest extends FlatSpec with Matchers {
 
     val s = SolverDSL
     s.init
-    s.assigned(nItems, i => {
+    for (i <- 0 until nItems) {
+      "item_" + i -> (0 to 1)
+    }
+    /*s.assigned(nItems, i => {
       "item_" + (i + 1)
-    })
+    })*/
 
-    val profitsVar = s.range.map(i => s.variable(i) * profits(i))
+    val profitsVar = s.range.map(i => s.getItem("item_%", i) * profits(i))
 
-    val weightsVar = s.range.map(i => s.variable(i) * weights(i))
+    val weightsVar = s.range.map(i => s.getItem("item_%", i) * weights(i))
 
     val totProfit = profitsVar.foldLeft(Sum.zero) {
       (acc, sum) => acc.add(sum)
@@ -38,22 +41,20 @@ class KnapsackDSLTest extends FlatSpec with Matchers {
       (acc, sum) => acc.add(sum)
     }
 
-    val p = "profit" to profits.sum
-    s.addVariable(p)
+    "profit" to profits.sum
 
-    val w = "weight" to weights.sum
-    s.addVariable(w)
+    "weight" to weights.sum
 
-    0 === p - totProfit
+    0 === s.getItem("profit") - totProfit
 
-    w - totWeight === 0
-    0 >= w - capa
+    s.getItem("weight") - totWeight === 0
+    0 >= s.getItem("weight") - capa
 
     var best = 0
     println("on commence")
-    while (s.solveWith(0 >= -p + best + 1)) {
+    while (s.solveWith(0 >= -s.getItem("profit") + best + 1)) {
       val solution = s.solution
-      best = p.value(solution)
+      best = s.getItem("profit").value(solution)
       println(solution)
     }
     println("finished")

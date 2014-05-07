@@ -30,15 +30,15 @@ import solver.expressions.IntVar
  * @param encoder the encoder to be used
  */
 class Solver {
-  
+
   private val csp = new CSP()
   private val satSolver = new SatSolver()
   private val encoder = new OrderEncoder(csp, satSolver)
   private var sol: Assignment = null
-  
+
   def addVariable(x: IntVar): Unit = csp.addVariable(x)
-  
-  def addConstraint(c: Literal): Unit = csp.addConstraint(c) 
+
+  def addConstraint(c: Literal): Unit = csp.addConstraint(c)
 
   /**
    *  Returns the solution found by the `solve` method.

@@ -18,7 +18,7 @@ class Coloring(n: Int, max: Int) extends Problem {
   override def compute() {
     this.isComputed = true
     s.assigned(n, i => {
-      val x = "node" + 1 to maxColor
+      val x = "node" + i to maxColor
       x
     })
 
@@ -27,13 +27,13 @@ class Coloring(n: Int, max: Int) extends Problem {
     val rand = new scala.util.Random(0)
     for (n1 <- Nodes; n2 <- Nodes; if n1 < n2 && rand.nextInt(100) < 70) {
       s.addConstraint {
-        val sum = s.variable(n1) - s.variable(n2)
+        val sum = s.getItem("node", n1) - s.getItem("node", n2)
         0 >= (sum + 1) | 0 >= (sum.neg + 1)
       }
     }
 
     for (n <- Nodes) {
-      s.addConstraint(0 >= (s.variable(n) - nColors))
+      s.addConstraint(0 >= (s.getItem("node", n) - nColors))
     }
   }
 

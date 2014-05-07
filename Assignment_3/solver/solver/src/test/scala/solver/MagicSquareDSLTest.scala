@@ -24,14 +24,14 @@ class MagicSquareDSLTest extends FlatSpec with Matchers {
       "item_%" -> (0 to magicSum)
     })
     s.E(0 to 6, 3, i => {
-      s.E(i to 2 + i) === magicSum
+      s.E(i to (2 + i), 1, "item_%") === magicSum
     })
 
-    s.E(0 to 8, 4) === magicSum
-    s.E(2 to 6, 2) === magicSum
+    s.E(0 to 8, 4, "item_%") === magicSum
+    s.E(2 to 6, 2, "item_%") === magicSum
 
     s.E(0 to 2, 1, i => {
-      s.E(i to 6 + i, 3) === magicSum
+      s.E(i to 6 + i, 3, "item_%") === magicSum
     })
 
     //add every square is unique, o yééééé
