@@ -110,11 +110,14 @@ object SolverDSL {
     itemsHash += (x.name -> x)
     count = count + 1
     variable = variable + x
-    //s.addVariable(x)
   }
 
   def rmVariable(x: RangeVal) {
-
+    itemsList = itemsList.drop(itemsList.indexOf(x))
+    //itemsList = itemsList.-:(x)
+    itemsHash = itemsHash - x.name
+    count = count - 1
+    variable = variable - x
   }
 
   def solve(): Boolean = {
