@@ -15,15 +15,16 @@ class NQueens(n: Int) extends Problem {
   override def compute() {
     s.init
     this.isComputed = true
-    s.assigned(nQueens, i => {
-      "queen" + (i + 1) -> (1 to nQueens)
-    })
 
-    val upDiags = queens.map(i => s.variable(i) - i)
-    val doDiags = queens.map(i => s.variable(i) + i)
+    for (i <- 0 until nQueens) {
+      "queen" + (i + 1) -> (1 to nQueens)
+    }
+
+    val upDiags = queens.map(i => s.getItem("queen%", i + 1) - i)
+    val doDiags = queens.map(i => s.getItem("queen%", i + 1) + i)
 
     for (q1 <- queens; q2 <- queens; if q1 < q2) {
-      s.variable(q1) !== s.variable(q2)
+      s.getItem("queen%", q1 + 1) !== s.getItem("queen%", q2 + 1)
       upDiags(q1) !== upDiags(q2)
       doDiags(q1) !== doDiags(q2)
     }

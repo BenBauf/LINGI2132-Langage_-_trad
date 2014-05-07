@@ -20,9 +20,6 @@ class Knapsack(n: Int, profit: Array[Int], weight: Array[Int], ca: Int) extends 
   override def compute() {
     s.init
     this.isComputed = true
-    /*s.assigned(nItems, i => {
-      "item_" + (i + 1)
-    })*/
     for (i <- 0 until nItems) {
       "item_" + i -> (0 to 1)
     }

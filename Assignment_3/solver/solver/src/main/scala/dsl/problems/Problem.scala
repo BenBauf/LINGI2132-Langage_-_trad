@@ -20,8 +20,9 @@ trait Problem {
   }
 
   def solveProblemWith(c: Constraint): Boolean = {
-    if (!isComputed)
+    if (!isComputed) {
       compute
+    }
     return s.solveWith(c)
   }
 

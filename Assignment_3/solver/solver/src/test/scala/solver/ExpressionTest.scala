@@ -15,10 +15,10 @@ class ExpressionTest extends FlatSpec with Matchers {
   "expression" should "work" in {
 
     var s = SolverDSL
-    s.assign("node%" -> (0 to 2))
-    s.assign("node%" -> (7 to 9))
+    "node0" -> (0 to 2)
+    "node1" -> (7 to 9)
 
-    s.variable(0) === s.variable(1)
+    s.getItem("node0") === s.getItem("node1")
 
     if (s.solve) println(s.solution)
     else println("infeasible")
