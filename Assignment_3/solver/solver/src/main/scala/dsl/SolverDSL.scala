@@ -18,7 +18,9 @@ object SolverDSL {
   private var s: Solver = new Solver
   private var itemsList: List[IntVar] = Nil
   private var constraint: Set[Constraint] = Set()
+  private var variable: Set[RangeVal] = Set()
 
+  private var isAdded = false
   private var count = 0
 
   private var itemsHash: Map[String, IntVar] = Map()
@@ -29,17 +31,20 @@ object SolverDSL {
 
   def init() {
     s = new Solver
+    isAdded = false
     itemsList = Nil
     count = 0
     itemsHash = Map()
     constraint = Set()
+    variable = Set()
   }
 
   def assign(r: RangeVal, i: Int = count) {
     val x: RangeVal = r.changeName(i)
-    s.addVariable(x)
+    //s.addVariable(x)
     itemsList = itemsList.+:(x)
     itemsHash += (x.name -> x)
+    variable = variable + x
     count = count + 1
   }
 
@@ -47,11 +52,6 @@ object SolverDSL {
     for (i <- 0 until c) {
       assign(body(i), i)
       body(i).changeName(i)
-      /*val x = body(i).changeName(i)
-      s.addVariable(x)
-      itemsList = itemsList.+:(x)
-      itemsHash += (x.name -> x)
-      x*/
     }
   }
 
@@ -61,7 +61,7 @@ object SolverDSL {
 
   def solveWith(c: Constraint): Boolean = {
     constraint = constraint - (c)
-    addAllConstraints
+    addAllConstraintsandvariables
     println(itemsList.size)
     s.solveWith(c.literal)
   }
@@ -105,21 +105,32 @@ object SolverDSL {
     s.solution
   }
 
-  def addVariable(x: IntVar) {
+  def addVariable(x: RangeVal) {
     itemsList = itemsList.+:(x)
     itemsHash += (x.name -> x)
     count = count + 1
-    s.addVariable(x)
+    variable = variable + x
+    //s.addVariable(x)
+  }
+
+  def rmVariable(x: RangeVal) {
+
   }
 
   def solve(): Boolean = {
-    addAllConstraints
+    addAllConstraintsandvariables
     s.solve
   }
 
-  private def addAllConstraints() {
+  private def addAllConstraintsandvariables() {
+    if (isAdded) { return }
+    isAdded = true
     for (i <- constraint) {
       s.addConstraint(i.literal)
+    }
+    for (i <- variable) {
+      //println(i)
+      s.addVariable(i)
     }
   }
 }

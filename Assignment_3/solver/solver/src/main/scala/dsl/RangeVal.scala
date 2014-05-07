@@ -12,8 +12,6 @@ class RangeVal(n: String, r: Range) extends IntVar(n, r.start, r.end) {
     return new RangeVal(this.name, r)
   }
 
-  //def ->(value: Int): RangeVal = to(value)
-
   def changeName(value: Int): RangeVal = {
     new RangeVal(this.name.replace("%", "" + value), this.r)
   }
@@ -21,8 +19,14 @@ class RangeVal(n: String, r: Range) extends IntVar(n, r.start, r.end) {
 }
 
 object RangeVal {
-  def apply(n: String, range: Range) = new RangeVal(n, range)
+  def apply(n: String, range: Range) = {
+    val r = new RangeVal(n, range)
+    r
+  }
   implicit def String2RangeVal(value: String) = {
     new RangeVal(value, 0 to 1)
+  }
+  implicit def IntVar2RangeVal(value: IntVar) = {
+    new RangeVal(value.name, value.min to value.max)
   }
 }

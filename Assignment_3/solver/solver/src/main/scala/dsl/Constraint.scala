@@ -7,7 +7,8 @@ class Constraint(lit: Literal) {
   val literal = lit
 
   def &(c: Constraint): Constraint = {
-    println("&")
+    SolverDSL.rmConstraint(c)
+    SolverDSL.rmConstraint(this)
     Constraint(And(this.literal, c.literal))
   }
 
