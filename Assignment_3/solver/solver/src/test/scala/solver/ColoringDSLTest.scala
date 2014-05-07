@@ -17,7 +17,7 @@ class ColoringDSLTest extends FlatSpec with Matchers {
     val Nodes = 0 until nNodes
     var maxColor = 10
 
-    var s = new SolverDSL()
+    var s = SolverDSL
     s.assigned(nNodes, i => {
       val x = "node" + 1 to maxColor
       x
@@ -56,7 +56,7 @@ class ColoringDSLTest extends FlatSpec with Matchers {
 
     while (s.solveProblemWith((s.nColors - (maxColor - 1)) <= 0)) {
       val solution = s.solution
-      maxColor = s.nColors.value(solution)
+      maxColor = s.nColors.value(s.solution)
       println(solution)
     }
 

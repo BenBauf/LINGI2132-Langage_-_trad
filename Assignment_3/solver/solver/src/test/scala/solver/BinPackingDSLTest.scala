@@ -10,35 +10,26 @@ import solver.expressions.Sum
 import dsl.problems.Knapsack
 
 class BinPackingDSLTest extends FlatSpec with Matchers {
-  
-  
 
   "BinPacking" should "work" in {
-    
+
     val binHeight = 20
     val binDivision = 3
     val weights = Array(5, 8, 3, 3, 4, 4, 2, 9, 4, 6, 7, 4)
     val profits = Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)
     val pieces = weights.length
-    
+
     val knArray = new Array[Knapsack](binDivision)
-    for(i <- 1 to binDivision){
-     knArray(i-1) = new Knapsack(pieces, profits ,weights, binHeight)  
+    for (i <- 1 to binDivision) {
+      knArray(i - 1) = new Knapsack(pieces, profits, weights, binHeight)
     }
-    
-    
-    var s = new SolverDSL(binDivision);
-    s.assigned(i => {
-      "item_%" knArray(i)
-    })
-    
-    
-    
-    
-    
-    
-    
-   /*  val s = new SolverDSL(pieces)
+
+    var s = new SolverDSL();
+    /*s.assigned(binDivision, i => {
+      "item_%" knArray (i)
+    })*/
+
+    /*  val s = new SolverDSL(pieces)
     s.assigned(i => {
       "item_" + (i + 1) to 2
     })
@@ -51,8 +42,6 @@ class BinPackingDSLTest extends FlatSpec with Matchers {
         ???
         
     s.addConstraint(su <= binHeight)*/
-    
-  
 
     /*val profitsVar = s.range.map(i => s.variable(i) * profits(i))
 

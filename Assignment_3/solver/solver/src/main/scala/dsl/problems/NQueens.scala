@@ -15,17 +15,17 @@ class NQueens(n: Int) extends Problem {
 
   override def compute() {
     this.isComputed = true
-    assigned(nQueens, i => {
+    s.assigned(nQueens, i => {
       "queen" + (i + 1) -> (1 to nQueens)
     })
 
-    val upDiags = queens.map(i => variable(i) - i)
-    val doDiags = queens.map(i => variable(i) + i)
+    val upDiags = queens.map(i => s.variable(i) - i)
+    val doDiags = queens.map(i => s.variable(i) + i)
 
     for (q1 <- queens; q2 <- queens; if q1 < q2) {
-      addConstraint(variable(q1) !== variable(q2))
-      addConstraint(upDiags(q1) !== upDiags(q2))
-      addConstraint(doDiags(q1) !== doDiags(q2))
+      s.addConstraint(s.variable(q1) !== s.variable(q2))
+      s.addConstraint(upDiags(q1) !== upDiags(q2))
+      s.addConstraint(doDiags(q1) !== doDiags(q2))
     }
   }
 

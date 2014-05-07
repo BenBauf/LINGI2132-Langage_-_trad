@@ -17,17 +17,16 @@ class Knapsack(n: Int, profit: Array[Int], weight: Array[Int], ca: Int) extends 
 
   val p = "profit" to profits.sum
 
-  //val s = this
-
   override def compute() {
+    s.init
     this.isComputed = true
-    assigned(nItems, i => {
+    s.assigned(nItems, i => {
       "item_" + (i + 1)
     })
 
-    val profitsVar = range.map(i => variable(i) * profits(i))
+    val profitsVar = s.range.map(i => s.variable(i) * profits(i))
 
-    val weightsVar = range.map(i => variable(i) * weights(i))
+    val weightsVar = s.range.map(i => s.variable(i) * weights(i))
 
     val totProfit = profitsVar.foldLeft(Sum.zero) {
       (acc, sum) => acc.add(sum)
@@ -36,15 +35,15 @@ class Knapsack(n: Int, profit: Array[Int], weight: Array[Int], ca: Int) extends 
     val totWeight = weightsVar.foldLeft(Sum.zero) {
       (acc, sum) => acc.add(sum)
     }
-    addVariable(p)
+    s.addVariable(p)
 
     val w = "weight" to weights.sum
-    addVariable(w)
+    s.addVariable(w)
 
-    addConstraint(0 === p - totProfit)
+    s.addConstraint(0 === p - totProfit)
 
-    addConstraint(w - totWeight === 0)
+    s.addConstraint(w - totWeight === 0)
 
-    addConstraint(0 >= w - capa)
+    s.addConstraint(0 >= w - capa)
   }
 }

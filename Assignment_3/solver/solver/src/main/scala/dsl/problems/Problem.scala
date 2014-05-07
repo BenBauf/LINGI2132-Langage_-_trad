@@ -9,21 +9,26 @@ import solver.expressions.IntVar
 import solver.expressions.Sum
 import solver.core.Assignment
 
-trait Problem extends SolverDSL {
+trait Problem {
+  val s = SolverDSL
   var isComputed = false
 
   def compute()
 
+  def solution(): Assignment = {
+    s.solution
+  }
+
   def solveProblemWith(c: Constraint): Boolean = {
     if (!isComputed)
       compute
-    return solveWith(c)
+    return s.solveWith(c)
   }
 
   def solveProblem(): Boolean = {
     if (!isComputed)
       compute
-    return solve
+    return s.solve
   }
 
 }

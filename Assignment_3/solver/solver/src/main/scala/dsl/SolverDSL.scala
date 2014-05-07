@@ -9,9 +9,13 @@ import solver.expressions.LeZero
 import solver.expressions.Or
 import solver.expressions.Sum
 import solver.expressions.And
+import solver.core.Assignment
 
-class SolverDSL() extends Solver {
+class SolverDSL() {
 
+}
+object SolverDSL {
+  private var s: Solver = new Solver
   private var itemsList: List[IntVar] = Nil
 
   private var count = 0
@@ -22,24 +26,26 @@ class SolverDSL() extends Solver {
     0 until count
   }
 
-  def assigned(r: RangeVal, i: Int = count) {
-    if (count > itemsList.length || i > itemsList.length) {
-      //todo error
-    } else {
-      val x: RangeVal = r.changeName(i)
-      addVariable(x)
-      itemsList = itemsList.+:(x)
-      itemsHash += (x.name -> x)
-      count = count + 1
-    }
+  def init() {
+    s = new Solver
+    itemsList = Nil
+    count = 0
+    itemsHash = Map()
+  }
+
+  def assign(r: RangeVal, i: Int = count) {
+    val x: RangeVal = r.changeName(i)
+    s.addVariable(x)
+    itemsList = itemsList.+:(x)
+    itemsHash += (x.name -> x)
+    count = count + 1
   }
 
   def assigned(c: Int, body: Int => RangeVal) {
-    count = c
-    for (i <- 0 until count) {
-      assigned(body(i), i)
+    for (i <- 0 until c) {
+      assign(body(i), i)
       val x = body(i).changeName(i)
-      addVariable(x)
+      s.addVariable(x)
       itemsList = itemsList.+:(x)
       itemsHash += (x.name -> x)
       x
@@ -51,11 +57,11 @@ class SolverDSL() extends Solver {
   }
 
   def solveWith(c: Constraint): Boolean = {
-    this.solveWith(c.literal)
+    s.solveWith(c.literal)
   }
 
   def addConstraint(c: Constraint) {
-    addConstraint(c.literal)
+    s.addConstraint(c.literal)
   }
 
   def getItem(name: String): IntVar = {
@@ -85,4 +91,15 @@ class SolverDSL() extends Solver {
     new Chose(allV)
   }
 
+  def solution(): Assignment = {
+    s.solution
+  }
+
+  def addVariable(x: IntVar) {
+    s.addVariable(x)
+  }
+
+  def solve(): Boolean = {
+    s.solve
+  }
 }

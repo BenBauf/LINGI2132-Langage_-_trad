@@ -19,7 +19,7 @@ class MagicSquareDSLTest extends FlatSpec with Matchers {
     val zero = 0
     val possibilities = zero.to(magicSum).toArray
 
-    var s = new SolverDSL();
+    var s = SolverDSL
     s.assigned(items, i => {
       "item_%" -> (0 to magicSum)
     })

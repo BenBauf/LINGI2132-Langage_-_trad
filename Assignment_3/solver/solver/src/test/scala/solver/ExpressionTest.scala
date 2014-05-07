@@ -14,9 +14,9 @@ class ExpressionTest extends FlatSpec with Matchers {
 
   "expression" should "work" in {
 
-    var s = new SolverDSL()
-    s.assigned("node%" -> (0 to 2))
-    s.assigned("node%" -> (7 to 9))
+    var s = SolverDSL
+    s.assign("node%" -> (0 to 2))
+    s.assign("node%" -> (7 to 9))
 
     s.addConstraint(s.variable(0) === s.variable(1))
 

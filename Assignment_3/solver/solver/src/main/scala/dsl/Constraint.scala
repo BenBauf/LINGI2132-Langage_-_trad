@@ -14,14 +14,14 @@ class Constraint(lit: Literal) {
     new Constraint(Or(this.literal, c.literal))
   }
 
-  def sum(): Constraint = {
-    ???
-  }
-
 }
 
 object Constraint {
-  def apply(lit: Literal) = new Constraint(lit)
+  def apply(lit: Literal) = {
+    val x = new Constraint(lit)
+    SolverDSL addConstraint (x)
+    x
+  }
 
   def >>(sum: Sum): Constraint = {
     new Constraint(LeZero(sum))
