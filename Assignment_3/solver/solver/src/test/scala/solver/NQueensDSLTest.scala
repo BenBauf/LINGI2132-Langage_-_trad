@@ -27,21 +27,9 @@ class NQueensDSLTest extends FlatSpec with Matchers {
     val doDiags = queens.map(i => s.variable(i) + i)
 
     for (q1 <- queens; q2 <- queens; if q1 < q2) {
-
-      s.addConstraint {
-        val sum = s.variable(q1) - s.variable(q2)
-        0 >= (sum + 1) | 0 >= (sum.neg + 1)
-      }
-
-      s.addConstraint {
-        val sum = upDiags(q1) - upDiags(q2)
-        0 >= (sum + 1) | 0 >= (sum.neg + 1)
-      }
-
-      s.addConstraint {
-        val sum = doDiags(q1) - doDiags(q2)
-        0 >= (1 + sum) | 0 >= (sum.neg + 1)
-      }
+      s.addConstraint(s.variable(q1) !== s.variable(q2))
+      s.addConstraint(upDiags(q1) !== upDiags(q2))
+      s.addConstraint(doDiags(q1) !== doDiags(q2))
     }
 
     if (s.solve) println(s.solution)

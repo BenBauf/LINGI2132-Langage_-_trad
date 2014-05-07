@@ -1,5 +1,6 @@
 package dsl
 
+import solver.expressions.IntVar
 import solver.expressions.Sum
 import solver.expressions.And
 import solver.expressions.Or
@@ -28,6 +29,14 @@ class SumDsl(sumParam: Sum) {
 }
 
 object SumDsl {
+
+  implicit def IntVar2Sum(value: IntVar) = {
+    Sum(value)
+  }
+
+  implicit def IntVar2SumDsl(value: IntVar) = {
+    new SumDsl(Sum(value))
+  }
 
   implicit def Int2SumDsl(value: Int) = {
     new SumDsl(Sum(value))
