@@ -43,6 +43,6 @@ class Knapsack(n: Int, profit: Array[Int], weight: Array[Int], ca: Int) extends 
     0 === p - totProfit
 
     w - totWeight === 0
-    0 >= w - capa
+    0 >== w - capa
   }
 }

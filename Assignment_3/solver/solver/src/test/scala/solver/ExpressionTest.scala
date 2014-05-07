@@ -18,7 +18,7 @@ class ExpressionTest extends FlatSpec with Matchers {
     "node0" -> (0 to 2)
     "node1" -> (7 to 9)
 
-    s.getItem("node0") === s.getItem("node1")
+    "node0" === "node1"
 
     if (s.solve) println(s.solution)
     else println("infeasible")

@@ -23,11 +23,11 @@ class NQueensDSLTest extends FlatSpec with Matchers {
       "queen" + (i + 1) -> (1 to nQueens)
     }
 
-    val upDiags = queens.map(i => s.getItem("queen%", i + 1) - i)
-    val doDiags = queens.map(i => s.getItem("queen%", i + 1) + i)
+    val upDiags = queens.map(i => "queen" + (i + 1) - i)
+    val doDiags = queens.map(i => "queen" + (i + 1) + i)
 
     for (q1 <- queens; q2 <- queens; if q1 < q2) {
-      s.getItem("queen%", q1 + 1) !== s.getItem("queen%", q2 + 1)
+      ("queen" + (q1 + 1)) !== ("queen" + (q2 + 1))
       upDiags(q1) !== upDiags(q2)
       doDiags(q1) !== doDiags(q2)
     }

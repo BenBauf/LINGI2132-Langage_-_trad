@@ -28,7 +28,11 @@ object RangeVal {
     r
   }
   implicit def String2RangeVal(value: String) = {
-    RangeVal(value, 0 to 1)
+    val s = SolverDSL
+    if (s.exists(value)) {
+      s.getItem(value)
+    } else
+      RangeVal(value, 0 to 1)
   }
   implicit def IntVar2RangeVal(value: IntVar) = {
     RangeVal(value.name, value.min to value.max)

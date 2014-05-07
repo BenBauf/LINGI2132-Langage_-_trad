@@ -45,16 +45,16 @@ class KnapsackDSLTest extends FlatSpec with Matchers {
 
     "weight" to weights.sum
 
-    0 === s.getItem("profit") - totProfit
+    0 === "profit" - totProfit
 
-    s.getItem("weight") - totWeight === 0
-    0 >= s.getItem("weight") - capa
+    "weight" - totWeight === 0
+    "weight" - capa <== 0
 
     var best = 0
     println("on commence")
-    while (s.solveWith(0 >= -s.getItem("profit") + best + 1)) {
+    while (s.solveWith(0 >== -"profit" + best + 1)) {
       val solution = s.solution
-      best = s.getItem("profit").value(solution)
+      best = "profit".value(solution)
       println(solution)
     }
     println("finished")
@@ -74,7 +74,7 @@ class KnapsackDSLTest extends FlatSpec with Matchers {
 
     var best = 0
     println("on commence")
-    while (s.solveProblemWith(0 >= -s.p + best + 1)) {
+    while (s.solveProblemWith(0 >== -s.p + best + 1)) {
       val solution = s.solution
       best = s.p.value(solution)
       println(solution)

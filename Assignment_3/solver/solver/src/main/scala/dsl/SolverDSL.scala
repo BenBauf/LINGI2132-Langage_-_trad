@@ -22,7 +22,7 @@ object SolverDSL {
   private var isAdded = false
   private var count = 0
 
-  private var itemsHash: Map[String, IntVar] = Map()
+  private var itemsHash: Map[String, RangeVal] = Map()
 
   def range(): Range = {
     0 until count
@@ -52,11 +52,6 @@ object SolverDSL {
     }
   }
 
-  def variable(i: Int): IntVar = {
-    //itemsHashInt.get(i).get
-    ???
-  }
-
   def solveWith(c: Constraint): Boolean = {
     constraint = constraint - (c)
     addAllConstraintsandvariables
@@ -71,12 +66,16 @@ object SolverDSL {
     constraint = constraint - (c)
   }
 
-  def getItem(name: String): IntVar = {
+  def getItem(name: String): RangeVal = {
     return itemsHash.get(name).get
   }
 
-  def getItem(name: String, i: Int): IntVar = {
+  def getItem(name: String, i: Int): RangeVal = {
     getItem(name.replace("%", "" + i))
+  }
+
+  def exists(name: String): Boolean = {
+    itemsHash.contains(name)
   }
 
   def E(range: Range, pas: Int = 1, name: String): SumDsl = {
@@ -126,14 +125,12 @@ object SolverDSL {
   }
 
   private def addAllConstraintsandvariables() {
-    println("##########adding#########")
     if (isAdded) { return }
     isAdded = true
     for (i <- constraint) {
       s.addConstraint(i.literal)
     }
     for (i <- variables) {
-      println(i)
       s.addVariable(i)
     }
   }

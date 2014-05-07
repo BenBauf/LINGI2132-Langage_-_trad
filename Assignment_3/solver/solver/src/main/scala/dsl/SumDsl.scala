@@ -10,11 +10,11 @@ class SumDsl(sumParam: Sum) {
 
   private val sum: Sum = sumParam;
 
-  def >=(sumParam: Sum): Constraint = {
+  def >==(sumParam: Sum): Constraint = {
     Constraint(new LeZero((sum - sumParam).neg))
   }
 
-  def <=(sumParam: Sum): Constraint = {
+  def <==(sumParam: Sum): Constraint = {
     Constraint(new LeZero((sum - sumParam)))
   }
 
@@ -23,9 +23,7 @@ class SumDsl(sumParam: Sum) {
   }
 
   def !==(sumParam: Sum): Constraint = {
-    //NewLiteral(Or(And(LeZero(t - term), !LeZero(term - t)), And(LeZero(term - t), !LeZero(t - term))))
     Constraint(Or(And(LeZero(sum - sumParam), !LeZero(sumParam - sum)), And(LeZero(sumParam - sum), !LeZero(sum - sumParam))))
-    //Constraint(Or(new LeZero((sum - sumParam).neg).unary_!, new LeZero(sum - sumParam).unary_!))
   }
 
 }
