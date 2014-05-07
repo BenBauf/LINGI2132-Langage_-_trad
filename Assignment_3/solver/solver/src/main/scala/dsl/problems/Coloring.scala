@@ -28,12 +28,12 @@ class Coloring(n: Int, max: Int) extends Problem {
     for (n1 <- Nodes; n2 <- Nodes; if n1 < n2 && rand.nextInt(100) < 70) {
       s.addConstraint {
         val sum = s.variable(n1) - s.variable(n2)
-        >>(sum + 1) | >>(sum.neg + 1)
+        0 >= (sum + 1) | 0 >= (sum.neg + 1)
       }
     }
 
     for (n <- Nodes) {
-      s.addConstraint(>>(s.variable(n) - nColors))
+      s.addConstraint(0 >= (s.variable(n) - nColors))
     }
   }
 

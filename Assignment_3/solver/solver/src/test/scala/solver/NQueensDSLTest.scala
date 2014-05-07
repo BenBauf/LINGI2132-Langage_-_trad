@@ -17,6 +17,7 @@ class NQueensDSLTest extends FlatSpec with Matchers {
     val queens = 0 until nQueens
 
     var s = SolverDSL
+    s.init
     s.assigned(nQueens, i => {
       "queen" + (i + 1) -> (1 to nQueens)
     })
@@ -27,9 +28,9 @@ class NQueensDSLTest extends FlatSpec with Matchers {
     val doDiags = queens.map(i => s.variable(i) + i)
 
     for (q1 <- queens; q2 <- queens; if q1 < q2) {
-      s.addConstraint(s.variable(q1) !== s.variable(q2))
-      s.addConstraint(upDiags(q1) !== upDiags(q2))
-      s.addConstraint(doDiags(q1) !== doDiags(q2))
+      s.variable(q1) !== s.variable(q2)
+      upDiags(q1) !== upDiags(q2)
+      doDiags(q1) !== doDiags(q2)
     }
 
     if (s.solve) println(s.solution)

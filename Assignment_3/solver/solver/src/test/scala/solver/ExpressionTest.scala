@@ -18,7 +18,7 @@ class ExpressionTest extends FlatSpec with Matchers {
     s.assign("node%" -> (0 to 2))
     s.assign("node%" -> (7 to 9))
 
-    s.addConstraint(s.variable(0) === s.variable(1))
+    s.variable(0) === s.variable(1)
 
     if (s.solve) println(s.solution)
     else println("infeasible")

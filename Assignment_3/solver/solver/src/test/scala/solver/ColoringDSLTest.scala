@@ -19,7 +19,7 @@ class ColoringDSLTest extends FlatSpec with Matchers {
 
     var s = SolverDSL
     s.assigned(nNodes, i => {
-      val x = "node" + 1 to maxColor
+      val x = "node%" to maxColor
       x
     })
 
@@ -28,14 +28,12 @@ class ColoringDSLTest extends FlatSpec with Matchers {
 
     val rand = new scala.util.Random(0)
     for (n1 <- Nodes; n2 <- Nodes; if n1 < n2 && rand.nextInt(100) < 70) {
-      s.addConstraint {
-        val sum = s.variable(n1) - s.variable(n2)
-        >>(sum + 1) | >>(sum.neg + 1)
-      }
+      val sum = s.variable(n1) - s.variable(n2)
+      0 >= (sum + 1) | 0 >= (sum.neg + 1)
     }
 
     for (n <- Nodes) {
-      s.addConstraint(>>(s.variable(n) - nColors))
+      0 >= (s.variable(n) - nColors)
     }
 
     while (s.solveWith(0 >= nColors - (maxColor - 1))) {

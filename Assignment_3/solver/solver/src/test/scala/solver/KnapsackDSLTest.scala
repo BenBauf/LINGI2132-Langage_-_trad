@@ -21,6 +21,7 @@ class KnapsackDSLTest extends FlatSpec with Matchers {
     val capa = 10
 
     val s = SolverDSL
+    s.init
     s.assigned(nItems, i => {
       "item_" + (i + 1)
     })
@@ -43,11 +44,10 @@ class KnapsackDSLTest extends FlatSpec with Matchers {
     val w = "weight" to weights.sum
     s.addVariable(w)
 
-    s.addConstraint(0 === p - totProfit)
+    0 === p - totProfit
 
-    s.addConstraint(w - totWeight === 0)
-
-    s.addConstraint(0 >= w - capa)
+    w - totWeight === 0
+    0 >= w - capa
 
     var best = 0
     println("on commence")

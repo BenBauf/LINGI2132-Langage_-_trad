@@ -40,10 +40,9 @@ class Knapsack(n: Int, profit: Array[Int], weight: Array[Int], ca: Int) extends 
     val w = "weight" to weights.sum
     s.addVariable(w)
 
-    s.addConstraint(0 === p - totProfit)
+    0 === p - totProfit
 
-    s.addConstraint(w - totWeight === 0)
-
-    s.addConstraint(0 >= w - capa)
+    w - totWeight === 0
+    0 >= w - capa
   }
 }

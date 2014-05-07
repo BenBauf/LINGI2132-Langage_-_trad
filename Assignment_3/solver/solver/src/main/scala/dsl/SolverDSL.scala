@@ -17,10 +17,11 @@ class SolverDSL() {
 object SolverDSL {
   private var s: Solver = new Solver
   private var itemsList: List[IntVar] = Nil
+  private var constraint: Set[Constraint] = Set()
 
   private var count = 0
 
-  var itemsHash: Map[String, IntVar] = Map()
+  private var itemsHash: Map[String, IntVar] = Map()
 
   def range(): Range = {
     0 until count
@@ -31,6 +32,7 @@ object SolverDSL {
     itemsList = Nil
     count = 0
     itemsHash = Map()
+    constraint = Set()
   }
 
   def assign(r: RangeVal, i: Int = count) {
@@ -44,11 +46,12 @@ object SolverDSL {
   def assigned(c: Int, body: Int => RangeVal) {
     for (i <- 0 until c) {
       assign(body(i), i)
-      val x = body(i).changeName(i)
+      body(i).changeName(i)
+      /*val x = body(i).changeName(i)
       s.addVariable(x)
       itemsList = itemsList.+:(x)
       itemsHash += (x.name -> x)
-      x
+      x*/
     }
   }
 
@@ -57,11 +60,18 @@ object SolverDSL {
   }
 
   def solveWith(c: Constraint): Boolean = {
+    constraint = constraint - (c)
+    addAllConstraints
+    println(itemsList.size)
     s.solveWith(c.literal)
   }
 
   def addConstraint(c: Constraint) {
-    s.addConstraint(c.literal)
+    constraint = constraint + (c)
+  }
+
+  def rmConstraint(c: Constraint) {
+    constraint = constraint - (c)
   }
 
   def getItem(name: String): IntVar = {
@@ -96,10 +106,20 @@ object SolverDSL {
   }
 
   def addVariable(x: IntVar) {
+    itemsList = itemsList.+:(x)
+    itemsHash += (x.name -> x)
+    count = count + 1
     s.addVariable(x)
   }
 
   def solve(): Boolean = {
+    addAllConstraints
     s.solve
+  }
+
+  private def addAllConstraints() {
+    for (i <- constraint) {
+      s.addConstraint(i.literal)
+    }
   }
 }

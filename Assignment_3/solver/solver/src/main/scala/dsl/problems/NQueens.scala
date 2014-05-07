@@ -9,11 +9,11 @@ import solver.expressions.IntVar
 import solver.expressions.Sum
 
 class NQueens(n: Int) extends Problem {
-  new SolverDSL()
   private val nQueens = n
   val queens = 0 until nQueens
 
   override def compute() {
+    s.init
     this.isComputed = true
     s.assigned(nQueens, i => {
       "queen" + (i + 1) -> (1 to nQueens)
@@ -23,9 +23,9 @@ class NQueens(n: Int) extends Problem {
     val doDiags = queens.map(i => s.variable(i) + i)
 
     for (q1 <- queens; q2 <- queens; if q1 < q2) {
-      s.addConstraint(s.variable(q1) !== s.variable(q2))
-      s.addConstraint(upDiags(q1) !== upDiags(q2))
-      s.addConstraint(doDiags(q1) !== doDiags(q2))
+      s.variable(q1) !== s.variable(q2)
+      upDiags(q1) !== upDiags(q2)
+      doDiags(q1) !== doDiags(q2)
     }
   }
 
