@@ -67,7 +67,6 @@ object SolverDSL {
   }
 
   def getItem(name: String): RangeVal = {
-    println(name)
     return itemsHash.get(name).get
   }
 
