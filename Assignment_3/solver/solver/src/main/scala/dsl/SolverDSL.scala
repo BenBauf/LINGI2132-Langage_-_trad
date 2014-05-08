@@ -93,7 +93,7 @@ object SolverDSL {
     }
   }
 
-  def allVariables(): Chose = {
+  def allVariables(): ArrayConstraint = {
     val allV = new Array[Sum](count)
     var s: Sum = (Sum(0))
     var index = 0
@@ -101,7 +101,7 @@ object SolverDSL {
       allV(index) = s + i
       index += 1
     }
-    new Chose(allV)
+    new ArrayConstraint(allV)
   }
 
   def solution(): Assignment = {
