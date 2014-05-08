@@ -8,8 +8,8 @@ class ArrayConstraint(t: Array[Sum]) {
 
   def ===(t: ArrayConstraint): List[Constraint] = {
     val allC = List()
-    for (i <- tab) yield {
-      for (j <- t.tab) yield {
+    for (i <- tab) {
+      for (j <- t.tab) {
         if (!i.toString.equals(j.toString)) {
           allC.+:(i equal j)
         }
@@ -20,8 +20,8 @@ class ArrayConstraint(t: Array[Sum]) {
 
   def !==(t: ArrayConstraint): List[Constraint] = {
     val allC = List()
-    for (i <- tab) yield {
-      for (j <- t.tab) yield {
+    for (i <- tab) {
+      for (j <- t.tab) {
         if (!i.toString.equals(j.toString)) {
           allC.+:(i dif j)
         }
