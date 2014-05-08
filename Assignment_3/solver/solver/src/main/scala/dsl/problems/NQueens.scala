@@ -24,9 +24,9 @@ class NQueens(n: Int) extends Problem {
     val doDiags = queens.map(i => s.getItem("queen%", i + 1) + i)
 
     for (q1 <- queens; q2 <- queens; if q1 < q2) {
-      s.getItem("queen%", q1 + 1) !== s.getItem("queen%", q2 + 1)
-      upDiags(q1) !== upDiags(q2)
-      doDiags(q1) !== doDiags(q2)
+      s.getItem("queen%", q1 + 1) dif s.getItem("queen%", q2 + 1)
+      upDiags(q1) dif upDiags(q2)
+      doDiags(q1) dif doDiags(q2)
     }
   }
 

@@ -18,16 +18,20 @@ class SumDsl(sumParam: Sum) {
     Constraint(new LeZero((sum - sumParam)))
   }
 
-  /*def ===(sumParam: Sum): Constraint = {
-    Constraint(And(new LeZero((sum - sumParam).neg), new LeZero((sum - sumParam))))
-  }*/
-
   def equal(sumParam: Sum): Constraint = {
     Constraint(And(new LeZero((sum - sumParam).neg), new LeZero((sum - sumParam))))
   }
 
-  def !==(sumParam: Sum): Constraint = {
+  def dif(sumParam: Sum): Constraint = {
     Constraint(Or(And(LeZero(sum - sumParam), !LeZero(sumParam - sum)), And(LeZero(sumParam - sum), !LeZero(sum - sumParam))))
+  }
+
+  def equal(sParam: RangeVal): Constraint = {
+    Constraint(And(new LeZero((sum - sParam).neg), new LeZero((sum - sParam))))
+  }
+
+  def dif(sParam: RangeVal): Constraint = {
+    Constraint(Or(And(LeZero(sum - sParam), !LeZero(sParam - sum)), And(LeZero(sParam - sum), !LeZero(sum - sParam))))
   }
 
 }

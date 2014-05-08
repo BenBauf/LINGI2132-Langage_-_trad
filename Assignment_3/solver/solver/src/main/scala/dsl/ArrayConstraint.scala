@@ -23,7 +23,7 @@ class ArrayConstraint(t: Array[Sum]) {
     for (i <- tab) yield {
       for (j <- t.tab) yield {
         if (!i.toString.equals(j.toString)) {
-          allC.+:(i !== j)
+          allC.+:(i dif j)
         }
       }
     }
