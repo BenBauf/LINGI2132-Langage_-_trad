@@ -18,9 +18,9 @@ class SumDsl(sumParam: Sum) {
     Constraint(new LeZero((sum - sumParam)))
   }
 
-  def ===(sumParam: Sum): Constraint = {
+  /*def ===(sumParam: Sum): Constraint = {
     Constraint(And(new LeZero((sum - sumParam).neg), new LeZero((sum - sumParam))))
-  }
+  }*/
 
   def equal(sumParam: Sum): Constraint = {
     Constraint(And(new LeZero((sum - sumParam).neg), new LeZero((sum - sumParam))))

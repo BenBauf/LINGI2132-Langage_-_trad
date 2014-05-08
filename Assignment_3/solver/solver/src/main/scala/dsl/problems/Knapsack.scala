@@ -40,9 +40,9 @@ class Knapsack(n: Int, profit: Array[Int], weight: Array[Int], ca: Int) extends 
     val w = "weight" to weights.sum
     s.addVariable(w)
 
-    0 === p - totProfit
+    0 equal p - totProfit
 
-    w - totWeight === 0
+    w - totWeight equal 0
     0 >== w - capa
   }
 }

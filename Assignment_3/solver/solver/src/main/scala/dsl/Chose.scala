@@ -11,7 +11,7 @@ class Chose(t: Array[Sum]) {
     for (i <- tab) {
       for (j <- t.tab) {
         if (!i.toString.equals(j.toString)) {
-          allC.+:(i === j)
+          allC.+:(i equal j)
         }
       }
     }
