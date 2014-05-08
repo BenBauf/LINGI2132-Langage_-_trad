@@ -30,11 +30,11 @@ class MagicSquareDSLTest extends FlatSpec with Matchers {
       S(i to (2 + i), 1, "item_%") equal magicSum
     })
 
-    S(0 to 8, 4, "item_%") === magicSum
-    S(2 to 6, 2, "item_%") === magicSum
+    S(0 to 8, 4, "item_%") equal magicSum
+    S(2 to 6, 2, "item_%") equal magicSum
 
     s.E(0 to 2, 1, i => {
-      S(i to 6 + i, 3, "item_%") === magicSum
+      S(i to 6 + i, 3, "item_%") equal magicSum
     })
 
     //add every square is unique, o yééééé

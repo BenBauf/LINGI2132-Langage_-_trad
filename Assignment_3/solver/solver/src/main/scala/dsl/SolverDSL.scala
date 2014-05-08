@@ -78,14 +78,6 @@ object SolverDSL {
     itemsHash.contains(name)
   }
 
-  /*def E(range: Range, pas: Int = 1, name: String): SumDsl = {
-    var s: Sum = (Sum(0))
-    for (i <- range by pas) {
-      s = s + getItem(name, i)
-    }
-    return new SumDsl(s)
-  }*/
-
   def E(range: Range, pas: Int, body: Int => Unit) {
     for (i <- range by pas) {
       body(i)
@@ -97,6 +89,17 @@ object SolverDSL {
     var s: Sum = (Sum(0))
     var index = 0
     for (i <- variables) {
+      allV(index) = s + i
+      index += 1
+    }
+    new ArrayConstraint(allV)
+  }
+
+  def getSetVariables(r: Range, pas: Int = 1): ArrayConstraint = {
+    val allV = new Array[Sum](count)
+    var s: Sum = (Sum(0))
+    var index = 0
+    for (i <- r by pas) {
       allV(index) = s + i
       index += 1
     }
