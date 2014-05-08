@@ -4,6 +4,8 @@ import org.scalatest._
 
 import dsl._
 import dsl.Constraint._
+import dsl.S
+import dsl.S._
 import dsl.RangeVal._
 import dsl.SumDsl._
 import solver.expressions.IntVar
@@ -25,14 +27,14 @@ class MagicSquareDSLTest extends FlatSpec with Matchers {
       "item_" + i -> (0 to magicSum)
     }
     s.E(0 to 6, 3, i => {
-      s.E(i to (2 + i), 1, "item_%") === magicSum
+      S(i to (2 + i), 1, "item_%") equal magicSum
     })
 
-    s.E(0 to 8, 4, "item_%") === magicSum
-    s.E(2 to 6, 2, "item_%") === magicSum
+    S(0 to 8, 4, "item_%") === magicSum
+    S(2 to 6, 2, "item_%") === magicSum
 
     s.E(0 to 2, 1, i => {
-      s.E(i to 6 + i, 3, "item_%") === magicSum
+      S(i to 6 + i, 3, "item_%") === magicSum
     })
 
     //add every square is unique, o yééééé

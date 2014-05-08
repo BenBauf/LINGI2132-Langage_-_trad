@@ -3,6 +3,7 @@ package solver
 import org.scalatest._
 import dsl._
 import dsl.SumDsl._
+import dsl.S
 import dsl.problems.NQueens
 import dsl.RangeVal._
 import dsl.Constraint._

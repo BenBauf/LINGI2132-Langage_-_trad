@@ -78,13 +78,13 @@ object SolverDSL {
     itemsHash.contains(name)
   }
 
-  def E(range: Range, pas: Int = 1, name: String): SumDsl = {
+  /*def E(range: Range, pas: Int = 1, name: String): SumDsl = {
     var s: Sum = (Sum(0))
     for (i <- range by pas) {
       s = s + getItem(name, i)
     }
     return new SumDsl(s)
-  }
+  }*/
 
   def E(range: Range, pas: Int, body: Int => Unit) {
     for (i <- range by pas) {
