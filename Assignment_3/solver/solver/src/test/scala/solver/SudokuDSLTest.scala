@@ -57,16 +57,27 @@ class SudokuDSLTest extends FlatSpec with Matchers {
         "item_" + i -> (value to value)
       }
     }
-
+    //ligne
     s.E(0 to 72, 9, i => {
       val line = s.getSetVariables(i to (i + 8), 1)
       line !== line
     })
-
+    //colonne
     s.E(0 to 8, 1, i => {
+      val col = s.getSetVariables(i to (72 + i), 9)
+      col !== col
+    })
+
+    //carré
+    /*s.E(0 to 8, 1, i => {
       val line = s.getSetVariables(i to (72 + i), 9)
       line !== line
-    })
+    })*/
+    for (i <- Array(0, 3, 6, 27, 30, 33, 54, 57, 60)) {
+      val l = Array(0 + i, 1 + i, 2 + i, 9 + i, 10 + i, 11 + i, 18 + i, 19 + i, 20 + i)
+      val square = s.getSetVariable(l)
+      square != square
+    }
 
     if (s.solve) println(s.solution)
     else println("infeasible")

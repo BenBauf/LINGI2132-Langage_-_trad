@@ -95,6 +95,17 @@ object SolverDSL {
     new ArrayConstraint(allV)
   }
 
+  def getSetVariable(r: Array[Int])(implicit name: String): ArrayConstraint = {
+    val allV = new Array[Sum](r.length)
+    var s: Sum = (Sum(0))
+    var index = 0
+    for (i <- r) {
+      allV(index) = s + getItem(i)(name)
+
+      index += 1
+    }
+    new ArrayConstraint(allV)
+  }
   def getSetVariables(r: Range, pas: Int = 1)(implicit name: String): ArrayConstraint = {
     val allV = new Array[Sum](((r.reverse.head - r.head) / pas) + 1)
     var s: Sum = (Sum(0))
