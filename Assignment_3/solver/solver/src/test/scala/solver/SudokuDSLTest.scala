@@ -27,11 +27,11 @@ class SudokuDSLTest extends FlatSpec with Matchers {
       9, 7, 2, 1, 4, 3, 0, 5, 8,
       4, 5, 6, 8, 7, 9, 3, 1, 2,
       3, 4, 5, 7, 8, 1, 2, 6, 9,
-      7, 1, 8, 2, 9, 6, 5, 4, 3,
-      2, 6, 9, 3, 5, 4, 1, 8, 7,
+      7, 1, 8, 2, 9, 6, 0, 4, 3,
+      2, 6, 9, 0, 5, 4, 1, 8, 7,
       5, 3, 7, 4, 6, 2, 8, 9, 1,
       8, 9, 1, 5, 3, 7, 4, 2, 6,
-      6, 2, 4, 9, 1, 8, 7, 3, 5)
+      6, 2, 0, 9, 1, 8, 7, 3, 5)
 
     /*Array(
       1, 8, 3, 6, 2, 5, 9, 7, 4,
@@ -52,7 +52,7 @@ class SudokuDSLTest extends FlatSpec with Matchers {
     for (i <- 0 until sudoku.length) {
       val value = sudoku(i)
       if (value == 0) {
-        "item_" + i -> (0 to maxVal)
+        "item_" + i -> (1 to maxVal)
       } else {
         "item_" + i -> (value to value)
       }
