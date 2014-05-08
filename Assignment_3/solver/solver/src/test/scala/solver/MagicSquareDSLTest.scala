@@ -27,6 +27,7 @@ class MagicSquareDSLTest extends FlatSpec with Matchers {
     for (i <- 0 until items) {
       "item_" + i -> (0 to magicSum)
     }
+
     s.E(0 to 6, 3, i => {
       S(i to (2 + i), 1) equal magicSum
     })
@@ -38,7 +39,6 @@ class MagicSquareDSLTest extends FlatSpec with Matchers {
       S(i to 6 + i, 3) equal magicSum
     })
 
-    //add every square is unique, o yééééé
     s.allVariables !== s.allVariables
 
     if (s.solve) println(s.solution)

@@ -64,7 +64,8 @@ class SudokuDSLTest extends FlatSpec with Matchers {
     })
 
     s.E(0 to 8, 1, i => {
-      S(i to (72 + i), 9) equal checkSum
+      val line = s.getSetVariables(i to (72 + i), 9)
+      line !== line
     })
 
     if (s.solve) println(s.solution)
