@@ -70,7 +70,7 @@ object SolverDSL {
     return itemsHash.get(name).get
   }
 
-  def getItem(name: String, i: Int): RangeVal = {
+  def getItem(i: Int)(implicit name: String): RangeVal = {
     getItem(name.replace("%", "" + i))
   }
 
@@ -95,14 +95,14 @@ object SolverDSL {
     new ArrayConstraint(allV)
   }
 
-  def getSetVariables(r: Range, name: String, pas: Int = 1): ArrayConstraint = {
+  def getSetVariables(r: Range, pas: Int = 1)(implicit name: String): ArrayConstraint = {
     println(r)
     println((r.reverse.head + 1 - r.head) / pas)
     val allV = new Array[Sum]((r.reverse.head + 1 - r.head) / pas)
     var s: Sum = (Sum(0))
     var index = 0
     for (i <- r by pas) {
-      allV(index) = s + getItem(name, i)
+      allV(index) = s + getItem(i)(name)
 
       index += 1
     }

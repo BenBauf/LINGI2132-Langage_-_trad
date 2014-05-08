@@ -18,6 +18,7 @@ class Coloring(n: Int, max: Int) extends Problem {
   override def compute() {
     this.isComputed = true
     println("compute")
+    implicit val v = "node%"
 
     var s = SolverDSL
     s.init
@@ -29,12 +30,12 @@ class Coloring(n: Int, max: Int) extends Problem {
 
     val rand = new scala.util.Random(0)
     for (n1 <- Nodes; n2 <- Nodes; if n1 < n2 && rand.nextInt(100) < 70) {
-      val sum = s.getItem("node%", n1) - s.getItem("node%", n2)
+      val sum = s.getItem(n1) - s.getItem(n2)
       (0 >== (sum + 1)) | (0 >== (sum.neg + 1))
     }
 
     for (n <- Nodes) {
-      0 >== (s.getItem("node%", n) - s.getItem("nColor"))
+      0 >== (s.getItem(n) - s.getItem("nColor"))
     }
     println("toadd")
   }

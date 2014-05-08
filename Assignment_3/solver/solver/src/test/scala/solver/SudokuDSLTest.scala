@@ -46,6 +46,7 @@ class SudokuDSLTest extends FlatSpec with Matchers {
 
     val maxVal = 9
     val checkSum = 45
+    implicit val v = "item_%"
 
     var s = SolverDSL
     for (i <- 0 until sudoku.length) {
@@ -58,12 +59,12 @@ class SudokuDSLTest extends FlatSpec with Matchers {
     }
 
     s.E(0 to 72, 9, i => {
-      s.getSetVariables(i to (i + 8), "item_%", 1) !== s.getSetVariables(i to (i + 8), "item_%", 1)
-      //S(i to (i + 8), 1, "item_%") equal checkSum
+      val line = s.getSetVariables(i to (i + 8), 1)
+      line !== line
     })
 
     s.E(0 to 8, 1, i => {
-      S(i to (72 + i), 9, "item_%") equal checkSum
+      S(i to (72 + i), 9) equal checkSum
     })
 
     if (s.solve) println(s.solution)

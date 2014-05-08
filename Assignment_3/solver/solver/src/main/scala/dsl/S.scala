@@ -8,10 +8,10 @@ class S(su: Sum) {
 
 object S {
 
-  def apply(range: Range, pas: Int = 1, name: String) = {
+  def apply(range: Range, pas: Int = 1)(implicit name: String) = {
     var s: Sum = (Sum(0))
     for (i <- range by pas) {
-      s = s + SolverDSL.getItem(name, i)
+      s = s + SolverDSL.getItem(i)(name)
     }
     new S(s)
   }

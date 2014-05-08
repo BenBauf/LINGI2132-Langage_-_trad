@@ -20,6 +20,7 @@ class MagicSquareDSLTest extends FlatSpec with Matchers {
     val magicSum = 15
     val zero = 0
     val possibilities = zero.to(magicSum).toArray
+    implicit val v = "item_%"
 
     var s = SolverDSL
 
@@ -27,14 +28,14 @@ class MagicSquareDSLTest extends FlatSpec with Matchers {
       "item_" + i -> (0 to magicSum)
     }
     s.E(0 to 6, 3, i => {
-      S(i to (2 + i), 1, "item_%") equal magicSum
+      S(i to (2 + i), 1) equal magicSum
     })
 
-    S(0 to 8, 4, "item_%") equal magicSum
-    S(2 to 6, 2, "item_%") equal magicSum
+    S(0 to 8, 4) equal magicSum
+    S(2 to 6, 2) equal magicSum
 
     s.E(0 to 2, 1, i => {
-      S(i to 6 + i, 3, "item_%") equal magicSum
+      S(i to 6 + i, 3) equal magicSum
     })
 
     //add every square is unique, o yééééé

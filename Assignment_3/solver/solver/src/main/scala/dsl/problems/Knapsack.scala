@@ -20,13 +20,14 @@ class Knapsack(n: Int, profit: Array[Int], weight: Array[Int], ca: Int) extends 
   override def compute() {
     s.init
     this.isComputed = true
+    implicit val v = "item_%"
     for (i <- 0 until nItems) {
       "item_" + i -> (0 to 1)
     }
 
-    val profitsVar = s.range.map(i => s.getItem("item_%", i) * profits(i))
+    val profitsVar = s.range.map(i => s.getItem(i) * profits(i))
 
-    val weightsVar = s.range.map(i => s.getItem("item_%", i) * weights(i))
+    val weightsVar = s.range.map(i => s.getItem(i) * weights(i))
 
     val totProfit = profitsVar.foldLeft(Sum.zero) {
       (acc, sum) => acc.add(sum)
