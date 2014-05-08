@@ -23,6 +23,16 @@ class SudokuDSLTest extends FlatSpec with Matchers {
   "Sudoku" should "work" in {
 
     val sudoku = Array(
+      0, 0, 3, 6, 2, 5, 0, 0, 4,
+      9, 7, 0, 0, 0, 3, 0, 5, 0,
+      4, 0, 6, 0, 0, 0, 0, 0, 2,
+      3, 0, 0, 0, 8, 0, 0, 6, 0,
+      0, 1, 8, 0, 0, 0, 5, 4, 0,
+      0, 6, 0, 0, 5, 0, 0, 0, 7,
+      5, 0, 0, 0, 0, 0, 8, 0, 1,
+      0, 9, 0, 5, 0, 0, 0, 2, 6,
+      6, 0, 0, 9, 1, 8, 7, 0, 0)
+    /*Array(
       1, 8, 3, 6, 2, 5, 0, 0, 4,
       9, 7, 2, 1, 4, 3, 0, 5, 8,
       4, 5, 6, 8, 7, 9, 3, 1, 2,
@@ -31,7 +41,7 @@ class SudokuDSLTest extends FlatSpec with Matchers {
       2, 6, 9, 0, 5, 4, 1, 8, 7,
       5, 3, 7, 4, 6, 2, 8, 9, 1,
       8, 9, 1, 5, 3, 7, 4, 2, 6,
-      6, 2, 0, 9, 1, 8, 7, 3, 5)
+      6, 2, 0, 9, 1, 8, 7, 3, 5)*/
 
     /*Array(
       1, 8, 3, 6, 2, 5, 9, 7, 4,
@@ -75,8 +85,9 @@ class SudokuDSLTest extends FlatSpec with Matchers {
     })*/
     for (i <- Array(0, 3, 6, 27, 30, 33, 54, 57, 60)) {
       val l = Array(0 + i, 1 + i, 2 + i, 9 + i, 10 + i, 11 + i, 18 + i, 19 + i, 20 + i)
+      println(l(0))
       val square = s.getSetVariable(l)
-      square != square
+      square !== square
     }
 
     if (s.solve) println(s.solution)

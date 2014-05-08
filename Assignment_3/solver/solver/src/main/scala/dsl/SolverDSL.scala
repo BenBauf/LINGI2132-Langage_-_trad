@@ -100,6 +100,7 @@ object SolverDSL {
     var s: Sum = (Sum(0))
     var index = 0
     for (i <- r) {
+      println(getItem(i)(name))
       allV(index) = s + getItem(i)(name)
 
       index += 1
@@ -143,6 +144,7 @@ object SolverDSL {
     if (isAdded) { return }
     isAdded = true
     for (i <- constraint) {
+      //sprintln(i.literal)
       s.addConstraint(i.literal)
     }
     for (i <- variables) {
