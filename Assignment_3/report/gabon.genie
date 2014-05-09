@@ -29,7 +29,9 @@ Nous avons également créé un objet compagnon et contenant plusieurs conversio
 
 Problems
 --------
-Même si notre DSL permet la création 
+Même si notre DSL permet la création de n'importe quel problème, nous avons ajouté, aus sein de notre DSL, plusieurs classes permettant de facilement résoudre certains problèmes connus.
+Ainsi, dans le package "dsl.problems", nous retrouvons la classe Coloring pour résoudre le problème de colorier un ensemble en n'ayant la même couleur côte à côte, la classe Knapsack qui modélise le problème d'optimiser le remplissage d'un sac avec une utilité maximale, la classe NQueens qui propose de placer N reines sur un échiquier où chaque reine ne sait pas être atteinte par les autres reines en suivant les règles des échecs.
+Afin de rendre
 
 Semantique
 -----------
