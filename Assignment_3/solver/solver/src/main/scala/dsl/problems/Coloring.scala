@@ -37,7 +37,6 @@ class Coloring(n: Int, max: Int) extends Problem {
     for (n <- Nodes) {
       0 >== (s.getItem(n) - s.getItem("nColor"))
     }
-    println("toadd")
   }
 
 }
