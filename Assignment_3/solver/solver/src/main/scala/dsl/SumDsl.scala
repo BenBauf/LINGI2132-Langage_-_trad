@@ -8,7 +8,7 @@ import solver.expressions.LeZero
 
 class SumDsl(sumParam: Sum) {
 
-  private val sum: Sum = sumParam;
+  val sum: Sum = sumParam;
 
   def >==(sumParam: Sum): Constraint = {
     Constraint(new LeZero((sum - sumParam).neg))

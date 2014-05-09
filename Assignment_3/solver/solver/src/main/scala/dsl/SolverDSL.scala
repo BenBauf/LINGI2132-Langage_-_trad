@@ -71,6 +71,8 @@ object SolverDSL {
   }
 
   def getItem(i: Int)(implicit name: String): RangeVal = {
+    println("je print")
+    println(name.replace("%", "" + i))
     getItem(name.replace("%", "" + i))
   }
 
