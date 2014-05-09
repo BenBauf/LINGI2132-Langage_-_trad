@@ -7,7 +7,9 @@ En agissant de la sorte, nous ajoutons l'ensemble des contraintes et l'ensemble 
 Afin de pouvoir accéder à une variable simplement avec son nom, nous avons également une Map avec le nom en clé et la variable en valeur.  Via les méthodes getItem, nous retournons une variable.  Pour ces méthodes, nous avons opté pour un paramètre implicite.  En effet, le nom des variables est toujours composé de la même racine.  Ainsi, en déclarant une seule fois le paramètre, nous pourrons avoir la variable en indiquant seulement son numéro. 
 Pourquoi en objet ?
 En définnissant notre SolverDSL comme objet, nous le rendons accessible aux autres objets.  Ce choix d'implémentation nous a semblé le plus judicieux car ils nous permet, dans les objets Constraint et RangeVal, d'ajouter directement ces contraintes et ces variables à nos Set et ce, sans devoir appeler une méthode d'ajout dans la classe voulant créer un nouveau problème.
-
+++++++++++Nous avons réécrit les méthodes solve et solvewith du solver afin de tenir compte de la spécificité de notre DSL.  En effet, comme nous n'ajoutons pas directement les contraintes et les variables au solver, nous devons le faire avant le premier appel de solver ou solverwith.  Pour être sur qu'i ls'agit du premier appel, nous avons un boolean isAdded.
+Nous avons été obligé d'ajouter les contraintes et les variables qu'au premier appel de solve ou solvewith car nous voulions permettre à l'utilisateur de définir et d'ajouter directement ses contraintes et ses variables au solver, sans devoir passé par l'appel d'une méthode sur le SolverDSL.  Comme le seul moyen que nous avons trouvé se situe lors de la création d'un objet, nous pouvons nous retrouver avec trop d'objets comme dans le cas où nous appliquons une méthode sur un objet et que ca retourne un nouvel objet.  Ainsi, en passant par l'ajout dans un liste, nous ajoutons, dès la création d'un objet, cet objet dans sa liste et si nous lui appliquons une méthode, nous le retirons de la liste et nous ajoutons le nouvel objet créé.
+fin +++++
 -RangeVal
 RangeVal est une classe étendant IntVar et permettant de représenter les variables d'un problème.
 L'objet compagnon contient plusieurs conversions implicites dont une très intéressante allant de String vers RangeVal.  Comme SolverDSL est un objet, nous pouvons chercher si ce String est le nom d'une variable déjà présente dans le SolverDSL et, le cas échéant, renvoyer cette variable.  Aussi non, nous créons un nouveau RangeVal avec ce nom.
@@ -62,3 +64,4 @@ Comme chaque variable doit avoir un nom unique, nous remplacons toutes les occur
 -Definition d'un problème
 Il faut d'abord récupérer l'objet SolverDSL et y appliquer init pour être sur que l'objet ne contient pas d'anciennes contraintes et variables d'un problème précédemment.
 Ensuite, on peut ajouter autant de variables que de contraintes et ce, directement comme indiqué dans la sémantique.
+Nous avons ajouté la fonction assigned qui permet d'assigner toutes les variables.
