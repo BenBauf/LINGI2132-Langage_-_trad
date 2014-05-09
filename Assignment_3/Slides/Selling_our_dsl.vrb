@@ -1,0 +1,31 @@
+\frametitle{Example}
+\begin{lstlisting}[language=scala]
+1    val magicNumber = 3 // number of lines/columns
+2    val items = magicNumber * magicNumber
+3    val magicSum = 15
+4    val zero = 0
+5    val possibilities = zero.to(magicSum).toArray
+6    implicit val v = "item_%"
+7
+8    var s = SolverDSL
+9
+10    for (i <- 0 until items) {
+11      "item_" + i -> (0 to magicSum)
+12    }
+13
+14    s.E(0 to 6, 3, i => {
+15     S(i to (2 + i), 1) equal magicSum
+16    })
+17
+18    S(0 to 8, 4) equal magicSum
+19    S(2 to 6, 2) equal magicSum
+20
+21    s.E(0 to 2, 1, i => {
+22      S(i to 6 + i, 3) equal magicSum
+23    })
+24
+25    s.allVariables !== s.allVariables
+26
+27    if (s.solve) println(s.solution)
+28    else println("infeasible")
+\end{lstlisting}
