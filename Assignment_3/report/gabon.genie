@@ -31,7 +31,7 @@ Problems
 --------
 Même si notre DSL permet la création de n'importe quel problème, nous avons ajouté, aus sein de notre DSL, plusieurs classes permettant de facilement résoudre certains problèmes connus.
 Ainsi, dans le package "dsl.problems", nous retrouvons la classe Coloring pour résoudre le problème de colorier un ensemble en n'ayant la même couleur côte à côte, la classe Knapsack qui modélise le problème d'optimiser le remplissage d'un sac avec une utilité maximale, la classe NQueens qui propose de placer N reines sur un échiquier où chaque reine ne sait pas être atteinte par les autres reines en suivant les règles des échecs.
-Afin de rendre
+Afin d'uniformiser les différents problèmes, nous avons déclarer un trait "Problem" qui est étendu par chaque problème.  En plus d'offrir une structure commune pour chaque problème, ce trait permettra d'ajouter facilement un autre problème à notre catalogue de problèmes sans connaitre le mécanisme interne de notre DSL puisque le trait contient déjà l'implémentations de certaines méthodes.
 
 Semantique
 -----------
