@@ -35,4 +35,18 @@ Afin d'uniformiser les différents problèmes, nous avons déclarer un trait "Pr
 
 Semantique
 -----------
+-Definition d'une variable :
+Name -> (Range)
+Exemple : "node0" -> (0 to 2)
+Ecriture abrégée :
+Name 
+Définit une variable avec le nom Name et un range 0 to 1
+Name to Value
+Définit une variable avec le nom Name et un range 0 to Value
 
+-Definition d'une contrainte :
+SumDsl [>==|<==|equal|dif] SumDsl [Sum|RangeVal]
+Nous avons également inclus des conversions implicites de IntVar vers Sum, de IntVar vers SumDsl, de int vers SumDsl, de Sum vers SumDsl et de Int vers Sum, ce qui nous offre plus de possibilités de création de contrainte.
+
+-Definition d'un set de contraintes
+ArrayConstraint [===,!==] ArrayConstraint  

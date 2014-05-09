@@ -25,7 +25,7 @@ class ExpressionTest extends FlatSpec with Matchers {
   "expression" should "work" in {
 
     var s = SolverDSL
-    "node0" -> (0 to 2)
+    "node0" to 2
     "node1" -> (7 to 9)
 
     String2RangeVal("node0") equal "node1"
