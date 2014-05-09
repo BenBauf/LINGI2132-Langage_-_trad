@@ -6,15 +6,30 @@ En premier lieu, nous avons créé une classe et un objet compagnon SolverDSL qu
 En agissant de la sorte, nous ajoutons l'ensemble des contraintes et l'ensemble des variables uniquement lors de la résolution du solver, ce qui nous permettra.
 Afin de pouvoir accéder à une variable simplement avec son nom, nous avons également une Map avec le nom en clé et la variable en valeur.  Via les méthodes getItem, nous retournons une variable.  Pour ces méthodes, nous avons opté pour un paramètre implicite.  En effet, le nom des variables est toujours composé de la même racine.  Ainsi, en déclarant une seule fois le paramètre, nous pourrons avoir la variable en indiquant seulement son numéro. 
 Pourquoi en objet ?
-En définnissant notre SolverDSL comme objet, nous le rendons accessible aux autres objets.  Ce choix d'implémentation nous a semblé le plus judicieux car ils nous permet, dans les objets Constraint et RangeVal, d'ajouter directement ces contraintes et ces variables à nos Set et ce, sans devoir appeler une méthode d'ajout dans la classe voulant créer 
+En définnissant notre SolverDSL comme objet, nous le rendons accessible aux autres objets.  Ce choix d'implémentation nous a semblé le plus judicieux car ils nous permet, dans les objets Constraint et RangeVal, d'ajouter directement ces contraintes et ces variables à nos Set et ce, sans devoir appeler une méthode d'ajout dans la classe voulant créer un nouveau problème.
 
 -RangeVal
 RangeVal est une classe étendant IntVar et permettant de représenter les variables d'un problème.
+L'objet compagnon contient plusieurs conversions implicites dont une très intéressante allant de String vers RangeVal.  Comme SolverDSL est un objet, nous pouvons chercher si ce String est le nom d'une variable déjà présente dans le SolverDSL et, le cas échéant, renvoyer cette variable.  Aussi non, nous créons un nouveau RangeVal avec ce nom.
 
 -Constraint
 Constraint est une classe représentant les différentes contraintes du problème.  Nous y avons inclut les opérateur AND (&) et OR (|) entre eux.
+
+-ArrayConstraint
+ArrayConstraint est une classe nous permettant de représenter des ensemble de variables.  Avec cette construction, nous pouvons, facilement, créer des contraintes entre chaque variables de l'ensemble.  Cet objet est particulièrement intéressant quand chaque variable doit être différente ou égale.
+
+
 -S
-S est un objet permettant de récupérer la somme de plusieurs variables 
+S est un objet permettant de récupérer la somme de plusieurs variables.
+
+-SumDsl
+L'objet SumDsl encapsule Sum et nous permet d'effectuer toutes les comparateurs possibles afin de créer des contraintes.  Ainsi, on retrouve plus grand ou égual, plus petit ou égual, egual et différent. 
+Nous avons également créé un objet compagnon et contenant plusieurs conversion implicite.
+
+
+Problems
+--------
+Même si notre DSL permet la création 
 
 Semantique
 -----------
