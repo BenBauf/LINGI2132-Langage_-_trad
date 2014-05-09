@@ -1,0 +1,21 @@
+Objets et classes
+----------------
+Tout le code du DSL est situé dans le package dsl.
+-SolverDSL
+En premier lieu, nous avons créé une classe et un objet compagnon SolverDSL qui sera le coeur de notre DSL.  Il contient un solver et deux sets contenant respectivement les contraintes et les variables pour le solver.
+En agissant de la sorte, nous ajoutons l'ensemble des contraintes et l'ensemble des variables uniquement lors de la résolution du solver, ce qui nous permettra.
+Afin de pouvoir accéder à une variable simplement avec son nom, nous avons également une Map avec le nom en clé et la variable en valeur.  Via les méthodes getItem, nous retournons une variable.  Pour ces méthodes, nous avons opté pour un paramètre implicite.  En effet, le nom des variables est toujours composé de la même racine.  Ainsi, en déclarant une seule fois le paramètre, nous pourrons avoir la variable en indiquant seulement son numéro. 
+Pourquoi en objet ?
+En définnissant notre SolverDSL comme objet, nous le rendons accessible aux autres objets.  Ce choix d'implémentation nous a semblé le plus judicieux car ils nous permet, dans les objets Constraint et RangeVal, d'ajouter directement ces contraintes et ces variables à nos Set et ce, sans devoir appeler une méthode d'ajout dans la classe voulant créer 
+
+-RangeVal
+RangeVal est une classe étendant IntVar et permettant de représenter les variables d'un problème.
+
+-Constraint
+Constraint est une classe représentant les différentes contraintes du problème.  Nous y avons inclut les opérateur AND (&) et OR (|) entre eux.
+-S
+S est un objet permettant de récupérer la somme de plusieurs variables 
+
+Semantique
+-----------
+
