@@ -17,7 +17,7 @@ Constraint est une classe représentant les différentes contraintes du problèm
 
 -ArrayConstraint
 ArrayConstraint est une classe nous permettant de représenter des ensemble de variables.  Avec cette construction, nous pouvons, facilement, créer des contraintes entre chaque variables de l'ensemble.  Cet objet est particulièrement intéressant quand chaque variable doit être différente ou égale.
-
++++++++Comme nous ne connaissons pas, à l'avance, le nombre de Sum qui composeront cet ArrayConstraint, nous avons utilisé une closure de Sum.
 
 -S
 S est un objet permettant de récupérer la somme de plusieurs variables.
@@ -50,3 +50,15 @@ Nous avons également inclus des conversions implicites de IntVar vers Sum, de I
 
 -Definition d'un set de contraintes
 ArrayConstraint [===,!==] ArrayConstraint  
++++++++++Avec ArrayConstraint qui prend un ensemble de Sum, via une closure.
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+-Somme de variables :
+S(Range, Pas default =1, implicit param Name)
+Renvoi variables avec le nom de variable Name dans le Range avec le Pas.
+Comme chaque variable doit avoir un nom unique, nous remplacons toutes les occurences de % par toutes les valeurs de range. 
+
+-Definition d'un problème
+Il faut d'abord récupérer l'objet SolverDSL et y appliquer init pour être sur que l'objet ne contient pas d'anciennes contraintes et variables d'un problème précédemment.
+Ensuite, on peut ajouter autant de variables que de contraintes et ce, directement comme indiqué dans la sémantique.
