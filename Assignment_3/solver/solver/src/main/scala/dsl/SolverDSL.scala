@@ -85,38 +85,37 @@ object SolverDSL {
   }
 
   def allVariables(): ArrayConstraint = {
-    val allV = new Array[Sum](count)
+    var allV: IndexedSeq[Sum] = IndexedSeq.empty[Sum]
     var s: Sum = (Sum(0))
     var index = 0
     for (i <- variables) {
-      allV(index) = s + i
+      allV = allV :+ s + i
       index += 1
     }
-    new ArrayConstraint(allV)
+    new ArrayConstraint(allV: _*)
   }
 
   def getSetVariable(r: Array[Int])(implicit name: String): ArrayConstraint = {
-    val allV = new Array[Sum](r.length)
+    var allV: IndexedSeq[Sum] = IndexedSeq.empty[Sum]
     var s: Sum = (Sum(0))
     var index = 0
     for (i <- r) {
-      println(getItem(i)(name))
-      allV(index) = s + getItem(i)(name)
+      allV = allV :+ s + getItem(i)(name)
 
       index += 1
     }
-    new ArrayConstraint(allV)
+    new ArrayConstraint(allV: _*)
   }
   def getSetVariables(r: Range, pas: Int = 1)(implicit name: String): ArrayConstraint = {
-    val allV = new Array[Sum](((r.reverse.head - r.head) / pas) + 1)
+    var allV: IndexedSeq[Sum] = IndexedSeq.empty[Sum]
     var s: Sum = (Sum(0))
     var index = 0
     for (i <- r by pas) {
-      allV(index) = s + getItem(i)(name)
+      allV = allV :+ s + getItem(i)(name)
 
       index += 1
     }
-    new ArrayConstraint(allV)
+    new ArrayConstraint(allV: _*)
   }
 
   def solution(): Assignment = {
@@ -144,7 +143,6 @@ object SolverDSL {
     if (isAdded) { return }
     isAdded = true
     for (i <- constraint) {
-      //sprintln(i.literal)
       s.addConstraint(i.literal)
     }
     for (i <- variables) {

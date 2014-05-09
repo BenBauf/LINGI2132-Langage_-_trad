@@ -81,7 +81,6 @@ class SudokuDSLTest extends FlatSpec with Matchers {
     //carré
     for (i <- Array(0, 3, 6, 27, 30, 33, 54, 57, 60)) {
       val l = Array(0 + i, 1 + i, 2 + i, 9 + i, 10 + i, 11 + i, 18 + i, 19 + i, 20 + i)
-      println(l(0))
       val square = s.getSetVariable(l)
       square !== square
     }

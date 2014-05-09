@@ -3,7 +3,7 @@ package dsl
 import solver.expressions.Sum
 import dsl.SumDsl._
 
-class ArrayConstraint(t: Array[Sum]) {
+class ArrayConstraint(t: Sum*) {
   private val tab = t
 
   def ===(t: ArrayConstraint): List[Constraint] = {
