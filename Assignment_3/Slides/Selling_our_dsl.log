@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.4.28)  12 MAY 2014 15:59
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.4.28)  12 MAY 2014 16:04
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1213,11 +1213,7 @@ Overfull \vbox (2.29886pt too high) detected at line 224
 ]
 \openout4 = `Selling_our_dsl.vrb'.
 
- (./Selling_our_dsl.vrb)
-Overfull \vbox (42.41911pt too high) detected at line 263
- []
-
-[4
+ (./Selling_our_dsl.vrb) [4
 
 ] [5
 
@@ -1231,11 +1227,11 @@ Overfull \vbox (42.41911pt too high) detected at line 263
 \tf@snm=\write8
 \openout8 = `Selling_our_dsl.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 279.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 279.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 274.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 274.
  (./Selling_our_dsl.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 279.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 279.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 274.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 274.
 Package rerunfilecheck Info: File `Selling_our_dsl.out' has not changed.
 (rerunfilecheck)             Checksum: B7F40D19D7C3319FB4995139EDFCAA8E;190.
 
@@ -1243,12 +1239,12 @@ Package rerunfilecheck Info: File `Selling_our_dsl.out' has not changed.
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 1.0pt have occurred.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 279.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 274.
  ) 
 Here is how much of TeX's memory you used:
  19930 strings out of 494999
  365781 string characters out of 6180228
- 885419 words of memory out of 5000000
+ 868419 words of memory out of 5000000
  22668 multiletter control sequences out of 15000+600000
  10901 words of font info for 41 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
@@ -1260,7 +1256,7 @@ ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/share/texlive/tex
 mf-dist/fonts/type1/public/amsfonts/cm/cmssi10.pfb></usr/share/texlive/texmf-di
 st/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fon
 ts/type1/public/amsfonts/cm/cmtt8.pfb>
-Output written on Selling_our_dsl.pdf (5 pages, 90612 bytes).
+Output written on Selling_our_dsl.pdf (5 pages, 90302 bytes).
 PDF statistics:
  210 PDF objects out of 1000 (max. 8388607)
  180 compressed objects within 2 object streams

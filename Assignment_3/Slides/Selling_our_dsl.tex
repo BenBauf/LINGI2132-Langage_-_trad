@@ -227,38 +227,33 @@ Université Catholique de Louvain - INGI\\ % Your institution for the title page
 \begin{frame}[fragile]
 \frametitle{Example : Sudoku}
 \begin{lstlisting}[language=scala]
-    val sudoku = Array(...) #standary size
-    val maxVal = 9
-    val checkSum = 45
-    implicit val v = "item_%"
-    var s = SolverDSL
-    for (i <- 0 until sudoku.length) {
-      val value = sudoku(i)
-      if (value == 0) 
-        "item_" + i -> (1 to maxVal)
-      else 
-        "item_" + i -> (value to value)
-    }
-    //ligne
-    s.E(0 to 72, 9, i => {
-      val line = s.getSetVariables(i to (i + 8), 1)
-      line !== line
-    })
-    //colonne
-    s.E(0 to 8, 1, i => {
-      val col = s.getSetVariables(i to (72 + i), 9)
-      col !== col
-    })
-    //carre
-    for (i <- Array(0, 3, 6, 27, 30, 33, 54, 57, 60)) {
-      val l = Array(0 + i, 1 + i, 2 + i, 9 + i, 10 + i, 11 + i, 18 + i, 19 + i, 20 + i)
-      val square = s.getSetVariable(l)
-      square !== square
-    }
+1    val sudoku = Array(...) #standary size
+2    val maxVal = 9
+3    val checkSum = 45
+4    implicit val v = "item_%"
+5    var s = SolverDSL
+6    for (i <- 0 until sudoku.length) {
+7      val value = sudoku(i)
+8      if (value == 0) 
+9        "item_" + i -> (1 to maxVal)
+10      else 
+11       "item_" + i -> (value to value)
+12   }
+13    s.E(0 to 72, 9, i => {
+14      val line = s.getSetVariables(i to (i + 8), 1)
+15      line !== line
+16    })
+17    s.E(0 to 8, 1, i => {
+18      val col = s.getSetVariables(i to (72 + i), 9)
+19      col !== col
+20    })
+21    //carre
+22    for (i <- Array(0, 3, 6, 27, 30, 33, 54, 57, 60)) {
+23      val l = Array(0 + i, 1 + i, 2 + i, 9 + i, 10 + i, 11 + i, 18 + i, 19 + i, 20 + i)
+24      val square = s.getSetVariable(l)
+25      square !== square
+26    }
 
-    if (s.solve) println(s.solution)
-    else println("infeasible")
-  }
 \end{lstlisting}
 \end{frame}
 
