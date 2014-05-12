@@ -1,11 +1,11 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.4.28)  9 MAY 2014 15:08
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.4.28)  12 MAY 2014 15:59
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
 **Selling_our_dsl.tex
 (./Selling_our_dsl.tex
 LaTeX2e <2011/06/27>
-Babel <3.9h> and hyphenation patterns for 6 languages loaded.
+Babel <3.9h> and hyphenation patterns for 4 languages loaded.
 (/usr/share/texmf/tex/latex/beamer/base/beamer.cls
 (/usr/share/texmf/tex/latex/beamer/base/beamerbasercs.sty
 Package: beamerbasercs 2012/11/13 (rcs-revision cb16a617839f)
@@ -1176,7 +1176,7 @@ Dictionary: translator-theorem-dictionary, Language: English
 LaTeX Info: Redefining \includegraphics on input line 167.
 \c@lstlisting=\count181
  (./Selling_our_dsl.nav)
-<ingi.png, id=29, 128.48pt x 169.63374pt>
+<ingi.png, id=33, 128.48pt x 169.63374pt>
 File: ingi.png Graphic file (type png)
  <use ingi.png>
 Package pdftex.def Info: ingi.png used on input line 171.
@@ -1210,7 +1210,16 @@ Overfull \vbox (2.29886pt too high) detected at line 224
 
 [3
 
-] [4
+]
+\openout4 = `Selling_our_dsl.vrb'.
+
+ (./Selling_our_dsl.vrb)
+Overfull \vbox (42.41911pt too high) detected at line 263
+ []
+
+[4
+
+] [5
 
 ]
 \tf@nav=\write6
@@ -1222,27 +1231,27 @@ Overfull \vbox (2.29886pt too high) detected at line 224
 \tf@snm=\write8
 \openout8 = `Selling_our_dsl.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 239.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 239.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 279.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 279.
  (./Selling_our_dsl.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 239.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 239.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 279.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 279.
 Package rerunfilecheck Info: File `Selling_our_dsl.out' has not changed.
-(rerunfilecheck)             Checksum: 0115F96FB1ECF8D5FF9F39FFAFDC2973;125.
+(rerunfilecheck)             Checksum: B7F40D19D7C3319FB4995139EDFCAA8E;190.
 
 
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 1.0pt have occurred.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 239.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 279.
  ) 
 Here is how much of TeX's memory you used:
- 19904 strings out of 494958
- 365495 string characters out of 6179213
- 676569 words of memory out of 5000000
- 22654 multiletter control sequences out of 15000+600000
+ 19930 strings out of 494999
+ 365781 string characters out of 6180228
+ 885419 words of memory out of 5000000
+ 22668 multiletter control sequences out of 15000+600000
  10901 words of font info for 41 fonts, out of 8000000 for 9000
- 36 hyphenation exceptions out of 8191
+ 14 hyphenation exceptions out of 8191
  49i,16n,57p,423b,1291s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/shar
@@ -1251,10 +1260,10 @@ ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/share/texlive/tex
 mf-dist/fonts/type1/public/amsfonts/cm/cmssi10.pfb></usr/share/texlive/texmf-di
 st/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fon
 ts/type1/public/amsfonts/cm/cmtt8.pfb>
-Output written on Selling_our_dsl.pdf (4 pages, 84713 bytes).
+Output written on Selling_our_dsl.pdf (5 pages, 90612 bytes).
 PDF statistics:
- 179 PDF objects out of 1000 (max. 8388607)
- 150 compressed objects within 2 object streams
- 12 named destinations out of 1000 (max. 500000)
- 102 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 210 PDF objects out of 1000 (max. 8388607)
+ 180 compressed objects within 2 object streams
+ 15 named destinations out of 1000 (max. 500000)
+ 110 words of extra memory for PDF output out of 10000 (max. 10000000)
 

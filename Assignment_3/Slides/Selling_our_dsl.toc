@@ -1,4 +1,5 @@
 \beamer@endinputifotherversion {3.24pt}
 \beamer@sectionintoc {1}{Semantic}{2}{0}{1}
-\beamer@sectionintoc {2}{Example}{3}{0}{2}
-\beamer@sectionintoc {3}{Tests}{4}{0}{3}
+\beamer@sectionintoc {2}{Example : MagicSquare}{3}{0}{2}
+\beamer@sectionintoc {3}{Example : Sudoku}{4}{0}{3}
+\beamer@sectionintoc {4}{Tests}{5}{0}{4}
